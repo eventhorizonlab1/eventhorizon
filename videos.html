@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Event Horizon</title>
+    <title>Vidéos - Event Horizon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
     <style>
@@ -19,8 +19,8 @@
             <span class="text-2xl font-bold">Event Horizon</span>
         </a>
         <nav class="hidden md:flex items-center space-x-8">
-            <a href="index.html" class="text-cyan-400">Accueil</a>
-            <a href="videos.html" class="text-white hover:text-cyan-400">Vidéos</a>
+            <a href="index.html" class="text-white hover:text-cyan-400">Accueil</a>
+            <a href="videos.html" class="text-cyan-400">Vidéos</a>
             <a href="articles.html" class="text-white hover:text-cyan-400">Articles</a>
             <a href="ecosysteme.html" class="text-white hover:text-cyan-400">Écosystème</a>
             <a href="a-propos.html" class="text-white hover:text-cyan-400">À propos</a>
@@ -32,8 +32,8 @@
         </div>
         <!-- Mobile Menu -->
         <div x-show="open" @click.away="open = false" class="md:hidden absolute top-20 left-0 w-full bg-[#101828] z-10">
-            <a href="index.html" class="block py-2 px-4 text-cyan-400">Accueil</a>
-            <a href="videos.html" class="block py-2 px-4 text-white hover:text-cyan-400">Vidéos</a>
+            <a href="index.html" class="block py-2 px-4 text-white hover:text-cyan-400">Accueil</a>
+            <a href="videos.html" class="block py-2 px-4 text-cyan-400">Vidéos</a>
             <a href="articles.html" class="block py-2 px-4 text-white hover:text-cyan-400">Articles</a>
             <a href="ecosysteme.html" class="block py-2 px-4 text-white hover:text-cyan-400">Écosystème</a>
             <a href="a-propos.html" class="block py-2 px-4 text-white hover:text-cyan-400">À propos</a>
@@ -41,90 +41,58 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4">
-        <!-- Hero -->
-        <section class="text-center my-12 md:my-24">
-            <h1 class="text-4xl md:text-6xl font-bold leading-tight">Event Horizon : Dans les coulisses de l'industrie spatiale européenne.</h1>
-        </section>
-
-        <!-- Featured Video -->
-        <section class="my-12">
-            <div class="aspect-video bg-gray-800 rounded-lg flex items-center justify-center">
-                <p class="text-gray-400">Placeholder for YouTube Video</p>
-            </div>
-        </section>
-
-        <!-- Dernières Vidéos -->
-        <section class="my-12">
-            <h2 class="text-3xl font-bold mb-8">Dernières Vidéos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Video 1 -->
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <div class="w-full h-48 bg-gray-700"></div>
-                    <div class="p-4">
-                        <h3 class="font-bold">Dans la ligne d'assemblage d'Ariane 6</h3>
-                        <p class="text-sm text-gray-400">Épisode 12</p>
-                    </div>
-                </div>
-                <!-- Video 2 -->
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <div class="w-full h-48 bg-gray-700"></div>
-                    <div class="p-4">
-                        <h3 class="font-bold">La nouvelle constellation de satellites européenne</h3>
-                        <p class="text-sm text-gray-400">Épisode 11</p>
-                    </div>
-                </div>
-                <!-- Video 3 -->
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <div class="w-full h-48 bg-gray-700"></div>
-                    <div class="p-4">
-                        <h3 class="font-bold">Visite du port spatial européen</h3>
-                        <p class="text-sm text-gray-400">Épisode 10</p>
-                    </div>
+    <main class="container mx-auto px-4 py-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-12">Toutes les vidéos</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Video 1 -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden">
+                <div class="w-full h-48 bg-gray-700"></div>
+                <div class="p-4">
+                    <h3 class="font-bold">Titre de la vidéo 1</h3>
+                    <p class="text-sm text-gray-400">Date de publication</p>
                 </div>
             </div>
-        </section>
-
-        <!-- Derniers Articles -->
-        <section class="my-12">
-            <h2 class="text-3xl font-bold mb-8">Derniers Articles</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Article 1 -->
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <div class="w-full h-48 bg-gray-700"></div>
-                    <div class="p-4">
-                        <h3 class="font-bold">L'avenir de l'exploration spatiale européenne</h3>
-                        <p class="text-gray-400 mt-2">Un aperçu approfondi des missions et technologies à venir qui définiront la présence de l'Europe dans l'espace pour la prochaine décennie.</p>
-                    </div>
-                </div>
-                <!-- Article 2 -->
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <div class="w-full h-48 bg-gray-700"></div>
-                    <div class="p-4">
-                        <h3 class="font-bold">Décoder les données satellitaires : comment elles changent notre monde</h3>
-                        <p class="text-gray-400 mt-2">De la surveillance du changement climatique à la communication mondiale, nous explorons l'impact invisible des satellites européens sur notre vie quotidienne.</p>
-                    </div>
-                </div>
-                <!-- Article 3 -->
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <div class="w-full h-48 bg-gray-700"></div>
-                    <div class="p-4">
-                        <h3 class="font-bold">Les start-ups qui révolutionnent l'industrie aérospatiale</h3>
-                        <p class="text-gray-400 mt-2">Rencontrez les nouvelles entreprises innovantes qui défient la vieille garde avec des conceptions de fusées et des services satellitaires révolutionnaires.</p>
-                    </div>
+            <!-- Video 2 -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden">
+                <div class="w-full h-48 bg-gray-700"></div>
+                <div class="p-4">
+                    <h3 class="font-bold">Titre de la vidéo 2</h3>
+                    <p class="text-sm text-gray-400">Date de publication</p>
                 </div>
             </div>
-        </section>
-
-        <!-- Newsletter CTA -->
-        <section class="my-24 bg-gray-800 rounded-lg p-8 text-center">
-            <h2 class="text-3xl font-bold">Gardez une longueur d'avance</h2>
-            <p class="mt-4 max-w-2xl mx-auto">Abonnez-vous à la newsletter d'Event Horizon pour du contenu exclusif, des mises à jour en coulisses et les dernières nouvelles de l'industrie spatiale européenne directement dans votre boîte de réception.</p>
-            <form class="mt-8 flex justify-center">
-                <input type="email" placeholder="Entrez votre adresse e-mail" class="bg-gray-900 border border-gray-700 rounded-l-lg px-4 py-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-cyan-400">
-                <button type="submit" class="bg-cyan-400 text-black font-bold px-6 py-2 rounded-r-lg hover:bg-cyan-500">S'abonner</button>
-            </form>
-        </section>
+            <!-- Video 3 -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden">
+                <div class="w-full h-48 bg-gray-700"></div>
+                <div class="p-4">
+                    <h3 class="font-bold">Titre de la vidéo 3</h3>
+                    <p class="text-sm text-gray-400">Date de publication</p>
+                </div>
+            </div>
+            <!-- Video 4 -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden">
+                <div class="w-full h-48 bg-gray-700"></div>
+                <div class="p-4">
+                    <h3 class="font-bold">Titre de la vidéo 4</h3>
+                    <p class="text-sm text-gray-400">Date de publication</p>
+                </div>
+            </div>
+            <!-- Video 5 -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden">
+                <div class="w-full h-48 bg-gray-700"></div>
+                <div class="p-4">
+                    <h3 class="font-bold">Titre de la vidéo 5</h3>
+                    <p class="text-sm text-gray-400">Date de publication</p>
+                </div>
+            </div>
+            <!-- Video 6 -->
+            <div class="bg-gray-800 rounded-lg overflow-hidden">
+                <div class="w-full h-48 bg-gray-700"></div>
+                <div class="p-4">
+                    <h3 class="font-bold">Titre de la vidéo 6</h3>
+                    <p class="text-sm text-gray-400">Date de publication</p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
