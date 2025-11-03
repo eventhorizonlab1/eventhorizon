@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/animejs@4.2.2/dist/bundles/anime.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script>
         tailwind.config = {
             darkMode: "class",
@@ -64,12 +64,12 @@
     </div>
     <div class="hidden md:flex flex-1 items-center justify-end gap-8">
         <nav class="flex items-center gap-9">
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="index.html">Accueil</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="videos.html">Vidéos</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Articles</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="ecosysteme.html">Écosystème</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="a-propos.html">À propos</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="contact.html">Contact</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="index.html">Accueil</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="videos.html">Vidéos</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="#">Articles</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="ecosysteme.html">Écosystème</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="a-propos.html">À propos</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="contact.html">Contact</a>
         </nav>
         <div class="flex items-center text-sm font-medium">
             <a class="text-white px-2 py-1 rounded-md" href="#">FR</a>
@@ -84,12 +84,12 @@
     </div>
     <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-dark md:hidden z-10">
         <nav class="flex flex-col p-4">
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="index.html">Accueil</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="videos.html">Vidéos</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="articles.html">Articles</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="ecosysteme.html">Écosystème</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="a-propos.html">À Propos</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="contact.html">Contact</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="index.html">Accueil</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="videos.html">Vidéos</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="articles.html">Articles</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="ecosysteme.html">Écosystème</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="a-propos.html">À Propos</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="contact.html">Contact</a>
         </nav>
         <div class="flex items-center text-sm font-medium p-4 border-t border-white/10">
             <a class="text-white px-2 py-1 rounded-md" href="#">FR</a>
@@ -100,7 +100,7 @@
 </header>
 
 <main class="flex-grow">
-<h1 class="text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight px-4 text-center pb-3 pt-16 md:pt-24 animate-title">
+<h1 class="text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight px-4 text-center pb-3 pt-16 md:pt-24 main-title">
     Tous les articles
 </h1>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 mt-8 md:mt-12">
@@ -181,12 +181,12 @@
 <div>
 <h4 class="font-bold text-white">Liens rapides</h4>
 <ul class="mt-4 space-y-2">
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="index.html">Accueil</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="videos.html">Vidéos</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="articles.html">Articles</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="ecosysteme.html">Écosystème</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="a-propos.html">À Propos</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="contact.html">Contact</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="index.html">Accueil</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="videos.html">Vidéos</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="articles.html">Articles</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="ecosysteme.html">Écosystème</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="a-propos.html">À Propos</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="contact.html">Contact</a></li>
 </ul>
 </div>
 <div>
