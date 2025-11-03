@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@4.2.2/dist/bundles/anime.umd.min.js"></script>
 <script>
         tailwind.config = {
             darkMode: "class",
@@ -99,46 +100,46 @@
 </header>
 
 <main class="flex-grow">
-<h1 class="text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight px-4 text-center pb-3 pt-16 md:pt-24">
+<h1 class="text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight px-4 text-center pb-3 pt-16 md:pt-24 animate-title">
     Toutes les vidéos
 </h1>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 mt-8 md:mt-12">
-    <div class="flex flex-col gap-3 pb-3">
+    <div class="flex flex-col gap-3 pb-3 animate-card">
         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Assembling a large rocket indoors." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAlemJjoDH_BKx9-ZixZJ9rYCzRDxrziiFo9H4hcVSCJlF5m6VVrD28KOP-yBcaF4eMI-aKUhKnzSmXpEFwg__I2DOSyvcJ4BODrAWAVGBi8C_hyTGhOa_8huO5szAJYRQa9pZSBF6OceaT0tBBl2cq0r19cMdm_VrhRRv-LDrDUR-Z1T5W1Avu-A0P5lK9-UwgahvbOc-mXjIutlxg62T0nDzB75DEySmRdYoDa3_RLivcEilSu8N8eOTIYg6CV4a3KQjVDe3Rcws");'></div>
         <div>
             <p class="text-white text-base font-medium leading-normal">Dans la ligne d'assemblage d'Ariane 6</p>
             <p class="text-white/60 text-sm font-normal leading-normal">Épisode 12</p>
         </div>
     </div>
-    <div class="flex flex-col gap-3 pb-3">
+    <div class="flex flex-col gap-3 pb-3 animate-card">
         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Satellite dish pointing towards a starry night sky." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDn4hbSutAUNtdLRgqZ-6eXF4pnjE6ooeDCvLHaiS2SJsopOXsPDhzpZst-p3ujSh2GelMjXK1iKcAg44Pm3ptledMMGxWZtdCVZL-JYbYEpYEhgITdwafcUAXJY4GOKKJCt3VXb4rq6Ty5Zq9YI0hfZFseb1L_X6DKa_Q2ZdP6dqJk7vkOFA9fi1Kv3jGT4O7XWWX_ewbD1dZTI4UcLMW7m3sbu94SbH2eRqk1wRxBg_dHcSvh0wKYdXBw9Wd-8ZOGJiV4g2sXg08");'></div>
         <div>
             <p class="text-white text-base font-medium leading-normal">La nouvelle constellation de satellites européenne</p>
             <p class="text-white/60 text-sm font-normal leading-normal">Épisode 11</p>
         </div>
     </div>
-    <div class="flex flex-col gap-3 pb-3">
+    <div class="flex flex-col gap-3 pb-3 animate-card">
         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Rocket on a launchpad at dusk." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHUrQDckMLkwJ2khIPTMJO9T5qCohyUuS7ooBN0YwaMlgB_pWFcELGsck1QQEs7IM7oI8WKqu4m6AAOfJ2tcWnXgFTgoBx6Xy_LnjpmvOyxNQsFubktoVKJ99S5kLun-_0RwDX7Fr_p9NIVsgF5Sn6o56yrA49UKcL4kMwbotdg1VSb2UM4YTbnVjHhTGrArQnzWu3-0M6AyIkqe4HXrUXpd3-yIU4e4TxwyWI2uyxI6xdrJwSTFuvootUHcr8vtOBJSM7SJBxZ9w");'></div>
         <div>
             <p class="text-white text-base font-medium leading-normal">Visite du port spatial européen</p>
             <p class="text-white/60 text-sm font-normal leading-normal">Épisode 10</p>
         </div>
     </div>
-    <div class="flex flex-col gap-3 pb-3">
+    <div class="flex flex-col gap-3 pb-3 animate-card">
         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Video placeholder" style='background-image: url("https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+4");'></div>
         <div>
             <p class="text-white text-base font-medium leading-normal">Titre de la vidéo 4</p>
             <p class="text-white/60 text-sm font-normal leading-normal">Épisode 9</p>
         </div>
     </div>
-    <div class="flex flex-col gap-3 pb-3">
+    <div class="flex flex-col gap-3 pb-3 animate-card">
         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Video placeholder" style='background-image: url("https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+5");'></div>
         <div>
             <p class="text-white text-base font-medium leading-normal">Titre de la vidéo 5</p>
             <p class="text-white/60 text-sm font-normal leading-normal">Épisode 8</p>
         </div>
     </div>
-    <div class="flex flex-col gap-3 pb-3">
+    <div class="flex flex-col gap-3 pb-3 animate-card">
         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Video placeholder" style='background-image: url("https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+6");'></div>
         <div>
             <p class="text-white text-base font-medium leading-normal">Titre de la vidéo 6</p>
@@ -207,5 +208,5 @@
 </div>
 </div>
 </div>
-
+<script src="animations.js"></script>
 </body></html>
