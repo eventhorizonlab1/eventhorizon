@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/animejs@4.2.2/dist/bundles/anime.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script>
         tailwind.config = {
             darkMode: "class",
@@ -64,12 +64,12 @@
     </div>
     <div class="hidden md:flex flex-1 items-center justify-end gap-8">
         <nav class="flex items-center gap-9">
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="index.html">Accueil</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="videos.html">Vidéos</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="articles.html">Articles</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="ecosysteme.html">Écosystème</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="a-propos.html">À Propos</a>
-            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="contact.html">Contact</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="index.html">Accueil</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="videos.html">Vidéos</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="articles.html">Articles</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="ecosysteme.html">Écosystème</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="a-propos.html">À Propos</a>
+            <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="contact.html">Contact</a>
         </nav>
         <div class="flex items-center text-sm font-medium">
             <a class="text-white px-2 py-1 rounded-md" href="#">FR</a>
@@ -84,12 +84,12 @@
     </div>
     <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-dark md:hidden z-10">
         <nav class="flex flex-col p-4">
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="index.html">Accueil</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="videos.html">Vidéos</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="articles.html">Articles</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="ecosysteme.html">Écosystème</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="a-propos.html">À Propos</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors" href="contact.html">Contact</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="index.html">Accueil</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="videos.html">Vidéos</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="articles.html">Articles</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="ecosysteme.html">Écosystème</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="a-propos.html">À Propos</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="contact.html">Contact</a>
         </nav>
         <div class="flex items-center text-sm font-medium p-4 border-t border-white/10">
             <a class="text-white px-2 py-1 rounded-md" href="#">FR</a>
@@ -99,7 +99,7 @@
     </div>
 </header>
 <main class="flex-grow">
-<h1 class="text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight px-4 text-center pb-3 pt-16 md:pt-24">
+<h1 class="text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight px-4 text-center pb-3 pt-16 md:pt-24 main-title">
                             Event Horizon : Dans les coulisses de l'industrie spatiale européenne.
                         </h1>
 <div class="p-4 mt-8 md:mt-12">
@@ -120,8 +120,8 @@
 </div>
 </div>
 </div>
-<section class="mt-16 md:mt-24">
-<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 animate-title">Dernières Vidéos</h2>
+<section class="mt-16 md:mt-24 animate-section">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Dernières Vidéos</h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
 <div class="flex flex-col gap-3 pb-3 animate-card">
 <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Assembling a large rocket indoors." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAlemJjoDH_BKx9-ZixZJ9rYCzRDxrziiFo9H4hcVSCJlF5m6VVrD28KOP-yBcaF4eMI-aKUhKnzSmXpEFwg__I2DOSyvcJ4BODrAWAVGBi8C_hyTGhOa_8huO5szAJYRQa9pZSBF6OceaT0tBBl2cq0r19cMdm_VrhRRv-LDrDUR-Z1T5W1Avu-A0P5lK9-UwgahvbOc-mXjIutlxg62T0nDzB75DEySmRdYoDa3_RLivcEilSu8N8eOTIYg6CV4a3KQjVDe3Rcws");'></div>
@@ -146,8 +146,8 @@
 </div>
 </div>
 </section>
-<section class="mt-16 md:mt-24">
-<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 animate-title">Derniers Articles</h2>
+<section class="mt-16 md:mt-24 animate-section">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Derniers Articles</h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
 <div class="flex flex-col gap-4 animate-card">
 <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover rounded-lg" data-alt="Astronaut floating in space with Earth in the background." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0BAnh4IwcazX10Nap1HwCeQvHBF0fsf_d504AGF27gEY18GDIlCa-qKSIGXxyjHaqKMNFLNv0VKJ8Sy-cxkZpgbxkjvF3gTWrkSNxgv94sxrnOG-wlAOT_BgeBn_QR_nnr_rH-75CJNT2vbEJncSZU1QCwFMsbGiB8hrurlwHA5hDV_w1egQO9iUdd7EEfdauugQIBRwK54Odqy9dlAk9UyrhBdCAd8Jq7bsRbP-MDllY-Keu8jy6Ta9ff34_ACYguTc8XKgSHVo");'></div>
@@ -172,7 +172,7 @@
 </div>
 </div>
 </section>
-<section class="mt-16 md:mt-24 bg-white/5 rounded-lg p-8 md:p-12 text-center mx-4">
+<section class="mt-16 md:mt-24 bg-white/5 rounded-lg p-8 md:p-12 text-center mx-4 animate-section">
 <h3 class="text-2xl md:text-3xl font-bold text-white">Gardez une longueur d'avance</h3>
 <p class="text-white/70 mt-4 max-w-xl mx-auto">Abonnez-vous à la newsletter d'Event Horizon pour du contenu exclusif, des mises à jour en coulisses et les dernières nouvelles de l'industrie spatiale européenne directement dans votre boîte de réception.</p>
 <form class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
@@ -213,12 +213,12 @@
 <div>
 <h4 class="font-bold text-white">Liens rapides</h4>
 <ul class="mt-4 space-y-2">
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="index.html">Accueil</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="videos.html">Vidéos</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="articles.html">Articles</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="ecosysteme.html">Écosystème</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="a-propos.html">À Propos</a></li>
-<li><a class="text-sm text-white/60 hover:text-primary transition-colors" href="contact.html">Contact</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="index.html">Accueil</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="videos.html">Vidéos</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="articles.html">Articles</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="ecosysteme.html">Écosystème</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="a-propos.html">À Propos</a></li>
+<li><a class="text-sm text-white/60 hover:text-primary transition-colors quick-link" href="contact.html">Contact</a></li>
 </ul>
 </div>
 <div>

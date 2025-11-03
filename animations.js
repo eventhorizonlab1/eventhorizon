@@ -8,32 +8,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const { animate, stagger } = anime;
 
     /**
-     * Animates the titles on the page.
-     * @property {string} targets - The CSS selector for the elements to animate.
-     * @property {Array<number>} opacity - The starting and ending opacity.
-     * @property {Array<number>} translateY - The starting and ending vertical position.
-     * @property {number} duration - The duration of the animation in milliseconds.
-     * @property {Function} delay - The delay between each animation.
-     * @property {string} ease - The easing function for the animation.
+     * 🎬 Animation du titre principal (<h1>)
+     * Au chargement de la page, il apparaît avec un effet fade + slide vers le bas.
      */
     animate({
-        targets: '.animate-title',
+        targets: '.main-title',
         opacity: [0, 1],
-        translateY: [20, 0],
-        duration: 800,
-        delay: stagger(200, { start: 300 }),
+        translateY: [-50, 0],
+        duration: 1000,
         ease: 'easeOutExpo'
     });
 
     /**
-     * Animates the cards on the page when they scroll into view.
+     * 🎨 Animation du menu
+     * Chaque élément du menu (.menu-item) glisse de la gauche vers sa position d’origine
+     * avec un petit délai entre chaque (effet stagger).
      */
-    const cards = document.querySelectorAll('.animate-card');
+    animate({
+        targets: '.menu-item',
+        opacity: [0, 1],
+        translateX: [-50, 0],
+        duration: 800,
+        delay: stagger(100),
+        ease: 'easeOutExpo'
+    });
 
-    // Set initial styles for animation
-    anime.set(cards, {
+    /**
+     * 🪄 Animation des sections
+     * Les sections “Dernières vidéos” et “Derniers articles” apparaissent avec un
+     * effet fade + slide up lorsqu’elles entrent dans le champ de vision de l’utilisateur.
+     */
+    const sections = document.querySelectorAll('.animate-section');
+
+    // On prépare les sections en les rendant invisibles et en les décalant vers le bas
+    anime.set(sections, {
         opacity: 0,
-        translateY: 20
+        translateY: 50
     });
 
     const observer = new IntersectionObserver((entries) => {
@@ -43,19 +53,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     targets: entry.target,
                     opacity: 1,
                     translateY: 0,
-                    duration: 800,
+                    duration: 1000,
                     ease: 'easeOutExpo'
                 });
-                // Stop observing the element after it has been animated
+                // On arrête d'observer l'élément une fois qu'il a été animé
                 observer.unobserve(entry.target);
             }
         });
     }, {
-        // Start loading the animation when the element is 10% visible
+        // L'animation se déclenche quand 10% de l'élément est visible
         threshold: 0.1
     });
 
-    cards.forEach(card => {
-        observer.observe(card);
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+    /**
+     * 💡 Effet hover sur les liens rapides
+     * Quand on survole un lien rapide, il doit légèrement monter (translateY -5px)
+     * et changer de couleur progressivement.
+     */
+    const quickLinks = document.querySelectorAll('.quick-link');
+
+    quickLinks.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            animate({
+                targets: link,
+                translateY: -5,
+                color: '#06ccf9', // La couleur primaire du site
+                duration: 300,
+                ease: 'easeOutExpo'
+            });
+        });
+
+        link.addEventListener('mouseleave', () => {
+            animate({
+                targets: link,
+                translateY: 0,
+                color: '#EAEAEA', // La couleur de base du texte
+                duration: 300,
+                ease: 'easeOutExpo'
+            });
+        });
     });
 });
