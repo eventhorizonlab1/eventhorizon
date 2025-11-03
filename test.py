@@ -1,6 +1,11 @@
 import re
 
 def test_alpine_version():
+    """Tests that the Alpine.js CDN link is the correct version.
+
+    This test reads the index.html file and searches for a specific CDN link to
+    Alpine.js v2.8.2. It asserts that the link is present.
+    """
     with open("index.html", "r") as f:
         content = f.read()
 
