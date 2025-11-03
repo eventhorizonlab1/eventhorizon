@@ -27,14 +27,14 @@ def test_header_present():
     """Tests that the main header is present in all HTML files."""
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
-        match = re.search(r'<header.*>.*<span class="text-2xl font-bold">Event Horizon</span>.*</header>', content, re.DOTALL)
+        match = re.search(r'<header.*>.*<h2.*>Event Horizon</h2>.*</header>', content, re.DOTALL)
         assert match is not None, f"Header with logo not found in {filepath}!"
 
 def test_footer_present():
     """Tests that the main footer is present in all HTML files."""
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
-        match = re.search(r'<footer.*>.*© 2024 Event Horizon. Tous droits réservés\..*</footer>', content, re.DOTALL)
+        match = re.search(r'<footer.*>.*© 2024 Event Horizon. Tous droits réservés..*</footer>', content, re.DOTALL)
         assert match is not None, f"Footer with copyright notice not found in {filepath}!"
 
 def test_navigation_links_present():
@@ -44,12 +44,20 @@ def test_navigation_links_present():
         'href="videos.html"',
         'href="articles.html"',
         'href="ecosysteme.html"',
-        'href="a-propos.html"'
+        'href="a-propos.html"',
+        'href="contact.html"'
     ]
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
         for link in nav_links:
             assert link in content, f"Navigation link {link} not found in {filepath}!"
+
+def test_language_switcher_present():
+    """Tests that the language switcher is present in all HTML files."""
+    for filepath in HTML_FILES:
+        content = read_file_content(filepath)
+        match = re.search(r'<a class="text-white px-2 py-1 rounded-md" href="#">FR</a>\s*<span class="text-white/30">/</span>\s*<a class="text-white/60 hover:text-white px-2 py-1 rounded-md transition-colors" href="#">EN</a>', content)
+        assert match is not None, f"Language switcher not found in {filepath}!"
 
 if __name__ == "__main__":
     # Run all tests
@@ -63,5 +71,7 @@ if __name__ == "__main__":
     print("Test passed: Footer is present in all files.")
     test_navigation_links_present()
     print("Test passed: Navigation links are present in all files.")
+    test_language_switcher_present()
+    print("Test passed: Language switcher is present in all files.")
 
     print("\nAll tests passed successfully!")
