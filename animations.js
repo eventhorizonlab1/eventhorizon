@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             anime({
                 targets: link,
                 translateY: 0,
+                color: 'rgba(0, 0, 0, 0.6)',
                 duration: 300,
                 ease: 'easeOutExpo'
             });
