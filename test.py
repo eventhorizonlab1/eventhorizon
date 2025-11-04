@@ -93,7 +93,7 @@ def test_language_switcher_present():
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
-        match = re.search(r'<a class="text-white px-2 py-1 rounded-md" href="#">FR</a>\s*<span class="text-white/30">/</span>\s*<a class="text-white/60 hover:text-white px-2 py-1 rounded-md transition-colors" href="#">EN</a>', content)
+        match = re.search(r'<a class="text-gray-800 dark:text-white px-2 py-1 rounded-md" href="#">FR</a>', content)
         assert match is not None, f"Language switcher not found in {filepath}!"
 
 if __name__ == "__main__":

@@ -90,10 +90,34 @@ document.addEventListener('DOMContentLoaded', () => {
             anime({
                 targets: link,
                 translateY: 0,
-                color: '#EAEAEA', // La couleur de base du texte
                 duration: 300,
                 ease: 'easeOutExpo'
             });
         });
     });
+
+    /**
+     * 🌟 Effet "glow" sur le bouton de thème
+     * Ajoute un effet de "glow" au survol du bouton de changement de thème.
+     */
+    const themeToggleButton = document.getElementById('theme-toggle');
+    if (themeToggleButton) {
+        themeToggleButton.addEventListener('mouseenter', () => {
+            anime({
+                targets: themeToggleButton,
+                boxShadow: '0 0 12px #06ccf9',
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        });
+
+        themeToggleButton.addEventListener('mouseleave', () => {
+            anime({
+                targets: themeToggleButton,
+                boxShadow: '0 0 0 rgba(0,0,0,0)',
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        });
+    }
 });
