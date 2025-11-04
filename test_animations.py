@@ -3,7 +3,14 @@
 import re
 
 def read_file_content(filepath):
-    """Reads and returns the content of a given file."""
+    """Reads and returns the content of a given file.
+
+    Args:
+        filepath (str): The path to the file to be read.
+
+    Returns:
+        str: The content of the file as a string.
+    """
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
@@ -14,9 +21,10 @@ def test_quick_link_hover_animation():
     in animations.js includes a color reset animation.
 
     Raises:
-        AssertionError: If the color reset is not found in the mouseleave event listener.
+        AssertionError: If the color reset is not found in the mouseleave
+            event listener.
     """
-    content = read_file_content('animations.js')
+    content = read_file_content('documentation.js')
 
     # Find the mouseleave event listener for quickLinks
     mouseleave_match = re.search(r"link\.addEventListener\('mouseleave', \(\) => {([^}]+)}\);", content, re.DOTALL)

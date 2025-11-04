@@ -1,6 +1,4 @@
-"""
-This script contains tests to verify the integrity of internal links in the Event Horizon website.
-"""
+"""This script contains tests to verify the integrity of internal links."""
 
 import os
 import re
@@ -9,13 +7,22 @@ HTML_FILES = [f for f in os.listdir('.') if f.endswith('.html')]
 ALL_FILES = [f for f in os.listdir('.')]
 
 def read_file_content(filepath):
-    """Reads and returns the content of a given file."""
+    """Reads and returns the content of a given file.
+
+    Args:
+        filepath (str): The path to the file to be read.
+
+    Returns:
+        str: The content of the file as a string.
+    """
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
 def test_internal_links():
-    """
-    Tests that all internal links in HTML files point to existing files.
+    """Tests that all internal links in HTML files point to existing files.
+
+    Raises:
+        AssertionError: If a broken internal link is found.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
