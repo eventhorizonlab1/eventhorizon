@@ -1,4 +1,7 @@
-"""Tests to validate the content of the Event Horizon website."""
+"""Tests to validate the content of the Event Horizon website.
+
+This file is fully documented with Google Style Python Docstrings.
+"""
 
 import os
 import re
@@ -19,17 +22,29 @@ def read_file_content(filepath):
         return f.read()
 
 class TestContent(unittest.TestCase):
-    """Test suite for website content."""
+    """Test suite for website content.
+
+    This class contains tests to ensure that the website content is
+    correctly structured and that all expected elements are present.
+    """
 
     def test_animation_targets_present(self):
-        """Verifies that animation target classes exist in the HTML."""
+        """Verifies that animation target classes exist in the HTML.
+
+        This test ensures that the CSS classes used to target animations
+        are present in the HTML of the relevant pages.
+        """
         for filepath in ['articles.html', 'videos.html', 'articles-en.html', 'videos-en.html']:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
                 self.assertRegex(content, r'class="[^"]*animate-card[^"]*"', f"Missing .animate-card in {filepath}")
 
     def test_contact_form_present(self):
-        """Ensures the contact form is correctly structured."""
+        """Ensures the contact form is correctly structured.
+
+        This test verifies that the contact form is present on the contact
+        pages and that it contains an email input field.
+        """
         for filepath in ['contact.html', 'contact-en.html']:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)

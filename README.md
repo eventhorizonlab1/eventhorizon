@@ -1,6 +1,6 @@
 # Event Horizon
 
-Event Horizon is a static website for a French-language news source focused on the European space industry. It provides articles, videos, and information about the space ecosystem.
+Event Horizon is a static website for a French-language news source focused on the European space industry. It provides articles, videos, and information about the space ecosystem, with a parallel English version available for all pages.
 
 ## Technology Stack
 
@@ -17,7 +17,12 @@ All external libraries are loaded via CDN links in the HTML files, eliminating t
 
 The repository is organized as follows:
 
--   `*.html`: The core HTML files for each page of the website (e.g., `index.html`, `articles.html`). Each file is self-contained and can be opened directly in a browser.
+-   `index.html` / `index-en.html`: The main landing page, featuring the latest videos and articles.
+-   `videos.html` / `videos-en.html`: A gallery of all video content.
+-   `articles.html` / `articles-en.html`: A collection of all written articles.
+-   `ecosysteme.html` / `ecosysteme-en.html`: Information about the European space ecosystem.
+-   `a-propos.html` / `a-propos-en.html`: The "About" page, with information about the project and its creator.
+-   `contact.html` / `contact-en.html`: A contact page with a form for user inquiries.
 -   `documentation.js`: This file contains all JavaScript code for the website, including animations, theme switching, and other interactive features. It is fully documented with JSDoc.
 -   `test_*.py`: A suite of Python-based tests to ensure the consistency and correctness of the website.
 -   `README.md`: This file, providing a comprehensive overview of the project.
@@ -62,12 +67,12 @@ python3 -m unittest discover -p "test_*.py"
 
 You can also run each test file individually:
 
--   `python3 test.py`: Verifies the consistency of shared elements across all HTML pages (CDN links, headers, footers, etc.).
--   `python3 test_animations.py`: Tests the animation logic to ensure it is correctly implemented.
--   `python3 test_apropos.py`: Contains tests specifically for the 'À propos' page.
--   `python3 test_content.py`: Validates the presence and structure of key content elements.
--   `python3 test_dark_mode.py`: Includes tests for the dark mode functionality.
--   `python3 test_lazy_loading.py`: Contains tests for the lazy loading of images.
--   `python3 test_links.py`: Verifies the integrity of all internal links.
+-   `test.py`: Verifies the consistency of shared elements across all HTML pages, such as CDN links, headers, footers, and navigation links.
+-   `test_animations.py`: Tests the animation logic in `documentation.js` to ensure that animations are correctly implemented and behave as expected.
+-   `test_apropos.py`: Contains tests specifically for the 'À propos' and 'About' pages, checking for correct links and content.
+-   `test_content.py`: Validates the presence and structure of key content elements, such as animation targets and contact forms, across the relevant pages.
+-   `test_dark_mode.py`: Includes tests for the dark mode functionality, ensuring that theme-dependent features are correctly implemented.
+-   `test_lazy_loading.py`: Contains tests for the lazy loading of images, verifying that the correct attributes and classes are present.
+-   `test_links.py`: Verifies the integrity of all internal links to prevent broken navigation.
 
 Each test script is self-contained and can be run with `python3 <filename>`. All tests are fully documented with Google Style Python Docstrings.
