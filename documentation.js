@@ -151,11 +151,9 @@ function setupQuickLinkHovers() {
         });
 
         link.addEventListener('mouseleave', () => {
-            const isDarkMode = document.documentElement.classList.contains('dark');
             anime({
                 targets: link,
                 translateY: 0,
-                color: isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
                 duration: 300,
                 ease: 'easeOutExpo'
             });
