@@ -158,18 +158,47 @@ function initializeTheme() {
 }
 
 /**
+ * Animates the theme transition with a fade and zoom effect.
+ */
+function animateAndToggleTheme() {
+    const isDarkMode = document.documentElement.classList.contains('dark');
+
+    const timeline = anime.timeline({
+        duration: 400, // Each phase of the animation will be 0.4s, total 0.8s
+        easing: 'easeInOutExpo'
+    });
+
+    timeline
+        .add({
+            targets: 'body',
+            opacity: [1, 0],
+            scale: [1, 0.98],
+            complete: () => {
+                const themeToggleButton = document.getElementById('theme-toggle');
+                const themeToggleIcon = themeToggleButton.querySelector('span');
+                document.documentElement.classList.toggle('dark');
+                const newIsDarkMode = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
+                themeToggleIcon.textContent = newIsDarkMode ? 'dark_mode' : 'light_mode';
+            }
+        })
+        .add({
+            targets: 'body',
+            opacity: [0, 1],
+            scale: [0.98, 1]
+        });
+}
+
+/**
  * Sets up the event listener for the theme toggle button.
  * Toggles the theme and updates the icon on click.
  */
 function setupThemeToggleListener() {
     const themeToggleButton = document.getElementById('theme-toggle');
     if (!themeToggleButton) return;
-    const themeToggleIcon = themeToggleButton.querySelector('span');
 
     themeToggleButton.addEventListener('click', () => {
-        const isDarkMode = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-        themeToggleIcon.textContent = isDarkMode ? 'dark_mode' : 'light_mode';
+        animateAndToggleTheme();
     });
 }
 
