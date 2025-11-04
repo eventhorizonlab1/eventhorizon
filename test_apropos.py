@@ -1,6 +1,7 @@
-"""This script contains tests specifically for the 'À propos' page of the Event Horizon website.
+"""This script contains tests specifically for the 'À propos' page.
 
-It verifies that all navigation links pointing to the 'À propos' page are correctly formatted.
+It verifies that all navigation links pointing to the 'À propos' page
+are correctly formatted.
 """
 
 import re
@@ -21,14 +22,14 @@ def read_file_content(filepath):
         return f.read()
 
 def test_apropos_links():
-    """Tests that all 'À propos' links on the 'À propos' page point to the correct URL.
+    """Tests that all 'À propos' links on the 'À propos' page are correct.
 
-    This test specifically checks 'a-propos.html' to ensure that all internal links
-    to the 'À propos' page itself are not broken.
+    This test specifically checks 'a-propos.html' to ensure that all
+    internal links to the 'À propos' page itself are not broken.
 
     Raises:
-        AssertionError: If fewer than two 'À propos' links are found, or if any of
-                        them have an incorrect href attribute.
+        AssertionError: If fewer than two 'À propos' links are found, or if
+            any of them have an incorrect href attribute.
     """
     content = read_file_content('a-propos.html')
 

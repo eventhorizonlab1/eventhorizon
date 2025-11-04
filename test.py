@@ -23,10 +23,14 @@ def read_file_content(filepath):
         return f.read()
 
 def test_alpine_version():
-    """Tests that the correct version of the Alpine.js CDN link is present in all HTML files.
+    """Tests that the correct version of the Alpine.js CDN link is present.
+
+    Iterates through all HTML files and asserts that the expected Alpine.js
+    CDN link is present.
 
     Raises:
-        AssertionError: If the expected Alpine.js CDN link is not found in any of the HTML files.
+        AssertionError: If the expected Alpine.js CDN link is not found
+            in any of the HTML files.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
@@ -37,7 +41,8 @@ def test_tailwind_cdn_present():
     """Tests that the Tailwind CSS CDN link is present in all HTML files.
 
     Raises:
-        AssertionError: If the Tailwind CSS CDN link is not found in any of the HTML files.
+        AssertionError: If the Tailwind CSS CDN link is not found in any
+            of the HTML files.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
@@ -48,7 +53,8 @@ def test_header_present():
     """Tests that the main header section is present in all HTML files.
 
     Raises:
-        AssertionError: If the header, including the "Event Horizon" logo, is not found.
+        AssertionError: If the header, including the "Event Horizon" logo,
+            is not found.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
@@ -59,7 +65,8 @@ def test_footer_present():
     """Tests that the main footer section is present in all HTML files.
 
     Raises:
-        AssertionError: If the footer, including the copyright notice, is not found.
+        AssertionError: If the footer, including the copyright notice, is
+            not found.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)

@@ -1,6 +1,4 @@
-"""
-This script contains tests to validate the content of the Event Horizon website.
-"""
+"""This script contains tests to validate the content of the Event Horizon website."""
 
 import os
 import re
@@ -8,13 +6,23 @@ import re
 HTML_FILES = [f for f in os.listdir('.') if f.endswith('.html')]
 
 def read_file_content(filepath):
-    """Reads and returns the content of a given file."""
+    """Reads and returns the content of a given file.
+
+    Args:
+        filepath (str): The path to the file to be read.
+
+    Returns:
+        str: The content of the file as a string.
+    """
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
 def test_animation_targets_present():
-    """
-    Tests that animation target classes are present in the relevant HTML files.
+    """Tests that animation target classes are present in relevant HTML files.
+
+    Raises:
+        AssertionError: If the '.animate-card' class is not found in
+            'articles.html' or 'videos.html'.
     """
     # Check for .animate-card in articles.html and videos.html
     for filepath in ['articles.html', 'videos.html']:
@@ -22,8 +30,11 @@ def test_animation_targets_present():
         assert re.search(r'class="[^"]*animate-card[^"]*"', content), f"Missing .animate-card in {filepath}"
 
 def test_contact_form_present():
-    """
-    Tests that the contact form in contact.html has the required fields.
+    """Tests that the contact form in contact.html has the required fields.
+
+    Raises:
+        AssertionError: If the form or the email input is not found in
+            'contact.html'.
     """
     content = read_file_content('contact.html')
     # Check for form and required inputs
