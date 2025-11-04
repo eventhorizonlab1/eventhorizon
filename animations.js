@@ -5,13 +5,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // anime is available globally from the script tag
-    const { animate, stagger } = anime;
 
     /**
      * 🎬 Animation du titre principal (<h1>)
      * Au chargement de la page, il apparaît avec un effet fade + slide vers le bas.
      */
-    animate({
+    anime({
         targets: '.main-title',
         opacity: [0, 1],
         translateY: [-50, 0],
@@ -24,12 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
      * Chaque élément du menu (.menu-item) glisse de la gauche vers sa position d’origine
      * avec un petit délai entre chaque (effet stagger).
      */
-    animate({
+    anime({
         targets: '.menu-item',
         opacity: [0, 1],
         translateX: [-50, 0],
         duration: 800,
-        delay: stagger(100),
+        delay: anime.stagger(100),
         ease: 'easeOutExpo'
     });
 
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                animate({
+                anime({
                     targets: entry.target,
                     opacity: 1,
                     translateY: 0,
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     quickLinks.forEach(link => {
         link.addEventListener('mouseenter', () => {
-            animate({
+            anime({
                 targets: link,
                 translateY: -5,
                 color: '#06ccf9', // La couleur primaire du site
@@ -88,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         link.addEventListener('mouseleave', () => {
-            animate({
+            anime({
                 targets: link,
                 translateY: 0,
                 color: '#EAEAEA', // La couleur de base du texte
