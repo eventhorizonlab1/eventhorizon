@@ -14,6 +14,7 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupThemeToggleGlow();
+    setupLogoHoverAnimation();
 
     // Theme switcher functions
     initializeTheme();
@@ -35,6 +36,30 @@ function animateMainTitle() {
 }
 
 /**
+ * Sets up a hover animation for the logo.
+ * Creates a subtle distortion effect on hover.
+ */
+function setupLogoHoverAnimation() {
+    const logos = document.querySelectorAll('.logo-container');
+    logos.forEach(logo => {
+        logo.addEventListener('mouseenter', () => {
+            anime({
+                targets: logo,
+                scale: [
+                    { value: 1.05, duration: 200 },
+                    { value: 1, duration: 200 }
+                ],
+                skew: [
+                    { value: 1, duration: 200 },
+                    { value: 0, duration: 200 }
+                ],
+                ease: 'easeInOutQuad'
+            });
+        });
+    });
+}
+
+/**
  * Animates the menu items on page load.
  * Each item fades in and slides from the left with a staggered delay.
  */
@@ -50,37 +75,42 @@ function animateMenuItems() {
 }
 
 /**
- * Sets up an Intersection Observer to animate sections as they enter the viewport.
- * Sections fade in and slide up when they become visible.
+ * Sets up an Intersection Observer to animate elements as they enter the viewport.
+ * Sections without cards fade in and slide up.
+ * Cards within sections fade in and slide up with a staggered delay.
  */
 function setupIntersectionObserver() {
     const sections = document.querySelectorAll('.animate-section');
     if (sections.length === 0) return;
 
-    // Initially hide the sections
-    anime.set(sections, {
-        opacity: 0,
-        translateY: 50
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                anime({
-                    targets: entry.target,
-                    opacity: 1,
-                    translateY: 0,
-                    duration: 1000,
-                    ease: 'easeOutExpo'
-                });
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-
     sections.forEach(section => {
+        const cards = section.querySelectorAll('.animate-card');
+        const elementsToAnimate = cards.length > 0 ? cards : section;
+
+        anime.set(elementsToAnimate, {
+            opacity: 0,
+            translateY: 50
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const targets = cards.length > 0 ? cards : entry.target;
+                    anime({
+                        targets: targets,
+                        opacity: 1,
+                        translateY: 0,
+                        duration: 800,
+                        delay: cards.length > 0 ? anime.stagger(100) : 0,
+                        ease: 'easeOutExpo'
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
         observer.observe(section);
     });
 }
