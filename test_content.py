@@ -28,7 +28,7 @@ def test_animation_targets_present():
         AssertionError: If `.animate-card` is not found in the relevant files.
     """
     # Check for .animate-card in articles.html and videos.html
-    for filepath in ['articles.html', 'videos.html']:
+    for filepath in ['articles.html', 'videos.html', 'articles-en.html', 'videos-en.html']:
         content = read_file_content(filepath)
         assert re.search(r'class="[^"]*animate-card[^"]*"', content), f"Missing .animate-card in {filepath}"
 
@@ -42,10 +42,11 @@ def test_contact_form_present():
     Raises:
         AssertionError: If the form or email input is missing.
     """
-    content = read_file_content('contact.html')
-    # Check for form and required inputs
-    assert '<form' in content, "Missing form in contact.html"
-    assert 'type="email"' in content, "Missing email input in contact.html"
+    for filepath in ['contact.html', 'contact-en.html']:
+        content = read_file_content(filepath)
+        # Check for form and required inputs
+        assert '<form' in content, f"Missing form in {filepath}"
+        assert 'type="email"' in content, f"Missing email input in {filepath}"
 
 if __name__ == "__main__":
     test_animation_targets_present()
