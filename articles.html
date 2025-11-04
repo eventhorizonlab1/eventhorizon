@@ -2,6 +2,7 @@
 <html class="dark" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="description" content="Lisez les derniers articles et analyses approfondies sur l'industrie aérospatiale européenne. De la technologie des fusées aux politiques spatiales."/>
 <title>Articles - Event Horizon</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -41,9 +42,29 @@
         body, header, footer, section, div, a, p, h1, h2, h3, h4, span, input, button {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
+        #back-to-top {
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        header.scrolled {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: var(--header-bg-color, rgba(245, 248, 248, 0.8));
+            backdrop-filter: blur(8px);
+        }
+        .dark header.scrolled {
+            --header-bg-color: rgba(15, 31, 35, 0.8);
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-[#EAEAEA]">
+<button id="back-to-top" class="fixed bottom-5 right-5 z-50 p-3 rounded-full bg-primary text-background-dark shadow-lg transition-all duration-300 hover:bg-opacity-80">
+    <span class="material-symbols-outlined">arrow_upward</span>
+</button>
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
 <div class="flex flex-1 justify-center px-4 sm:px-10 md:px-20 lg:px-40 py-5">
@@ -111,42 +132,42 @@
 </h1>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 mt-8 md:mt-12">
     <div class="flex flex-col gap-4 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover rounded-lg" data-alt="Astronaut floating in space with Earth in the background." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0BAnh4IwcazX10Nap1HwCeQvHBF0fsf_d504AGF27gEY18GDIlCa-qKSIGXxyjHaqKMNFLNv0VKJ8Sy-cxkZpgbxkjvF3gTWrkSNxgv94sxrnOG-wlAOT_BgeBn_QR_nnr_rH-75CJNT2vbEJncSZU1QCwFMsbGiB8hrurlwHA5hDV_w1egQO9iUdd7EEfdauugQIBRwK54Odqy9dlAk9UyrhBdCAd8Jq7bsRbP-MDllY-Keu8jy6Ta9ff34_ACYguTc8XKgSHVo");'></div>
+    <img class="lazy w-full aspect-[16/10] object-cover rounded-lg" src="https://placehold.co/32x20/0f1f23/FFFFFF?text=..." data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0BAnh4IwcazX10Nap1HwCeQvHBF0fsf_d504AGF27gEY18GDIlCa-qKSIGXxyjHaqKMNFLNv0VKJ8Sy-cxkZpgbxkjvF3gTWrkSNxgv94sxrnOG-wlAOT_BgeBn_QR_nnr_rH-75CJNT2vbEJncSZU1QCwFMsbGiB8hrurlwHA5hDV_w1egQO9iUdd7EEfdauugQIBRwK54Odqy9dlAk9UyrhBdCAd8Jq7bsRbP-MDllY-Keu8jy6Ta9ff34_ACYguTc8XKgSHVo" alt="Astronaut floating in space with Earth in the background."/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">L'avenir de l'exploration spatiale européenne</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal mt-2">Un aperçu approfondi des missions et technologies à venir qui définiront la présence de l'Europe dans l'espace pour la prochaine décennie.</p>
         </div>
     </div>
     <div class="flex flex-col gap-4 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover rounded-lg" data-alt="Close-up of a complex satellite with solar panels." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYlm98hGeySCE80DpnO6CBkEhfbc73ZGH-xrdpHYWdUaDhk_dy3hiGtHmwhPwID9M9sgno5SUCWM_qi3KyWsDtyvG9JbaduPS-M_lV6Fq4ekz1-vbRswEFh8G9lRz9dwFTbRSf_lTXFJXZDaGHqVyOCTVHDAO2loldeWfttvBI8tq-z68H86oemgvO_ipgrXmVyLJ772afesfjU5P1gCmX0JEPIscRzLAWSiLKTs_VvTGVwSb1yily-7KwjqKriKfX39mn6uB-SFI");'></div>
+    <img class="lazy w-full aspect-[16/10] object-cover rounded-lg" src="https://placehold.co/32x20/0f1f23/FFFFFF?text=..." data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYlm98hGeySCE80DpnO6CBkEhfbc73ZGH-xrdpHYWdUaDhk_dy3hiGtHmwhPwID9M9sgno5SUCWM_qi3KyWsDtyvG9JbaduPS-M_lV6Fq4ekz1-vbRswEFh8G9lRz9dwFTbRSf_lTXFJXZDaGHqVyOCTVHDAO2loldeWfttvBI8tq-z68H86oemgvO_ipgrXmVyLJ772afesfjU5P1gCmX0JEPIscRzLAWSiLKTs_VvTGVwSb1yily-7KwjqKriKfX39mn6uB-SFI" alt="Close-up of a complex satellite with solar panels."/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Décoder les données satellitaires : comment elles changent notre monde</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal mt-2">De la surveillance du changement climatique à la communication mondiale, nous explorons l'impact invisible des satellites européens sur notre vie quotidienne.</p>
         </div>
     </div>
     <div class="flex flex-col gap-4 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover rounded-lg" data-alt="Engineers working on a spacecraft component in a clean room." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwhzzimNw8-W4DwzSfhotouCD8NxTG9e3NmlRoLj_ssMcz14E0dxf3vzJK3GtvYL80jRR5HVwx4lVJEbr1j0Zt5cqCczuDaGzx8jCNJ1iV6CdkT5eZRjseKoitqtjFcMQes316uCMZQHNQ-tzOfIYWWsbqp8IT6LT1OHIrBUTysUkvvCc19VyaliYDnSh1_hZdWQa1r1zcQVcDqGsEdkn2oyXZZzAElcBBD4G1XQ_1UcGMLF26TsYyw1aoxx0o9YxrKKa0w1gmdgY");'></div>
+    <img class="lazy w-full aspect-[16/10] object-cover rounded-lg" src="https://placehold.co/32x20/0f1f23/FFFFFF?text=..." data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwhzzimNw8-W4DwzSfhotouCD8NxTG9e3NmlRoLj_ssMcz14E0dxf3vzJK3GtvYL80jRR5HVwx4lVJEbr1j0Zt5cqCczuDaGzx8jCNJ1iV6CdkT5eZRjseKoitqtjFcMQes316uCMZQHNQ-tzOfIYWWsbqp8IT6LT1OHIrBUTysUkvvCc19VyaliYDnSh1_hZdWQa1r1zcQVcDqGsEdkn2oyXZZzAElcBBD4G1XQ_1UcGMLF26TsYyw1aoxx0o9YxrKKa0w1gmdgY" alt="Engineers working on a spacecraft component in a clean room."/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Les start-ups qui révolutionnent l'industrie aérospatiale</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal mt-2">Rencontrez les nouvelles entreprises innovantes qui défient la vieille garde avec des conceptions de fusées et des services satellitaires révolutionnaires.</p>
         </div>
     </div>
     <div class="flex flex-col gap-4 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover rounded-lg" data-alt="Article placeholder" style='background-image: url("https://placehold.co/1600x1000/0f1f23/FFFFFF?text=Article+4");'></div>
+    <img class="lazy w-full aspect-[16/10] object-cover rounded-lg" src="https://placehold.co/32x20/0f1f23/FFFFFF?text=..." data-src="https://placehold.co/1600x1000/0f1f23/FFFFFF?text=Article+4" alt="Article placeholder"/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Titre de l'article 4</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
     </div>
     <div class="flex flex-col gap-4 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover rounded-lg" data-alt="Article placeholder" style='background-image: url("https://placehold.co/1600x1000/0f1f23/FFFFFF?text=Article+5");'></div>
+    <img class="lazy w-full aspect-[16/10] object-cover rounded-lg" src="https://placehold.co/32x20/0f1f23/FFFFFF?text=..." data-src="https://placehold.co/1600x1000/0f1f23/FFFFFF?text=Article+5" alt="Article placeholder"/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Titre de l'article 5</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
     </div>
     <div class="flex flex-col gap-4 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover rounded-lg" data-alt="Article placeholder" style='background-image: url("https://placehold.co/1600x1000/0f1f23/FFFFFF?text=Article+6");'></div>
+    <img class="lazy w-full aspect-[16/10] object-cover rounded-lg" src="https://placehold.co/32x20/0f1f23/FFFFFF?text=..." data-src="https://placehold.co/1600x1000/0f1f23/FFFFFF?text=Article+6" alt="Article placeholder"/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Titre de l'article 6</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>

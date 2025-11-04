@@ -2,7 +2,8 @@
 <html class="dark" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Event Horizon - Industrie aérospatiale européenne</title>
+<meta name="description" content="Explorez l'écosystème de l'industrie spatiale toulousaine. Découvrez les entreprises, les laboratoires de recherche et les start-ups qui animent le secteur."/>
+<title>Écosystème - Event Horizon</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -41,9 +42,29 @@
         body, header, footer, section, div, a, p, h1, h2, h3, h4, span, input, button {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
+        #back-to-top {
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        header.scrolled {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: var(--header-bg-color, rgba(245, 248, 248, 0.8));
+            backdrop-filter: blur(8px);
+        }
+        .dark header.scrolled {
+            --header-bg-color: rgba(15, 31, 35, 0.8);
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-[#EAEAEA]">
+<button id="back-to-top" class="fixed bottom-5 right-5 z-50 p-3 rounded-full bg-primary text-background-dark shadow-lg transition-all duration-300 hover:bg-opacity-80">
+    <span class="material-symbols-outlined">arrow_upward</span>
+</button>
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
 <div class="flex flex-1 justify-center px-4 sm:px-10 md:px-20 lg:px-40 py-5">
