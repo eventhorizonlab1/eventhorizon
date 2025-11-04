@@ -2,6 +2,7 @@
 <html class="dark" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="description" content="Regardez toutes les vidéos d'Event Horizon. Plongez dans les coulisses de l'industrie aérospatiale européenne avec nos reportages et interviews."/>
 <title>Vidéos - Event Horizon</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -41,9 +42,29 @@
         body, header, footer, section, div, a, p, h1, h2, h3, h4, span, input, button {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
+        #back-to-top {
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        header.scrolled {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: var(--header-bg-color, rgba(245, 248, 248, 0.8));
+            backdrop-filter: blur(8px);
+        }
+        .dark header.scrolled {
+            --header-bg-color: rgba(15, 31, 35, 0.8);
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-[#EAEAEA]">
+<button id="back-to-top" class="fixed bottom-5 right-5 z-50 p-3 rounded-full bg-primary text-background-dark shadow-lg transition-all duration-300 hover:bg-opacity-80">
+    <span class="material-symbols-outlined">arrow_upward</span>
+</button>
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
 <div class="flex flex-1 justify-center px-4 sm:px-10 md:px-20 lg:px-40 py-5">
@@ -111,42 +132,42 @@
 </h1>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 mt-8 md:mt-12">
     <div class="flex flex-col gap-3 pb-3 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Assembling a large rocket indoors." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAlemJjoDH_BKx9-ZixZJ9rYCzRDxrziiFo9H4hcVSCJlF5m6VVrD28KOP-yBcaF4eMI-aKUhKnzSmXpEFwg__I2DOSyvcJ4BODrAWAVGBi8C_hyTGhOa_8huO5szAJYRQa9pZSBF6OceaT0tBBl2cq0r19cMdm_VrhRRv-LDrDUR-Z1T5W1Avu-A0P5lK9-UwgahvbOc-mXjIutlxg62T0nDzB75DEySmRdYoDa3_RLivcEilSu8N8eOTIYg6CV4a3KQjVDe3Rcws");'></div>
+        <img class="lazy w-full aspect-video object-cover rounded-lg" src="https://placehold.co/32x18/0f1f23/FFFFFF?text=..." data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlemJjoDH_BKx9-ZixZJ9rYCzRDxrziiFo9H4hcVSCJlF5m6VVrD28KOP-yBcaF4eMI-aKUhKnzSmXpEFwg__I2DOSyvcJ4BODrAWAVGBi8C_hyTGhOa_8huO5szAJYRQa9pZSBF6OceaT0tBBl2cq0r19cMdm_VrhRRv-LDrDUR-Z1T5W1Avu-A0P5lK9-UwgahvbOc-mXjIutlxg62T0nDzB75DEySmRdYoDa3_RLivcEilSu8N8eOTIYg6CV4a3KQjVDe3Rcws" alt="Assembling a large rocket indoors."/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Dans la ligne d'assemblage d'Ariane 6</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Épisode 12</p>
         </div>
     </div>
     <div class="flex flex-col gap-3 pb-3 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Satellite dish pointing towards a starry night sky." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDn4hbSutAUNtdLRgqZ-6eXF4pnjE6ooeDCvLHaiS2SJsopOXsPDhzpZst-p3ujSh2GelMjXK1iKcAg44Pm3ptledMMGxWZtdCVZL-JYbYEpYEhgITdwafcUAXJY4GOKKJCt3VXb4rq6Ty5Zq9YI0hfZFseb1L_X6DKa_Q2ZdP6dqJk7vkOFA9fi1Kv3jGT4O7XWWX_ewbD1dZTI4UcLMW7m3sbu94SbH2eRqk1wRxBg_dHcSvh0wKYdXBw9Wd-8ZOGJiV4g2sXg08");'></div>
+        <img class="lazy w-full aspect-video object-cover rounded-lg" src="https://placehold.co/32x18/0f1f23/FFFFFF?text=..." data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn4hbSutAUNtdLRgqZ-6eXF4pnjE6ooeDCvLHaiS2SJsopOXsPDhzpZst-p3ujSh2GelMjXK1iKcAg44Pm3ptledMMGxWZtdCVZL-JYbYEpYEhgITdwafcUAXJY4GOKKJCt3VXb4rq6Ty5Zq9YI0hfZFseb1L_X6DKa_Q2ZdP6dqJk7vkOFA9fi1Kv3jGT4O7XWWX_ewbD1dZTI4UcLMW7m3sbu94SbH2eRqk1wRxBg_dHcSvh0wKYdXBw9Wd-8ZOGJiV4g2sXg08" alt="Satellite dish pointing towards a starry night sky."/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">La nouvelle constellation de satellites européenne</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Épisode 11</p>
         </div>
     </div>
     <div class="flex flex-col gap-3 pb-3 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Rocket on a launchpad at dusk." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHUrQDckMLkwJ2khIPTMJO9T5qCohyUuS7ooBN0YwaMlgB_pWFcELGsck1QQEs7IM7oI8WKqu4m6AAOfJ2tcWnXgFTgoBx6Xy_LnjpmvOyxNQsFubktoVKJ99S5kLun-_0RwDX7Fr_p9NIVsgF5Sn6o56yrA49UKcL4kMwbotdg1VSb2UM4YTbnVjHhTGrArQnzWu3-0M6AyIkqe4HXrUXpd3-yIU4e4TxwyWI2uyxI6xdrJwSTFuvootUHcr8vtOBJSM7SJBxZ9w");'></div>
+        <img class="lazy w-full aspect-video object-cover rounded-lg" src="https://placehold.co/32x18/0f1f23/FFFFFF?text=..." data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHUrQDckMLkwJ2khIPTMJO9T5qCohyUuS7ooBN0YwaMlgB_pWFcELGsck1QQEs7IM7oI8WKqu4m6AAOfJ2tcWnXgFTgoBx6Xy_LnjpmvOyxNQsFubktoVKJ99S5kLun-_0RwDX7Fr_p9NIVsgF5Sn6o56yrA49UKcL4kMwbotdg1VSb2UM4YTbnVjHhTGrArQnzWu3-0M6AyIkqe4HXrUXpd3-yIU4e4TxwyWI2uyxI6xdrJwSTFuvootUHcr8vtOBJSM7SJBxZ9w" alt="Rocket on a launchpad at dusk."/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Visite du port spatial européen</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Épisode 10</p>
         </div>
     </div>
     <div class="flex flex-col gap-3 pb-3 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Video placeholder" style='background-image: url("https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+4");'></div>
+        <img class="lazy w-full aspect-video object-cover rounded-lg" src="https://placehold.co/32x18/0f1f23/FFFFFF?text=..." data-src="https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+4" alt="Video placeholder"/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Titre de la vidéo 4</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Épisode 9</p>
         </div>
     </div>
     <div class="flex flex-col gap-3 pb-3 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Video placeholder" style='background-image: url("https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+5");'></div>
+        <img class="lazy w-full aspect-video object-cover rounded-lg" src="https://placehold.co/32x18/0f1f23/FFFFFF?text=..." data-src="https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+5" alt="Video placeholder"/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Titre de la vidéo 5</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Épisode 8</p>
         </div>
     </div>
     <div class="flex flex-col gap-3 pb-3 animate-card">
-        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Video placeholder" style='background-image: url("https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+6");'></div>
+        <img class="lazy w-full aspect-video object-cover rounded-lg" src="https://placehold.co/32x18/0f1f23/FFFFFF?text=..." data-src="https://placehold.co/1600x900/0f1f23/FFFFFF?text=Video+6" alt="Video placeholder"/>
         <div>
             <p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Titre de la vidéo 6</p>
             <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Épisode 7</p>

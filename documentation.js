@@ -15,6 +15,9 @@ function initializeWebsiteInteractivity() {
     setupQuickLinkHovers();
     setupThemeToggleGlow();
     setupLogoHoverAnimation();
+    setupBackToTopButton();
+    setupHeaderScrollAnimation();
+    setupLazyLoading();
 
     // Theme switcher functions
     initializeTheme();
@@ -231,6 +234,78 @@ function setupThemeToggleListener() {
     themeToggleButton.addEventListener('click', () => {
         animateAndToggleTheme();
     });
+}
+
+/**
+ * Sets up the "Back to Top" button functionality.
+ * The button appears on scroll and smoothly scrolls to the top when clicked.
+ */
+function setupBackToTopButton() {
+    const backToTopButton = document.getElementById('back-to-top');
+    if (!backToTopButton) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    });
+
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+/**
+ * Sets up a scroll animation for the header.
+ * Adds a 'scrolled' class to the header when the user scrolls down.
+ */
+function setupHeaderScrollAnimation() {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+}
+
+/**
+ * Sets up lazy loading for images.
+ * Images with the 'lazy' class will be loaded only when they enter the viewport.
+ */
+function setupLazyLoading() {
+    const lazyImages = document.querySelectorAll('img.lazy');
+
+    if ('IntersectionObserver' in window) {
+        let lazyImageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    let lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove('lazy');
+                    lazyImageObserver.unobserve(lazyImage);
+                }
+            });
+        });
+
+        lazyImages.forEach((lazyImage) => {
+            lazyImageObserver.observe(lazyImage);
+        });
+    } else {
+        // Fallback for browsers that don't support IntersectionObserver
+        lazyImages.forEach((lazyImage) => {
+            lazyImage.src = lazyImage.dataset.src;
+            lazyImage.classList.remove('lazy');
+        });
+    }
 }
 
 // Initialize everything after the DOM is loaded.
