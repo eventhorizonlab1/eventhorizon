@@ -2,6 +2,7 @@
 
 import os
 import re
+import unittest
 
 HTML_FILES = [f for f in os.listdir('.') if f.endswith('.html')]
 ALL_FILES = [f for f in os.listdir('.')]
@@ -18,29 +19,22 @@ def read_file_content(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
-def test_internal_links():
-    """Verifies that all internal links in HTML files point to existing files.
+class TestLinks(unittest.TestCase):
+    """Test suite for internal links."""
 
-    This test scans all HTML files for `href` attributes that do not point
-    to external sites or page anchors. It then asserts that the linked
-    file exists in the repository.
+    def test_internal_links(self):
+        """Verifies that all internal links in HTML files point to existing files."""
+        for filepath in HTML_FILES:
+            with self.subTest(filepath=filepath):
+                content = read_file_content(filepath)
+                # Find all internal links (hrefs not starting with http)
+                links = re.findall(r'href="([^"]+)"', content)
+                internal_links = [l for l in links if not l.startswith('http') and not l.startswith('#')]
 
-    Raises:
-        AssertionError: If a broken internal link is found.
-    """
-    for filepath in HTML_FILES:
-        content = read_file_content(filepath)
-        # Find all internal links (hrefs not starting with http)
-        links = re.findall(r'href="([^"]+)"', content)
-        internal_links = [l for l in links if not l.startswith('http') and not l.startswith('#')]
-
-        for link in internal_links:
-            # a-propos.html contains a link to "a-propos.html" which is valid
-            if link == "a-propos.html":
-                assert "a-propos.html" in HTML_FILES, f"Broken link in {filepath}: {link}"
-            else:
-                assert link in ALL_FILES, f"Broken link in {filepath}: {link}"
-
-if __name__ == "__main__":
-    test_internal_links()
-    print("Test passed: All internal links are valid.")
+                for link in internal_links:
+                    with self.subTest(link=link):
+                        # a-propos.html contains a link to "a-propos.html" which is valid
+                        if link == "a-propos.html":
+                            self.assertIn("a-propos.html", HTML_FILES, f"Broken link in {filepath}: {link}")
+                        else:
+                            self.assertIn(link, ALL_FILES, f"Broken link in {filepath}: {link}")

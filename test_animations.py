@@ -1,6 +1,7 @@
 """Tests for the animation logic of the Event Horizon website."""
 
 import re
+import unittest
 
 def read_file_content(filepath):
     """Reads and returns the content of a given file.
@@ -14,27 +15,22 @@ def read_file_content(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
-def test_quick_link_hover_animation():
-    """Verifies that the '.quick-link' hover animation resets text color.
+class TestAnimations(unittest.TestCase):
+    """Test suite for animation logic."""
 
-    This test checks the mouseleave event listener in `documentation.js`
-    to ensure that it contains an animation that resets the `color`
-    property, preventing links from staying colored after the hover ends.
+    def test_quick_link_hover_animation(self):
+        """Verifies that the '.quick-link' hover animation resets text color.
 
-    Raises:
-        AssertionError: If the color reset animation is not found.
-    """
-    content = read_file_content('documentation.js')
+        This test checks the mouseleave event listener in `documentation.js`
+        to ensure that it contains an animation that resets the `color`
+        property, preventing links from staying colored after the hover ends.
+        """
+        content = read_file_content('documentation.js')
 
-    # Find the mouseleave event listener for quickLinks
-    mouseleave_match = re.search(r"link\.addEventListener\('mouseleave', \(\) => {([^}]+)}\);", content, re.DOTALL)
-    assert mouseleave_match is not None, "Could not find the mouseleave event listener for '.quick-link'."
+        # Find the mouseleave event listener for quickLinks
+        mouseleave_match = re.search(r"link\.addEventListener\('mouseleave', \(\) => {([^}]+)}\);", content, re.DOTALL)
+        self.assertIsNotNone(mouseleave_match, "Could not find the mouseleave event listener for '.quick-link'.")
 
-    # Check that the color is reset in the mouseleave animation
-    animation_block = mouseleave_match.group(1)
-    color_reset_match = re.search(r"color:", animation_block)
-    assert color_reset_match is not None, "The color is not reset in the mouseleave animation for '.quick-link'."
-
-if __name__ == "__main__":
-    test_quick_link_hover_animation()
-    print("Test passed: The hover animation for '.quick-link' correctly resets the color.")
+        # Check that the color is reset in the mouseleave animation
+        animation_block = mouseleave_match.group(1)
+        self.assertIn("color:", animation_block, "The color is not reset in the mouseleave animation for '.quick-link'.")
