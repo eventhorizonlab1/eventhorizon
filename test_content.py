@@ -2,6 +2,7 @@
 
 import os
 import re
+import unittest
 
 HTML_FILES = [f for f in os.listdir('.') if f.endswith('.html')]
 
@@ -17,39 +18,20 @@ def read_file_content(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
-def test_animation_targets_present():
-    """Verifies that animation target classes exist in the HTML.
+class TestContent(unittest.TestCase):
+    """Test suite for website content."""
 
-    This test checks `articles.html` and `videos.html` to ensure that
-    elements with the `.animate-card` class are present, which are
-    required for animations to trigger.
+    def test_animation_targets_present(self):
+        """Verifies that animation target classes exist in the HTML."""
+        for filepath in ['articles.html', 'videos.html', 'articles-en.html', 'videos-en.html']:
+            with self.subTest(filepath=filepath):
+                content = read_file_content(filepath)
+                self.assertRegex(content, r'class="[^"]*animate-card[^"]*"', f"Missing .animate-card in {filepath}")
 
-    Raises:
-        AssertionError: If `.animate-card` is not found in the relevant files.
-    """
-    # Check for .animate-card in articles.html and videos.html
-    for filepath in ['articles.html', 'videos.html', 'articles-en.html', 'videos-en.html']:
-        content = read_file_content(filepath)
-        assert re.search(r'class="[^"]*animate-card[^"]*"', content), f"Missing .animate-card in {filepath}"
-
-def test_contact_form_present():
-    """Ensures the contact form is correctly structured.
-
-    This test checks `contact.html` to confirm that it contains a `<form>`
-    element and an email input field (`type="email"`), which are essential
-    for the contact page to function.
-
-    Raises:
-        AssertionError: If the form or email input is missing.
-    """
-    for filepath in ['contact.html', 'contact-en.html']:
-        content = read_file_content(filepath)
-        # Check for form and required inputs
-        assert '<form' in content, f"Missing form in {filepath}"
-        assert 'type="email"' in content, f"Missing email input in {filepath}"
-
-if __name__ == "__main__":
-    test_animation_targets_present()
-    print("Test passed: Animation targets are present.")
-    test_contact_form_present()
-    print("Test passed: Contact form is correctly structured.")
+    def test_contact_form_present(self):
+        """Ensures the contact form is correctly structured."""
+        for filepath in ['contact.html', 'contact-en.html']:
+            with self.subTest(filepath=filepath):
+                content = read_file_content(filepath)
+                self.assertIn('<form', content, f"Missing form in {filepath}")
+                self.assertIn('type="email"', content, f"Missing email input in {filepath}")
