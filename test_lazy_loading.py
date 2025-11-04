@@ -1,6 +1,4 @@
-"""
-This script contains tests for the lazy loading functionality of the Event Horizon website.
-"""
+"""Tests for the lazy loading functionality of the Event Horizon website."""
 
 import re
 
@@ -17,8 +15,15 @@ def read_file_content(filepath):
         return f.read()
 
 def test_lazy_loading_on_index_page():
-    """
-    Tests that the images on the index.html page are using the 'lazy' class.
+    """Verifies that images on the index page use lazy loading.
+
+    This test checks `index.html` to ensure that `<div>` elements
+    representing images have the `.lazy` class and a `data-src` attribute,
+    which are required for the lazy loading mechanism to work.
+
+    Raises:
+        AssertionError: If an image `<div>` is missing the `.lazy` class
+            or the `data-src` attribute.
     """
     content = read_file_content('index.html')
 

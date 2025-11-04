@@ -1,4 +1,4 @@
-"""This script contains tests to verify the integrity of internal links."""
+"""Tests to verify the integrity of internal links."""
 
 import os
 import re
@@ -19,7 +19,11 @@ def read_file_content(filepath):
         return f.read()
 
 def test_internal_links():
-    """Tests that all internal links in HTML files point to existing files.
+    """Verifies that all internal links in HTML files point to existing files.
+
+    This test scans all HTML files for `href` attributes that do not point
+    to external sites or page anchors. It then asserts that the linked
+    file exists in the repository.
 
     Raises:
         AssertionError: If a broken internal link is found.

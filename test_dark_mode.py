@@ -1,6 +1,4 @@
-"""
-This script contains tests for the dark mode functionality of the Event Horizon website.
-"""
+"""Tests for the dark mode functionality of the Event Horizon website."""
 
 import re
 
@@ -17,9 +15,14 @@ def read_file_content(filepath):
         return f.read()
 
 def test_quick_link_dark_mode_color_reset():
-    """
-    Tests that the hover animation for '.quick-link' does not use a hardcoded
-    light-theme color on mouseleave, which would be incorrect for dark mode.
+    """Verifies that '.quick-link' hover animation is theme-aware.
+
+    This test checks the `mouseleave` event handler in `documentation.js`
+    to ensure that the text color is not hardcoded to a light theme value,
+    which would be incorrect when dark mode is active.
+
+    Raises:
+        AssertionError: If a hardcoded light-theme color is found.
     """
     content = read_file_content('documentation.js')
 
