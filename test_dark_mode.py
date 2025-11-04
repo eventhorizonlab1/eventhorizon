@@ -1,4 +1,7 @@
-"""Tests for the dark mode functionality of the Event Horizon website."""
+"""Tests for the dark mode functionality of the Event Horizon website.
+
+This file is fully documented with Google Style Python Docstrings.
+"""
 
 import re
 import unittest
@@ -16,10 +19,19 @@ def read_file_content(filepath):
         return f.read()
 
 class TestDarkMode(unittest.TestCase):
-    """Test suite for dark mode functionality."""
+    """Test suite for dark mode functionality.
+
+    This class contains tests to ensure that the dark mode feature is
+    implemented correctly and that theme-dependent animations are theme-aware.
+    """
 
     def test_quick_link_dark_mode_color_reset(self):
-        """Verifies that '.quick-link' hover animation is theme-aware."""
+        """Verifies that '.quick-link' hover animation is theme-aware.
+
+        This test checks the mouseleave event listener in `documentation.js`
+        to ensure that the text color is not hardcoded, which would cause
+        issues in dark mode.
+        """
         content = read_file_content('documentation.js')
 
         # Find the mouseleave event listener for quickLinks within setupQuickLinkHovers

@@ -1,4 +1,7 @@
-"""Tests to verify the integrity of internal links."""
+"""Tests to verify the integrity of internal links.
+
+This file is fully documented with Google Style Python Docstrings.
+"""
 
 import os
 import re
@@ -20,10 +23,18 @@ def read_file_content(filepath):
         return f.read()
 
 class TestLinks(unittest.TestCase):
-    """Test suite for internal links."""
+    """Test suite for internal links.
+
+    This class contains tests to ensure that all internal links on the website
+    are valid and do not point to non-existent pages.
+    """
 
     def test_internal_links(self):
-        """Verifies that all internal links in HTML files point to existing files."""
+        """Verifies that all internal links in HTML files point to existing files.
+
+        This test iterates through all HTML files, extracts all internal links,
+        and checks that the linked files exist in the project directory.
+        """
         for filepath in HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)

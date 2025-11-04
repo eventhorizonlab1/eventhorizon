@@ -1,7 +1,8 @@
 """Tests specifically for the 'À propos' page.
 
 Verifies that all navigation links pointing to the 'À propos' page
-are correctly formatted.
+are correctly formatted. This file is fully documented with
+Google Style Python Docstrings.
 """
 
 import re
@@ -23,10 +24,18 @@ def read_file_content(filepath):
         return f.read()
 
 class TestAProposPage(unittest.TestCase):
-    """Test suite for the 'À propos' page."""
+    """Test suite for the 'À propos' page.
+
+    This class contains tests to ensure that the 'À propos' and 'About' pages
+    have the correct links and content.
+    """
 
     def test_apropos_links(self):
-        """Checks that all links to 'À propos' on its own page are correct."""
+        """Checks that all links to 'À propos' on its own page are correct.
+
+        This test verifies that all navigation links pointing to the
+        'À propos' page are correctly formatted.
+        """
         content = read_file_content('a-propos.html')
 
         # Find all 'À propos' links
@@ -41,7 +50,11 @@ class TestAProposPage(unittest.TestCase):
                 self.assertIn('href="a-propos.html"', match, f"Incorrect 'À propos' link found: {match}")
 
     def test_about_links(self):
-        """Checks that all links to 'About' on its own page are correct."""
+        """Checks that all links to 'About' on its own page are correct.
+
+        This test verifies that all navigation links pointing to the
+        'About' page are correctly formatted.
+        """
         content = read_file_content('a-propos-en.html')
 
         # Find all 'About' links

@@ -1,12 +1,15 @@
 /**
  * @file Central repository for all documented JavaScript functions,
- * including animations and theme switching.
+ * including animations, theme switching, and other interactive features.
+ * This file is fully documented with JSDoc.
  * @author Jules
  */
 
 /**
  * Initializes all animations and event listeners when the DOM is fully loaded.
- * @returns {void}
+ * It serves as the main entry point for all client-side interactivity.
+ *
+ * @returns {void} This function does not return a value.
  */
 function initializeWebsiteInteractivity() {
     // Animation functions
@@ -27,8 +30,9 @@ function initializeWebsiteInteractivity() {
 
 /**
  * Animates the main title on page load.
- * The title fades in and slides down.
- * @returns {void}
+ * The title fades in and slides down for a smooth entrance effect.
+ *
+ * @returns {void} This function does not return a value.
  */
 function animateMainTitle() {
     anime({
@@ -42,8 +46,9 @@ function animateMainTitle() {
 
 /**
  * Sets up a hover animation for the logo.
- * Creates a subtle distortion effect on hover.
- * @returns {void}
+ * Creates a subtle distortion effect on hover to add a modern touch.
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupLogoHoverAnimation() {
     const logos = document.querySelectorAll('.logo-container');
@@ -67,8 +72,10 @@ function setupLogoHoverAnimation() {
 
 /**
  * Animates the menu items on page load.
- * Each item fades in and slides from the left with a staggered delay.
- * @returns {void}
+ * Each item fades in and slides from the left with a staggered delay,
+ * creating a clean, sequential appearance.
+ *
+ * @returns {void} This function does not return a value.
  */
 function animateMenuItems() {
     anime({
@@ -84,8 +91,9 @@ function animateMenuItems() {
 /**
  * Sets up an Intersection Observer to animate elements as they enter the viewport.
  * Sections without cards fade in and slide up.
- * Cards within sections fade in and slide up with a staggered delay.
- * @returns {void}
+ * Cards within sections fade in and slide up with a staggered delay for a dynamic effect.
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupIntersectionObserver() {
     const sections = document.querySelectorAll('.animate-section');
@@ -125,8 +133,9 @@ function setupIntersectionObserver() {
 
 /**
  * Sets up hover effects for the quick links in the footer.
- * Links move up and change color on hover.
- * @returns {void}
+ * Links move up and change color on hover for a clear visual cue.
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupQuickLinkHovers() {
     const quickLinks = document.querySelectorAll('.quick-link');
@@ -156,7 +165,9 @@ function setupQuickLinkHovers() {
 
 /**
  * Adds a "glow" effect to the theme toggle button on hover.
- * @returns {void}
+ * This provides a subtle visual feedback to the user.
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupThemeToggleGlow() {
     const themeToggleButton = document.getElementById('theme-toggle');
@@ -182,8 +193,10 @@ function setupThemeToggleGlow() {
 }
 
 /**
- * Initializes the theme based on localStorage or user's system preference.
- * @returns {void}
+ * Initializes the theme based on localStorage or the user's system preference.
+ * Ensures the correct theme is applied on page load.
+ *
+ * @returns {void} This function does not return a value.
  */
 function initializeTheme() {
     const themeToggleButton = document.getElementById('theme-toggle');
@@ -201,7 +214,9 @@ function initializeTheme() {
 
 /**
  * Animates the theme transition with a fade and zoom effect.
- * @returns {void}
+ * Creates a smooth visual transition between light and dark modes.
+ *
+ * @returns {void} This function does not return a value.
  */
 function animateAndToggleTheme() {
     const isDarkMode = document.documentElement.classList.contains('dark');
@@ -235,7 +250,8 @@ function animateAndToggleTheme() {
 /**
  * Sets up the event listener for the theme toggle button.
  * Toggles the theme and updates the icon on click.
- * @returns {void}
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupThemeToggleListener() {
     const themeToggleButton = document.getElementById('theme-toggle');
@@ -248,8 +264,10 @@ function setupThemeToggleListener() {
 
 /**
  * Sets up the "Back to Top" button functionality.
- * The button appears on scroll and smoothly scrolls to the top when clicked.
- * @returns {void}
+ * The button appears on scroll and smoothly scrolls to the top when clicked,
+ * improving navigation on long pages.
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupBackToTopButton() {
     const backToTopButton = document.getElementById('back-to-top');
@@ -273,8 +291,10 @@ function setupBackToTopButton() {
 
 /**
  * Sets up a scroll animation for the header.
- * Adds a 'scrolled' class to the header when the user scrolls down.
- * @returns {void}
+ * Adds a 'scrolled' class to the header when the user scrolls down,
+ * providing a visual cue that the header is in a fixed state.
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupHeaderScrollAnimation() {
     const header = document.querySelector('header');
@@ -291,8 +311,10 @@ function setupHeaderScrollAnimation() {
 
 /**
  * Sets up lazy loading for images and divs with background images.
- * Elements with the 'lazy' class will be loaded only when they enter the viewport.
- * @returns {void}
+ * Elements with the 'lazy' class will be loaded only when they enter the viewport,
+ * improving page load performance.
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupLazyLoading() {
     const lazyElements = document.querySelectorAll('.lazy');

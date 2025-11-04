@@ -1,4 +1,7 @@
-"""Tests for the animation logic of the Event Horizon website."""
+"""Tests for the animation logic of the Event Horizon website.
+
+This file is fully documented with Google Style Python Docstrings.
+"""
 
 import re
 import unittest
@@ -16,7 +19,11 @@ def read_file_content(filepath):
         return f.read()
 
 class TestAnimations(unittest.TestCase):
-    """Test suite for animation logic."""
+    """Test suite for animation logic.
+
+    This class contains tests to ensure that the JavaScript-based animations
+    are correctly implemented and behave as expected.
+    """
 
     def test_quick_link_hover_animation(self):
         """Verifies that the '.quick-link' hover animation resets text color.

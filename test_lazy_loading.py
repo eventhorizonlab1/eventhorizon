@@ -1,4 +1,7 @@
-"""Tests for the lazy loading functionality of the Event Horizon website."""
+"""Tests for the lazy loading functionality of the Event Horizon website.
+
+This file is fully documented with Google Style Python Docstrings.
+"""
 
 import re
 import unittest
@@ -16,10 +19,19 @@ def read_file_content(filepath):
         return f.read()
 
 class TestLazyLoading(unittest.TestCase):
-    """Test suite for lazy loading functionality."""
+    """Test suite for lazy loading functionality.
+
+    This class contains tests to ensure that the lazy loading of images
+    is correctly implemented.
+    """
 
     def test_lazy_loading_on_index_page(self):
-        """Verifies that images on the index page use lazy loading."""
+        """Verifies that images on the index page use lazy loading.
+
+        This test checks that all images on the index page have the 'lazy'
+        class and a 'data-src' attribute, which are required for the
+        lazy loading functionality.
+        """
         content = read_file_content('index.html')
 
         # Find all divs that should be lazy-loaded
