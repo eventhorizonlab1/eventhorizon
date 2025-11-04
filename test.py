@@ -1,7 +1,8 @@
-"""This script contains a suite of tests for the Event Horizon static website.
+"""Verifies the consistency of shared elements across all HTML pages.
 
-It verifies the consistency of shared elements across all HTML pages,
-such as CDN links, headers, footers, and navigation bars.
+This script contains a suite of tests for the Event Horizon static website,
+ensuring that elements such as CDN links, headers, footers, and navigation
+bars are present and correct in all HTML files.
 """
 
 import re
@@ -23,14 +24,10 @@ def read_file_content(filepath):
         return f.read()
 
 def test_alpine_version():
-    """Tests that the correct version of the Alpine.js CDN link is present.
-
-    Iterates through all HTML files and asserts that the expected Alpine.js
-    CDN link is present.
+    """Checks for the correct Alpine.js CDN link in all HTML files.
 
     Raises:
-        AssertionError: If the expected Alpine.js CDN link is not found
-            in any of the HTML files.
+        AssertionError: If the expected CDN link is not found.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
@@ -38,11 +35,10 @@ def test_alpine_version():
         assert match is not None, f"Alpine.js v2.8.2 CDN link not found in {filepath}!"
 
 def test_tailwind_cdn_present():
-    """Tests that the Tailwind CSS CDN link is present in all HTML files.
+    """Ensures the Tailwind CSS CDN link is in all HTML files.
 
     Raises:
-        AssertionError: If the Tailwind CSS CDN link is not found in any
-            of the HTML files.
+        AssertionError: If the Tailwind CSS CDN link is missing.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
@@ -50,11 +46,10 @@ def test_tailwind_cdn_present():
         assert match is not None, f"Tailwind CSS CDN link not found in {filepath}!"
 
 def test_header_present():
-    """Tests that the main header section is present in all HTML files.
+    """Verifies that the main header is present in all HTML files.
 
     Raises:
-        AssertionError: If the header, including the "Event Horizon" logo,
-            is not found.
+        AssertionError: If the header with the site logo is not found.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
@@ -62,11 +57,10 @@ def test_header_present():
         assert match is not None, f"Header with logo not found in {filepath}!"
 
 def test_footer_present():
-    """Tests that the main footer section is present in all HTML files.
+    """Checks for the main footer in all HTML files.
 
     Raises:
-        AssertionError: If the footer, including the copyright notice, is
-            not found.
+        AssertionError: If the footer with the copyright notice is missing.
     """
     for filepath in HTML_FILES:
         content = read_file_content(filepath)
@@ -74,10 +68,10 @@ def test_footer_present():
         assert match is not None, f"Footer with copyright notice not found in {filepath}!"
 
 def test_navigation_links_present():
-    """Tests that all main navigation links are present in all HTML files.
+    """Verifies that all main navigation links are in all HTML files.
 
     Raises:
-        AssertionError: If any of the expected navigation links are missing.
+        AssertionError: If any expected navigation links are missing.
     """
     nav_links = [
         'href="index.html"',
@@ -93,7 +87,7 @@ def test_navigation_links_present():
             assert link in content, f"Navigation link {link} not found in {filepath}!"
 
 def test_language_switcher_present():
-    """Tests that the language switcher component is present in all HTML files.
+    """Ensures the language switcher is present in all HTML files.
 
     Raises:
         AssertionError: If the FR/EN language switcher is not found.

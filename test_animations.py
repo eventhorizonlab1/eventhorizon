@@ -1,4 +1,4 @@
-"""This script contains tests for the animation logic of the Event Horizon website."""
+"""Tests for the animation logic of the Event Horizon website."""
 
 import re
 
@@ -15,14 +15,14 @@ def read_file_content(filepath):
         return f.read()
 
 def test_quick_link_hover_animation():
-    """Tests that the hover animation for '.quick-link' correctly resets the color.
+    """Verifies that the '.quick-link' hover animation resets text color.
 
-    This test verifies that the mouseleave event listener for '.quick-link'
-    in animations.js includes a color reset animation.
+    This test checks the mouseleave event listener in `documentation.js`
+    to ensure that it contains an animation that resets the `color`
+    property, preventing links from staying colored after the hover ends.
 
     Raises:
-        AssertionError: If the color reset is not found in the mouseleave
-            event listener.
+        AssertionError: If the color reset animation is not found.
     """
     content = read_file_content('documentation.js')
 
