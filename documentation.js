@@ -278,32 +278,40 @@ function setupHeaderScrollAnimation() {
 }
 
 /**
- * Sets up lazy loading for images.
- * Images with the 'lazy' class will be loaded only when they enter the viewport.
+ * Sets up lazy loading for images and divs with background images.
+ * Elements with the 'lazy' class will be loaded only when they enter the viewport.
  */
 function setupLazyLoading() {
-    const lazyImages = document.querySelectorAll('img.lazy');
+    const lazyElements = document.querySelectorAll('.lazy');
 
     if ('IntersectionObserver' in window) {
-        let lazyImageObserver = new IntersectionObserver((entries, observer) => {
+        let lazyElementObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    let lazyImage = entry.target;
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImage.classList.remove('lazy');
-                    lazyImageObserver.unobserve(lazyImage);
+                    let lazyElement = entry.target;
+                    if (lazyElement.tagName === 'IMG') {
+                        lazyElement.src = lazyElement.dataset.src;
+                    } else {
+                        lazyElement.style.backgroundImage = lazyElement.dataset.src;
+                    }
+                    lazyElement.classList.remove('lazy');
+                    lazyElementObserver.unobserve(lazyElement);
                 }
             });
         });
 
-        lazyImages.forEach((lazyImage) => {
-            lazyImageObserver.observe(lazyImage);
+        lazyElements.forEach((lazyElement) => {
+            lazyElementObserver.observe(lazyElement);
         });
     } else {
         // Fallback for browsers that don't support IntersectionObserver
-        lazyImages.forEach((lazyImage) => {
-            lazyImage.src = lazyImage.dataset.src;
-            lazyImage.classList.remove('lazy');
+        lazyElements.forEach((lazyElement) => {
+            if (lazyElement.tagName === 'IMG') {
+                lazyElement.src = lazyElement.dataset.src;
+            } else {
+                lazyElement.style.backgroundImage = lazyElement.dataset.src;
+            }
+            lazyElement.classList.remove('lazy');
         });
     }
 }
