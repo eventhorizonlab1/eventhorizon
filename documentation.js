@@ -13,8 +13,8 @@
  */
 function initializeWebsiteInteractivity() {
     // Animation functions
+    animateHeader();
     animateMainTitle();
-    animateMenuItems();
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupMenuItemHovers();
@@ -72,21 +72,47 @@ function setupLogoHoverAnimation() {
 }
 
 /**
- * Animates the menu items on page load.
- * Each item fades in and slides from the left with a staggered delay,
- * creating a clean, sequential appearance.
+ * Animates the header elements on page load.
+ * Creates a staggered appearance timeline for the logo, navigation links, and control icons.
  *
  * @returns {void} This function does not return a value.
  */
-function animateMenuItems() {
-    anime({
-        targets: '.menu-item',
-        opacity: [0, 1],
-        translateX: [-50, 0],
-        duration: 800,
-        delay: anime.stagger(100),
-        ease: 'easeOutExpo'
+function animateHeader() {
+    // Selectors for all header elements
+    const headerLogo = 'header h2';
+    const navLinks = 'header nav a';
+    const controlIcons = '#theme-toggle, header .md\\:hidden button, header .hidden.md\\:flex .flex.items-center';
+
+    // Set initial state: invisible and shifted up
+    anime.set([headerLogo, navLinks, controlIcons], {
+        opacity: 0,
+        translateY: -15
     });
+
+    // Create the animation timeline
+    const timeline = anime.timeline({
+        easing: 'easeOutExpo',
+    });
+
+    timeline
+        .add({
+            targets: headerLogo,
+            opacity: 1,
+            translateY: 0,
+            duration: 500,
+        })
+        .add({
+            targets: navLinks,
+            opacity: 1,
+            translateY: 0,
+            duration: 400,
+            delay: anime.stagger(75),
+        }, '-=300') // Starts 300ms before the previous animation ends
+        .add({
+            targets: controlIcons,
+            opacity: 1,
+            duration: 300,
+        }, '-=400'); // Adjust offset to ensure smooth transition
 }
 
 /**
