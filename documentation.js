@@ -17,6 +17,7 @@ function initializeWebsiteInteractivity() {
     animateMenuItems();
     setupIntersectionObserver();
     setupQuickLinkHovers();
+    setupMenuItemHovers();
     setupThemeToggleGlow();
     setupLogoHoverAnimation();
     setupBackToTopButton();
@@ -139,21 +140,59 @@ function setupIntersectionObserver() {
  */
 function setupQuickLinkHovers() {
     const quickLinks = document.querySelectorAll('.quick-link');
+    const primaryColor = '#06ccf9';
+
     quickLinks.forEach(link => {
+        const originalColor = window.getComputedStyle(link).color;
         link.addEventListener('mouseenter', () => {
             anime({
                 targets: link,
                 translateY: -5,
+                color: primaryColor,
                 duration: 300,
                 ease: 'easeOutExpo'
             });
         });
 
         link.addEventListener('mouseleave', () => {
-            link.style.color = ''; // Réinitialiser la couleur pour que le CSS prenne le relais
             anime({
                 targets: link,
                 translateY: 0,
+                color: originalColor,
+                duration: 300,
+                ease: 'easeOutExpo'
+            });
+        });
+    });
+}
+
+/**
+ * Sets up hover effects for the menu items in the header.
+ * Links move up and change color on hover for a clear visual cue.
+ *
+ * @returns {void} This function does not return a value.
+ */
+function setupMenuItemHovers() {
+    const menuItems = document.querySelectorAll('.menu-item');
+    const primaryColor = '#06ccf9';
+
+    menuItems.forEach(link => {
+        const originalColor = window.getComputedStyle(link).color;
+        link.addEventListener('mouseenter', () => {
+            anime({
+                targets: link,
+                translateY: -5,
+                color: primaryColor,
+                duration: 300,
+                ease: 'easeOutExpo'
+            });
+        });
+
+        link.addEventListener('mouseleave', () => {
+            anime({
+                targets: link,
+                translateY: 0,
+                color: originalColor,
                 duration: 300,
                 ease: 'easeOutExpo'
             });
