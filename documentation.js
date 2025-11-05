@@ -141,7 +141,6 @@ function setupQuickLinkHovers() {
     const quickLinks = document.querySelectorAll('.quick-link');
     quickLinks.forEach(link => {
         link.addEventListener('mouseenter', () => {
-            link.style.color = '#06ccf9'; // Définir la couleur directement
             anime({
                 targets: link,
                 translateY: -5,
