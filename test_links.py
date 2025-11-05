@@ -44,8 +44,4 @@ class TestLinks(unittest.TestCase):
 
                 for link in internal_links:
                     with self.subTest(link=link):
-                        # a-propos.html contains a link to "a-propos.html" which is valid
-                        if link == "a-propos.html":
-                            self.assertIn("a-propos.html", HTML_FILES, f"Broken link in {filepath}: {link}")
-                        else:
-                            self.assertIn(link, ALL_FILES, f"Broken link in {filepath}: {link}")
+                        self.assertIn(link, ALL_FILES, f"Broken link in {filepath}: {link}")
