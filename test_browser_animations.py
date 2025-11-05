@@ -67,3 +67,38 @@ class TestBrowserAnimations(unittest.TestCase):
         # Assert that the page has scrolled to the top
         self.assertEqual(self.page.evaluate('() => window.scrollY'), 0,
                          "'Back to Top' button did not scroll to the top of the page.")
+
+    def test_menu_item_hover_animation(self):
+        """Verify that the menu item hover animation restores the original color."""
+        self.page.goto("file://" + os.path.abspath("index.html"))
+        # Wait for dark mode styles to be applied
+        self.page.wait_for_timeout(500)
+        menu_item = self.page.query_selector('.menu-item')
+        self.assertIsNotNone(menu_item, "Menu item not found.")
+
+        # Get the initial color of the menu item
+        initial_color = self.page.evaluate('(element) => getComputedStyle(element).color', menu_item)
+
+        # Hover over the menu item
+        menu_item.hover()
+
+        # Wait for the animation to complete
+        self.page.wait_for_timeout(500)
+
+        # Get the hover color of the menu item
+        hover_color = self.page.evaluate('(element) => getComputedStyle(element).color', menu_item)
+
+        # Assert that the color has changed
+        self.assertNotEqual(initial_color, hover_color, "Menu item hover animation did not change the color.")
+
+        # Move the mouse away from the menu item
+        self.page.mouse.move(0, 0)
+
+        # Wait for the animation to complete
+        self.page.wait_for_timeout(500)
+
+        # Get the final color of the menu item
+        final_color = self.page.evaluate('(element) => getComputedStyle(element).color', menu_item)
+
+        # Assert that the color has been restored
+        self.assertEqual(initial_color, final_color, "Menu item hover animation did not restore the original color.")
