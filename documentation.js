@@ -166,21 +166,20 @@ function setupIntersectionObserver() {
  */
 function setupQuickLinkHovers() {
     const quickLinks = document.querySelectorAll('.quick-link');
-    const primaryColor = '#06ccf9';
 
     quickLinks.forEach(link => {
-        const originalColor = window.getComputedStyle(link).color;
         link.addEventListener('mouseenter', () => {
+            link.classList.add('text-primary');
             anime({
                 targets: link,
                 translateY: -5,
-                color: primaryColor,
                 duration: 300,
                 ease: 'easeOutExpo'
             });
         });
 
         link.addEventListener('mouseleave', () => {
+            link.classList.remove('text-primary');
             anime({
                 targets: link,
                 translateY: 0,
@@ -199,21 +198,20 @@ function setupQuickLinkHovers() {
  */
 function setupMenuItemHovers() {
     const menuItems = document.querySelectorAll('.menu-item');
-    const primaryColor = '#06ccf9';
 
     menuItems.forEach(link => {
-        const originalColor = window.getComputedStyle(link).color;
         link.addEventListener('mouseenter', () => {
+            link.classList.add('text-primary');
             anime({
                 targets: link,
                 translateY: -5,
-                color: primaryColor,
                 duration: 300,
                 ease: 'easeOutExpo'
             });
         });
 
         link.addEventListener('mouseleave', () => {
+            link.classList.remove('text-primary');
             anime({
                 targets: link,
                 translateY: 0,
