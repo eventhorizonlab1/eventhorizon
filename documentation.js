@@ -158,7 +158,6 @@ function setupQuickLinkHovers() {
             anime({
                 targets: link,
                 translateY: 0,
-                color: originalColor,
                 duration: 300,
                 ease: 'easeOutExpo'
             });
@@ -192,7 +191,6 @@ function setupMenuItemHovers() {
             anime({
                 targets: link,
                 translateY: 0,
-                color: originalColor,
                 duration: 300,
                 ease: 'easeOutExpo'
             });
