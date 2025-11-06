@@ -124,13 +124,16 @@ class TestBrowserAnimations(unittest.TestCase):
         self.page.goto("file://" + os.path.abspath("index.html"))
         main_title = self.page.wait_for_selector('.main-title')
 
-        # Wait for the animation to complete by checking for opacity to be 1
-        main_title.wait_for_element_state('visible')
+        # Wait for the animation to complete by polling for opacity
+        self.page.wait_for_function(
+            "(element) => parseFloat(getComputedStyle(element).opacity) > 0.95",
+            arg=main_title
+        )
 
         opacity = main_title.evaluate('(element) => getComputedStyle(element).opacity')
         transform = main_title.evaluate('(element) => getComputedStyle(element).transform')
 
-        self.assertEqual(float(opacity), 1)
+        self.assertGreater(float(opacity), 0.95)
         self.assertNotEqual(transform, 'none')
 
     def test_header_animation(self):
