@@ -17,9 +17,10 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#06ccf9",
+                        "primary": "#00A9FF",
                         "background-light": "#f5f8f8",
-                        "background-dark": "#0f1f23",
+                        "background-dark": "#0D0D0D",
+                        "background-dark-soft": "#1A1A1A",
                     },
                     fontFamily: {
                         "display": ["Space Grotesk", "sans-serif"]
@@ -35,6 +36,18 @@
         }
     </script>
 <style>
+        .custom-border {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-background {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .shadow-glow {
+            box-shadow: 0px 0px 10px 0px rgba(0, 169, 255, 0.5);
+        }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             font-size: inherit;
@@ -78,9 +91,9 @@
 <div class="flex flex-1 justify-center px-4 sm:px-10 md:px-20 lg:px-40 py-5">
 <div class="layout-content-container flex w-full max-w-[960px] flex-1 flex-col">
 <!-- Header Section -->
-<header x-data="{ open: false }" class="relative sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-black/10 bg-background-light/80 py-3 backdrop-blur-sm dark:border-white/10 dark:bg-background-dark/80">
+<header x-data="{ open: false }" class="relative sticky top-0 z-50 flex items-center justify-between whitespace-nowrap custom-border gradient-background bg-background-dark/80 py-3 backdrop-blur-sm">
     <!-- Logo -->
-    <div class="flex items-center gap-4 text-gray-800 dark:text-white">
+    <div class="flex items-center gap-4 text-white">
         <div class="size-6 text-primary">
             <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_6_543)">
@@ -94,66 +107,73 @@
                 </defs>
             </svg>
         </div>
-        <h2 class="text-gray-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] logo-container">Event Horizon</h2>
+        <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] logo-container">Event Horizon</h2>
     </div>
     <!-- Centered Navigation -->
     <nav class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:flex items-center gap-9">
-        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="index-en.html">Home</a>
-        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="videos-en.html">Videos</a>
-        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="articles-en.html">Articles</a>
-        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="ecosysteme-en.html">Ecosystem</a>
-        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="a-propos-en.html">About</a>
-        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="contact-en.html">Contact</a>
+        <a class="text-white text-sm font-medium leading-normal menu-item" href="index-en.html">Home</a>
+        <a class="text-white text-sm font-medium leading-normal menu-item" href="videos-en.html">Videos</a>
+        <a class="text-white text-sm font-medium leading-normal menu-item" href="articles-en.html">Articles</a>
+        <a class="text-white text-sm font-medium leading-normal menu-item" href="ecosysteme-en.html">Ecosystem</a>
+        <a class="text-white text-sm font-medium leading-normal menu-item" href="a-propos-en.html">About</a>
+        <a class="text-white text-sm font-medium leading-normal menu-item" href="contact-en.html">Contact</a>
     </nav>
     <!-- Right-aligned items -->
     <div class="hidden md:flex items-center gap-4">
         <div class="flex items-center text-sm font-medium">
-            <a class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
-            <span class="text-black/30 dark:text-white/30">/</span>
-            <a class="text-gray-800 dark:text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
+            <a class="text-white/60 hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
+            <span class="text-white/30">/</span>
+            <a class="text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
         </div>
-        <button id="theme-toggle" class="text-gray-800 dark:text-white">
+        <button id="theme-toggle" class="text-white">
                                 <span class="material-symbols-outlined light-icon">light_mode</span>
                                 <span class="material-symbols-outlined dark-icon" style="display: none;">dark_mode</span>
         </button>
     </div>
     <!-- Mobile menu button -->
     <div class="md:hidden">
-        <button @click="open = !open" class="text-gray-800 dark:text-white">
+        <button @click="open = !open" class="text-white">
             <span x-show="!open" class="material-symbols-outlined">menu</span>
             <span x-show="open" class="material-symbols-outlined" style="display: none;">close</span>
         </button>
     </div>
     <!-- Mobile Menu -->
-    <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-light dark:bg-background-dark md:hidden z-10 border-t border-black/10 dark:border-white/10" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform -translate-y-2" x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2" style="display: none;">
+    <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-dark md:hidden z-10 custom-border" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform -translate-y-2" x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2" style="display: none;">
         <nav class="flex flex-col p-4">
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="index-en.html">Home</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="videos-en.html">Videos</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="articles-en.html">Articles</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="ecosysteme-en.html">Ecosystem</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="a-propos-en.html">About</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="contact-en.html">Contact</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="index-en.html">Home</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="videos-en.html">Videos</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="articles-en.html">Articles</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="ecosysteme-en.html">Ecosystem</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="a-propos-en.html">About</a>
+            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="contact-en.html">Contact</a>
         </nav>
-        <div class="flex items-center text-sm font-medium p-4 border-t border-black/10 dark:border-white/10">
-            <a class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
-            <span class="text-black/30 dark:text-white/30">/</span>
-            <a class="text-gray-800 dark:text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
+        <div class="flex items-center text-sm font-medium p-4 border-t border-white/10">
+            <a class="text-white/60 hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
+            <span class="text-white/30">/</span>
+            <a class="text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
         </div>
     </div>
 </header>
 <!-- Main Content -->
 <main class="flex-grow">
-<h1 class="text-gray-800 dark:text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight px-4 text-center pb-3 pt-16 md:pt-24 main-title">
-                            Contact Us
-                        </h1>
-<section class="mt-16 md:mt-24 bg-black/5 dark:bg-white/5 rounded-lg p-8 md:p-12 text-center mx-4">
-<h3 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Contact Form</h3>
-<p class="text-black/70 dark:text-white/70 mt-4 max-w-xl mx-auto">Feel free to contact us with any questions or suggestions.</p>
-<form class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
-<input class="w-full flex-grow bg-background-light dark:bg-background-dark border border-black/20 dark:border-white/20 text-gray-800 dark:text-white placeholder-black/50 dark:placeholder-white/50 rounded-lg px-4 py-3 focus:ring-primary focus:border-primary" placeholder="Enter your email address" type="email"/>
-<button class="w-full sm:w-auto bg-primary text-background-dark font-bold px-6 py-3 rounded-lg hover:bg-opacity-80" type="submit">Send</button>
-</form>
-</section>
+    <div class="relative h-screen flex items-center justify-center text-center">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+        <div class="relative z-10">
+            <h1 class="text-white tracking-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight main-title">
+                Contact Us
+            </h1>
+            <p class="text-white/80 mt-4">A question, a suggestion? Get in touch with us.</p>
+        </div>
+    </div>
+
+    <section class="mt-16 md:mt-24 bg-background-dark-soft custom-border rounded-lg p-8 md:p-12 text-center mx-4">
+        <h3 class="text-2xl md:text-3xl font-bold text-white">Contact Form</h3>
+        <p class="text-white/70 mt-4 max-w-xl mx-auto">Feel free to contact us with any questions or suggestions.</p>
+        <form class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
+            <input class="w-full flex-grow bg-background-dark custom-border text-white placeholder-white/50 rounded-lg px-4 py-3 focus:ring-primary focus:border-primary" placeholder="Enter your email address" type="email"/>
+            <button class="w-full sm:w-auto bg-primary text-background-dark font-bold px-6 py-3 rounded-lg hover:bg-opacity-80" type="submit">Send</button>
+        </form>
+    </section>
 </main>
 <!-- Footer Section -->
 <footer class="mt-16 md:mt-24 border-t border-solid border-black/10 dark:border-white/10 pt-12 pb-8">
