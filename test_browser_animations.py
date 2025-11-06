@@ -1,31 +1,47 @@
+"""Tests for browser-based animations on the Event Horizon website.
+
+This module uses Playwright to simulate user interactions and verify
+that the JavaScript-based animations behave as expected in a live browser
+environment. This file is fully documented with Google Style Python Docstrings.
+"""
+
 import unittest
 from playwright.sync_api import sync_playwright
 import os
 
 class TestBrowserAnimations(unittest.TestCase):
+    """Test suite for browser-based animations.
+
+    This class contains tests that use Playwright to interact with the website
+    and verify that the animations are triggered correctly.
+    """
     @classmethod
     def setUpClass(cls):
+        """Initializes the Playwright browser instance."""
         cls.playwright = sync_playwright().start()
         cls.browser = cls.playwright.chromium.launch()
 
     @classmethod
     def tearDownClass(cls):
+        """Closes the Playwright browser instance."""
         cls.browser.close()
         cls.playwright.stop()
 
     def setUp(self):
+        """Creates a new page for each test."""
         self.page = self.browser.new_page()
 
     def tearDown(self):
+        """Closes the page after each test."""
         self.page.close()
 
     def test_page_title(self):
-        """Verify that the page title is correct."""
+        """Verifies that the page title is correct."""
         self.page.goto("file://" + os.path.abspath("index.html"))
         self.assertEqual(self.page.title(), "Event Horizon - Votre source sur l'industrie spatiale européenne")
 
     def test_logo_hover_animation(self):
-        """Verify that the logo hover animation is triggered."""
+        """Verifies that the logo hover animation is triggered."""
         self.page.goto("file://" + os.path.abspath("index.html"))
         logo = self.page.query_selector('.logo-container')
         self.assertIsNotNone(logo, "Logo container not found.")
@@ -46,7 +62,7 @@ class TestBrowserAnimations(unittest.TestCase):
         self.assertNotEqual(initial_transform, final_transform, "Logo hover animation did not change the transform property.")
 
     def test_back_to_top_button(self):
-        """Verify that the 'Back to Top' button appears and functions correctly."""
+        """Verifies that the 'Back to Top' button appears and functions correctly."""
         self.page.goto("file://" + os.path.abspath("index.html"))
 
         # Scroll down to make the button appear
@@ -69,7 +85,7 @@ class TestBrowserAnimations(unittest.TestCase):
                          "'Back to Top' button did not scroll to the top of the page.")
 
     def test_menu_item_hover_animation(self):
-        """Verify that the menu item hover animation restores the original color."""
+        """Verifies that the menu item hover animation restores the original color."""
         self.page.goto("file://" + os.path.abspath("index.html"))
         # Wait for dark mode styles to be applied
         self.page.wait_for_timeout(500)
@@ -104,7 +120,7 @@ class TestBrowserAnimations(unittest.TestCase):
         self.assertEqual(initial_color, final_color, "Menu item hover animation did not restore the original color.")
 
     def test_main_title_animation(self):
-        """Verify that the main title animation runs on page load."""
+        """Verifies that the main title animation runs on page load."""
         self.page.goto("file://" + os.path.abspath("index.html"))
         main_title = self.page.wait_for_selector('.main-title')
 
@@ -118,7 +134,7 @@ class TestBrowserAnimations(unittest.TestCase):
         self.assertNotEqual(transform, 'none')
 
     def test_header_animation(self):
-        """Verify that the header animation runs on page load."""
+        """Verifies that the header animation runs on page load."""
         self.page.goto("file://" + os.path.abspath("index.html"))
 
         header_logo = self.page.wait_for_selector('header h2')

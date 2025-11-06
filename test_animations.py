@@ -24,4 +24,12 @@ class TestAnimations(unittest.TestCase):
     This class contains tests to ensure that the JavaScript-based animations
     are correctly implemented and behave as expected.
     """
-    pass
+
+    def test_animations_js_not_empty(self):
+        """Ensures that the `documentation.js` file is not empty.
+
+        This test serves as a basic check to confirm that the animation
+        script has not been accidentally wiped or corrupted.
+        """
+        content = read_file_content('documentation.js')
+        self.assertGreater(len(content), 0, "The 'documentation.js' file is empty!")
