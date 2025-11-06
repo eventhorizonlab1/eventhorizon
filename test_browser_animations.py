@@ -102,3 +102,43 @@ class TestBrowserAnimations(unittest.TestCase):
 
         # Assert that the color has been restored
         self.assertEqual(initial_color, final_color, "Menu item hover animation did not restore the original color.")
+
+    def test_main_title_animation(self):
+        """Verify that the main title animation runs on page load."""
+        self.page.goto("file://" + os.path.abspath("index.html"))
+        main_title = self.page.wait_for_selector('.main-title')
+
+        # Wait for the animation to complete by checking for opacity to be 1
+        main_title.wait_for_element_state('visible')
+
+        opacity = main_title.evaluate('(element) => getComputedStyle(element).opacity')
+        transform = main_title.evaluate('(element) => getComputedStyle(element).transform')
+
+        self.assertEqual(float(opacity), 1)
+        self.assertNotEqual(transform, 'none')
+
+    def test_header_animation(self):
+        """Verify that the header animation runs on page load."""
+        self.page.goto("file://" + os.path.abspath("index.html"))
+
+        header_logo = self.page.wait_for_selector('header h2')
+        nav_links = self.page.query_selector_all('header nav a')
+        theme_toggle = self.page.wait_for_selector('#theme-toggle')
+
+        # The nav links animate with a stagger. Wait for the last one to be fully visible.
+        if nav_links:
+            last_nav_link = nav_links[-1]
+            self.page.wait_for_function(
+                "(element) => parseFloat(getComputedStyle(element).opacity) > 0.95",
+                arg=last_nav_link
+            )
+
+        logo_opacity = header_logo.evaluate('(element) => getComputedStyle(element).opacity')
+        self.assertGreater(float(logo_opacity), 0.9)
+
+        for link in nav_links:
+            link_opacity = link.evaluate('(element) => getComputedStyle(element).opacity')
+            self.assertGreater(float(link_opacity), 0.9)
+
+        theme_toggle_opacity = theme_toggle.evaluate('(element) => getComputedStyle(element).opacity')
+        self.assertGreater(float(theme_toggle_opacity), 0.9)
