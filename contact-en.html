@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta name="description" content="Contact Event Horizon. Send us your questions, suggestions, or partnership inquiries via our contact form."/>
@@ -61,7 +61,7 @@
         }
     </style>
 </head>
-<body class="bg-background-light font-display text-gray-800 dark:bg-background-dark dark:text-[#EAEAEA]">
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-[#EAEAEA]">
 <button id="back-to-top" class="fixed bottom-5 right-5 z-50 p-3 rounded-full bg-primary text-background-dark shadow-lg transition-all duration-300 hover:bg-opacity-80">
     <span class="material-symbols-outlined">arrow_upward</span>
 </button>
@@ -70,7 +70,7 @@
 <div class="flex flex-1 justify-center px-4 sm:px-10 md:px-20 lg:px-40 py-5">
 <div class="layout-content-container flex w-full max-w-[960px] flex-1 flex-col">
 <!-- Header Section -->
-<header x-data="{ open: false }" class="flex items-center justify-between whitespace-nowrap border-b border-solid border-black/10 dark:border-white/10 px-4 sm:px-10 md:px-20 lg:px-40 py-3">
+<header x-data="{ open: false }" class="flex items-center justify-between whitespace-nowrap border-b border-solid border-black/10 dark:border-white/10 py-3">
     <div class="flex items-center gap-4 text-gray-800 dark:text-white">
         <div class="size-6 text-primary">
             <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -89,19 +89,19 @@
     </div>
     <div class="hidden md:flex flex-1 items-center justify-end gap-8">
         <nav class="flex items-center gap-9">
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="index-en.html">Home</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="videos-en.html">Videos</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="articles-en.html">Articles</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="ecosysteme-en.html">Ecosystem</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="a-propos-en.html">About</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors menu-item" href="contact-en.html">Contact</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="index-en.html">Home</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="videos-en.html">Videos</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="articles-en.html">Articles</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="ecosysteme-en.html">Ecosystem</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="a-propos-en.html">About</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="contact-en.html">Contact</a>
         </nav>
         <div class="flex items-center text-sm font-medium">
-            <a class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-2 py-1 rounded-md transition-colors" href="contact.html">FR</a>
+            <a class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
             <span class="text-black/30 dark:text-white/30">/</span>
             <a class="text-gray-800 dark:text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
         </div>
-        <button id="theme-toggle" class="text-gray-800 dark:text-white hover:text-primary transition-colors">
+        <button id="theme-toggle" class="text-gray-800 dark:text-white">
             <span class="material-symbols-outlined">light_mode</span>
         </button>
     </div>
@@ -112,15 +112,15 @@
     </div>
     <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-light dark:bg-background-dark md:hidden z-10">
         <nav class="flex flex-col p-4">
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="index-en.html">Home</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="videos-en.html">Videos</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="articles-en.html">Articles</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="ecosysteme-en.html">Ecosystem</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="a-propos-en.html">About</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 hover:text-primary transition-colors menu-item" href="contact-en.html">Contact</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="index-en.html">Home</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="videos-en.html">Videos</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="articles-en.html">Articles</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="ecosysteme-en.html">Ecosystem</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="a-propos-en.html">About</a>
+            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="contact-en.html">Contact</a>
         </nav>
         <div class="flex items-center text-sm font-medium p-4 border-t border-black/10 dark:border-white/10">
-            <a class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-2 py-1 rounded-md transition-colors" href="contact.html">FR</a>
+            <a class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
             <span class="text-black/30 dark:text-white/30">/</span>
             <a class="text-gray-800 dark:text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
         </div>
@@ -135,8 +135,8 @@
 <h3 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Contact Form</h3>
 <p class="text-black/70 dark:text-white/70 mt-4 max-w-xl mx-auto">Feel free to contact us with any questions or suggestions.</p>
 <form class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
-<input class="w-full flex-grow bg-background-light dark:bg-background-dark border border-black/20 dark:border-white/20 text-gray-800 dark:text-white placeholder-black/50 dark:placeholder-white/50 rounded-lg px-4 py-3 focus:ring-primary focus:border-primary transition-colors" placeholder="Enter your email address" type="email"/>
-<button class="w-full sm:w-auto bg-primary text-background-dark font-bold px-6 py-3 rounded-lg hover:bg-opacity-80 transition-colors" type="submit">Send</button>
+<input class="w-full flex-grow bg-background-light dark:bg-background-dark border border-black/20 dark:border-white/20 text-gray-800 dark:text-white placeholder-black/50 dark:placeholder-white/50 rounded-lg px-4 py-3 focus:ring-primary focus:border-primary" placeholder="Enter your email address" type="email"/>
+<button class="w-full sm:w-auto bg-primary text-background-dark font-bold px-6 py-3 rounded-lg hover:bg-opacity-80" type="submit">Send</button>
 </form>
 </section>
 </main>
@@ -162,10 +162,10 @@
 </div>
 <p class="text-black/60 dark:text-white/60 text-sm mt-4">Exploring the frontiers of the European aerospace industry. Join us behind the scenes of the most ambitious space projects.</p>
 <div class="flex gap-4 mt-6">
-<a class="text-black/60 dark:text-white/60 hover:text-primary transition-colors text-2xl" href="https://www.youtube.com/@EventHorizonLab-n9g" target="_blank" rel="noopener noreferrer">
+<a class="text-black/60 dark:text-white/60 text-2xl" href="https://www.youtube.com/@EventHorizonLab-n9g" target="_blank" rel="noopener noreferrer">
 <svg height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9c.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83c-.25.9-.83 1.48-1.73 1.73c-.47.13-1.33.22-2.65.28c-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44c-.9-.25-1.48-.83-1.73-1.73c-.13-.47-.22-1.1-.28-1.9c-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83c.25-.9.83-1.48 1.73-1.73c.47-.13 1.33.22 2.65-.28c1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44c.9.25 1.48.83 1.73 1.73Z" fill="currentColor"></path></svg>
 </a>
-<a class="text-black/60 dark:text-white/60 hover:text-primary transition-colors text-2xl" href="https://twitter.com/EventHorizonLab" target="_blank" rel="noopener noreferrer">
+<a class="text-black/60 dark:text-white/60 text-2xl" href="https://twitter.com/EventHorizonLab" target="_blank" rel="noopener noreferrer">
 <svg height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22.46 6c-.77.35-1.6.58-2.46.67c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.66-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23Z" fill="currentColor"></path></svg>
 </a>
 </div>
@@ -173,20 +173,20 @@
 <div>
 <h4 class="font-bold text-gray-800 dark:text-white">Quick Links</h4>
 <ul class="mt-4 space-y-2">
-<li><a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors quick-link" href="index-en.html">Home</a></li>
-<li><a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors quick-link" href="videos-en.html">Videos</a></li>
-<li><a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors quick-link" href="articles-en.html">Articles</a></li>
-<li><a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors quick-link" href="ecosysteme-en.html">Ecosystem</a></li>
-<li><a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors quick-link" href="a-propos-en.html">About</a></li>
-<li><a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors quick-link" href="contact-en.html">Contact</a></li>
+<li><a class="text-sm text-black/60 dark:text-white/60 quick-link" href="index-en.html">Home</a></li>
+<li><a class="text-sm text-black/60 dark:text-white/60 quick-link" href="videos-en.html">Videos</a></li>
+<li><a class="text-sm text-black/60 dark:text-white/60 quick-link" href="articles-en.html">Articles</a></li>
+<li><a class="text-sm text-black/60 dark:text-white/60 quick-link" href="ecosysteme-en.html">Ecosystem</a></li>
+<li><a class="text-sm text-black/60 dark:text-white/60 quick-link" href="a-propos-en.html">About</a></li>
+<li><a class="text-sm text-black/60 dark:text-white/60 quick-link" href="contact-en.html">Contact</a></li>
 </ul>
 </div>
 <div>
 <h4 class="font-bold text-gray-800 dark:text-white">Newsletter</h4>
 <p class="text-sm text-black/60 dark:text-white/60 mt-4">Get the latest updates.</p>
                                 <form action="#" method="post" class="mt-4 flex gap-2">
-                                    <input name="email" class="w-full flex-grow bg-background-light dark:bg-background-dark border border-black/20 dark:border-white/20 text-gray-800 dark:text-white placeholder-black/50 dark:placeholder-white/50 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary transition-colors" placeholder="Your email" type="email" />
-<button class="bg-primary text-background-dark font-bold px-4 py-2 rounded-lg hover:bg-opacity-80 transition-colors text-sm" type="submit">
+                                    <input name="email" class="w-full flex-grow bg-background-light dark:bg-background-dark border border-black/20 dark:border-white/20 text-gray-800 dark:text-white placeholder-black/50 dark:placeholder-white/50 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary" placeholder="Your email" type="email" />
+<button class="bg-primary text-background-dark font-bold px-4 py-2 rounded-lg hover:bg-opacity-80 text-sm" type="submit">
 <span class="material-symbols-outlined">arrow_forward</span>
 </button>
 </form>
