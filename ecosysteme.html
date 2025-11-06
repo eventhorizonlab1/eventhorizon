@@ -70,7 +70,8 @@
 <div class="flex flex-1 justify-center px-4 sm:px-10 md:px-20 lg:px-40 py-5">
 <div class="layout-content-container flex w-full max-w-[960px] flex-1 flex-col">
 <!-- Header Section -->
-<header x-data="{ open: false }" class="flex items-center justify-between whitespace-nowrap border-b border-solid border-black/10 dark:border-white/10 py-3">
+<header x-data="{ open: false }" class="relative sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-black/10 bg-background-light/80 py-3 backdrop-blur-sm dark:border-white/10 dark:bg-background-dark/80">
+    <!-- Logo -->
     <div class="flex items-center gap-4 text-gray-800 dark:text-white">
         <div class="size-6 text-primary">
             <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -87,15 +88,17 @@
         </div>
         <h2 class="text-gray-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] logo-container">Event Horizon</h2>
     </div>
-    <div class="hidden md:flex flex-1 items-center justify-end gap-8">
-        <nav class="flex items-center gap-9">
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="index.html">Accueil</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="videos.html">Vidéos</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="articles.html">Articles</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="ecosysteme.html">Écosystème</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="a-propos.html">À Propos</a>
-            <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="contact.html">Contact</a>
-        </nav>
+    <!-- Centered Navigation -->
+    <nav class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:flex items-center gap-9">
+        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="index.html">Accueil</a>
+        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="videos.html">Vidéos</a>
+        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="articles.html">Articles</a>
+        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="ecosysteme.html">Écosystème</a>
+        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="a-propos.html">À Propos</a>
+        <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal menu-item" href="contact.html">Contact</a>
+    </nav>
+    <!-- Right-aligned items -->
+    <div class="hidden md:flex items-center gap-4">
         <div class="flex items-center text-sm font-medium">
             <a class="text-gray-800 dark:text-white px-2 py-1 rounded-md" href="ecosysteme.html">FR</a>
             <span class="text-black/30 dark:text-white/30">/</span>
@@ -105,12 +108,15 @@
             <span class="material-symbols-outlined">light_mode</span>
         </button>
     </div>
+    <!-- Mobile menu button -->
     <div class="md:hidden">
         <button @click="open = !open" class="text-gray-800 dark:text-white">
-            <span class="material-symbols-outlined">menu</span>
+            <span x-show="!open" class="material-symbols-outlined">menu</span>
+            <span x-show="open" class="material-symbols-outlined" style="display: none;">close</span>
         </button>
     </div>
-    <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-light dark:bg-background-dark md:hidden z-10">
+    <!-- Mobile Menu -->
+    <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-light dark:bg-background-dark md:hidden z-10 border-t border-black/10 dark:border-white/10" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform -translate-y-2" x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2" style="display: none;">
         <nav class="flex flex-col p-4">
             <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="index.html">Accueil</a>
             <a class="text-gray-800 dark:text-white text-sm font-medium leading-normal py-2 menu-item" href="videos.html">Vidéos</a>
