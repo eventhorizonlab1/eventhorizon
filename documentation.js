@@ -201,6 +201,7 @@ function setupMenuItemHovers() {
 
     menuItems.forEach(link => {
         link.addEventListener('mouseenter', () => {
+            link.classList.remove('text-white');
             link.classList.add('text-primary');
             anime({
                 targets: link,
@@ -212,6 +213,7 @@ function setupMenuItemHovers() {
 
         link.addEventListener('mouseleave', () => {
             link.classList.remove('text-primary');
+            link.classList.add('text-white');
             anime({
                 targets: link,
                 translateY: 0,
