@@ -59,6 +59,14 @@
         .dark header.scrolled {
             --header-bg-color: rgba(15, 31, 35, 0.8);
         }
+
+        .dark .light-icon {
+            display: none;
+        }
+
+        .dark .dark-icon {
+            display: inline-block !important;
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-[#EAEAEA]">
@@ -105,7 +113,8 @@
             <a class="text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-2 py-1 rounded-md" href="articles-en.html">EN</a>
         </div>
         <button id="theme-toggle" class="text-gray-800 dark:text-white">
-            <span class="material-symbols-outlined">light_mode</span>
+                                <span class="material-symbols-outlined light-icon">light_mode</span>
+                                <span class="material-symbols-outlined dark-icon" style="display: none;">dark_mode</span>
         </button>
     </div>
     <!-- Mobile menu button -->
