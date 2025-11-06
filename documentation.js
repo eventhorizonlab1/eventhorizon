@@ -262,12 +262,13 @@ function initializeTheme() {
     if (!themeToggleButton) return;
     const themeToggleIcon = themeToggleButton.querySelector('span');
 
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-        themeToggleIcon.textContent = 'dark_mode';
-    } else {
+    // Default to dark mode, only switch to light if explicitly set
+    if (localStorage.getItem('theme') === 'light') {
         document.documentElement.classList.remove('dark');
         themeToggleIcon.textContent = 'light_mode';
+    } else {
+        document.documentElement.classList.add('dark');
+        themeToggleIcon.textContent = 'dark_mode';
     }
 }
 
