@@ -2,6 +2,15 @@
 
 Event Horizon is a static website for a French-language news source focused on the European space industry. It provides articles, videos, and information about the space ecosystem, with a parallel English version available for all pages.
 
+## Table of Contents
+
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Setup and Usage](#setup-and-usage)
+- [Testing](#testing)
+- [JavaScript Documentation](#javascript-documentation)
+- [License](#license)
+
 ## Technology Stack
 
 The website is built with a simple and robust technology stack:
@@ -74,5 +83,30 @@ You can also run each test file individually:
 -   `test_dark_mode.py`: Includes tests for the dark mode functionality, ensuring that theme-dependent features are correctly implemented.
 -   `test_lazy_loading.py`: Contains tests for the lazy loading of images, verifying that the correct attributes and classes are present.
 -   `test_links.py`: Verifies the integrity of all internal links to prevent broken navigation.
+-   `test_browser_animations.py`: Uses Playwright to simulate user interactions and verify that the JavaScript-based animations behave as expected in a live browser environment.
+-   `test_hardcoded_hover_color.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
+-   `test_link_checker_logic.py`: Verifies that there is no redundant link check logic in `test_links.py`, ensuring that the test logic is clean and maintainable.
+-   `test_quick_link_theme_change.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
+-   `test_theme_icon.py`: Uses Playwright to simulate user interactions and verify that the theme icon toggles correctly between light and dark modes.
 
 Each test script is self-contained and can be run with `python3 <filename>`. All tests are fully documented with Google Style Python Docstrings.
+
+## JavaScript Documentation
+
+All JavaScript code is located in the `documentation.js` file and is fully documented using JSDoc. To generate a documentation website from these comments, you can use a tool like JSDoc.
+
+### Generating Documentation
+
+1.  **Install JSDoc:**
+    ```bash
+    npm install -g jsdoc
+    ```
+2.  **Generate the documentation:**
+    ```bash
+    jsdoc documentation.js
+    ```
+This will create an `out` directory containing the HTML documentation.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
