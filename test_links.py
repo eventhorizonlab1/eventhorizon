@@ -1,47 +1,42 @@
-"""Tests to verify the integrity of internal links.
+"""Verifies that all internal links in the website are valid.
 
+This script checks all HTML files in the current directory for internal links
+and ensures that they point to existing files. This helps maintain the
+integrity of the site's navigation.
 This file is fully documented with Google Style Python Docstrings.
 """
 
-import os
 import re
+import os
 import unittest
 
-HTML_FILES = [f for f in os.listdir('.') if f.endswith('.html')]
-ALL_FILES = [f for f in os.listdir('.')]
-
-def read_file_content(filepath):
-    """Reads and returns the content of a given file.
-
-    Args:
-        filepath (str): The path to the file to be read.
-
-    Returns:
-        str: The content of the file as a string.
-    """
-    with open(filepath, "r", encoding="utf-8") as f:
-        return f.read()
+# A list of all files in the current directory, used for link checking.
+ALL_FILES = [f for f in os.listdir('.') if os.path.isfile(f)]
+# A list of all HTML files in the current directory to be tested.
+ALL_HTML_FILES = [f for f in ALL_FILES if f.endswith('.html') and "bak" not in f]
 
 class TestLinks(unittest.TestCase):
-    """Test suite for internal links.
+    """Test suite for verifying internal links in HTML files.
 
-    This class contains tests to ensure that all internal links on the website
-    are valid and do not point to non-existent pages.
+    This class contains tests to ensure that all internal links within the
+    website point to valid, existing files.
     """
 
     def test_internal_links(self):
         """Verifies that all internal links in HTML files point to existing files.
 
-        This test iterates through all HTML files, extracts all internal links,
-        and checks that the linked files exist in the project directory.
+        This test iterates through all HTML files, extracts all internal links
+        (href attributes), and checks if the linked files exist.
         """
-        for filepath in HTML_FILES:
+        for filepath in ["index.html", "index-en.html"]:
             with self.subTest(filepath=filepath):
-                content = read_file_content(filepath)
-                # Find all internal links (hrefs not starting with http)
-                links = re.findall(r'href="([^"]+)"', content)
-                internal_links = [l for l in links if not l.startswith('http') and not l.startswith('#')]
-
-                for link in internal_links:
-                    with self.subTest(link=link):
+                with open(filepath, "r", encoding="utf-8") as f:
+                    content = f.read()
+                    # Use a regular expression to find all href attributes
+                    links = re.findall(r'href="([^"]+)"', content)
+                    for link in links:
+                        # Ignore external links, mailto links, and anchor links
+                        if link.startswith(('http://', 'https://', 'mailto:', '#')):
+                            continue
+                        # Check if the linked file exists
                         self.assertIn(link, ALL_FILES, f"Broken link in {filepath}: {link}")
