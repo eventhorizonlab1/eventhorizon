@@ -4,10 +4,10 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta name="description" content="Contact Event Horizon. Send us your questions, suggestions, or partnership inquiries via our contact form."/>
 <title>Contact - Event Horizon</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -17,25 +17,26 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#00A9FF",
-                        "background-light": "#f5f8f8",
-                        "background-dark": "#0D0D0D",
-                        "background-dark-soft": "#1A1A1A",
+                        "primary": "#8A3FFC",
+                        "background-dark": "#0D0C1D",
+                        "surface-dark": "#17162A",
                     },
                     fontFamily: {
-                        "display": ["Space Grotesk", "sans-serif"]
+                        "display": ["Rajdhani", "sans-serif"],
+                        "body": ["Open Sans", "sans-serif"]
                     },
                     borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                    },
+                    boxShadow: {
+                        'glow-primary': '0 0 15px 5px rgba(138, 63, 252, 0.2), 0 0 5px 1px rgba(138, 63, 252, 0.1)',
                     },
                 },
             },
         }
     </script>
-<link rel="stylesheet" href="custom.css">
 <style>
         .custom-border {
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -91,111 +92,98 @@
 <div class="layout-container flex h-full grow flex-col">
 <div class="flex flex-1 justify-center px-4 sm:px-10 md:px-20 lg:px-40 py-5">
 <div class="layout-content-container flex w-full max-w-[960px] flex-1 flex-col">
-<!-- Header Section -->
-<header x-data="{ open: false }" class="relative sticky top-0 z-50 flex items-center justify-between whitespace-nowrap custom-border gradient-background bg-background-dark/80 py-3 backdrop-blur-sm">
-    <!-- Logo -->
-    <div class="flex items-center gap-4 text-white">
-        <div class="size-6 text-primary">
-            <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_6_543)">
-                    <path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z"></path>
-                    <path clip-rule="evenodd" d="M7.24189 26.4066C7.31369 26.4411 7.64204 26.5637 8.52504 26.3738C9.59462 26.1438 11.0343 25.5311 12.7183 24.4963C14.7583 23.2426 17.0256 21.4503 19.238 19.238C21.4503 17.0256 23.2426 14.7583 24.4963 12.7183C25.5311 11.0343 26.1438 9.59463 26.3738 8.52504C26.5637 7.64204 26.4411 7.31369 26.4066 7.24189C26.345 7.21246 26.143 7.14535 25.6664 7.1918C24.9745 7.25925 23.9954 7.5498 22.7699 8.14278C20.3369 9.32007 17.3369 11.4915 14.4142 14.4142C11.4915 17.3369 9.32007 20.3369 8.14278 22.7699C7.5498 23.9954 7.25925 24.9745 7.1918 25.6664C7.14534 26.143 7.21246 26.345 7.24189 26.4066ZM29.9001 10.7285C29.4519 12.0322 28.7617 13.4172 27.9042 14.8126C26.465 17.1544 24.4686 19.6641 22.0664 22.0664C19.6641 24.4686 17.1544 26.465 14.8126 27.9042C13.4172 28.7617 12.0322 29.4519 10.7285 29.9001L21.5754 40.747C21.6001 40.7606 21.8995 40.931 22.8729 40.7217C23.9424 40.4916 25.3821 39.879 27.0661 38.8441C29.1062 37.5904 31.3734 35.7982 33.5858 33.5858C35.7982 31.3734 37.5904 29.1062 38.8441 27.0661C39.879 25.3821 40.4916 23.9425 40.7216 22.8729C40.931 21.8995 40.7606 21.6001 40.747 21.5754L29.9001 10.7285ZM29.2403 4.41187L43.5881 18.7597C44.9757 20.1473 44.9743 22.1235 44.6322 23.7139C44.2714 25.3919 43.4158 27.2666 42.252 29.1604C40.8128 31.5022 38.8165 34.012 36.4142 36.4142C34.012 38.8165 31.5022 40.8128 29.1604 42.252C27.2666 43.4158 25.3919 44.2714 23.7139 44.6322C22.1235 44.9743 20.1473 44.9757 18.7597 43.5881L4.41187 29.2403C3.29027 28.1187 3.08209 26.5973 3.21067 25.2783C3.34099 23.9415 3.8369 22.4852 4.54214 21.0277C5.96129 18.0948 8.43335 14.7382 11.5858 11.5858C14.7382 8.43335 18.0948 5.9613 21.0277 4.54214C22.4852 3.8369 23.9415 3.34099 25.2783 3.21067C26.5973 3.08209 28.1187 3.29028 29.2403 4.41187Z" fill="currentColor" fill-rule="evenodd"></path>
-                </g>
-                <defs>
-                    <clipPath id="clip0_6_543">
-                        <rect fill="white" height="48" width="48"></rect>
-                    </clipPath>
-                </defs>
-            </svg>
-        </div>
-        <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] logo-container">Event Horizon</h2>
+<header x-data="{ mobileMenuOpen: false }" class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-white/10">
+<div class="max-w-7xl mx-auto flex items-center justify-between whitespace-nowrap px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center gap-3 text-white">
+<a class="flex items-center gap-3" href="index-en.html">
+<div class="size-8 text-primary shrink-0">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_543)">
+<path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M7.24189 26.4066C7.31369 26.4411 7.64204 26.5637 8.52504 26.3738C9.59462 26.1438 11.0343 25.5311 12.7183 24.4963C14.7583 23.2426 17.0256 21.4503 19.238 19.238C21.4503 17.0256 23.2426 14.7583 24.4963 12.7183C25.5311 11.0343 26.1438 9.59463 26.3738 8.52504C26.5637 7.64204 26.4411 7.31369 26.4066 7.24189C26.345 7.21246 26.143 7.14535 25.6664 7.1918C24.9745 7.25925 23.9954 7.5498 22.7699 8.14278C20.3369 9.32007 17.3369 11.4915 14.4142 14.4142C11.4915 17.3369 9.32007 20.3369 8.14278 22.7699C7.5498 23.9954 7.25925 24.9745 7.1918 25.6664C7.14534 26.143 7.21246 26.345 7.24189 26.4066ZM29.9001 10.7285C29.4519 12.0322 28.7617 13.4172 27.9042 14.8126C26.465 17.1544 24.4686 19.6641 22.0664 22.0664C19.6641 24.4686 17.1544 26.465 14.8126 27.9042C13.4172 28.7617 12.0322 29.4519 10.7285 29.9001L21.5754 40.747C21.6001 40.7606 21.8995 40.931 22.8729 40.7217C23.9424 40.4916 25.3821 39.879 27.0661 38.8441C29.1062 37.5904 31.3734 35.7982 33.5858 33.5858C35.7982 31.3734 37.5904 29.1062 38.8441 27.0661C39.879 25.3821 40.4916 23.9425 40.7216 22.8729C40.931 21.8995 40.7606 21.6001 40.747 21.5754L29.9001 10.7285ZM29.2403 4.41187L43.5881 18.7597C44.9757 20.1473 44.9743 22.1235 44.6322 23.7139C44.2714 25.3919 43.4158 27.2666 42.252 29.1604C40.8128 31.5022 38.8165 34.012 36.4142 36.4142C34.012 38.8165 31.5022 40.8128 29.1604 42.252C27.2666 43.4158 25.3919 44.2714 23.7139 44.6322C22.1235 44.9743 20.1473 44.9757 18.7597 43.5881L4.41187 29.2403C3.29027 28.1187 3.08209 26.5973 3.21067 25.2783C3.34099 23.9415 3.8369 22.4852 4.54214 21.0277C5.96129 18.0948 8.43335 14.7382 11.5858 11.5858C14.7382 8.43335 18.0948 5.9613 21.0277 4.54214C22.4852 3.8369 23.9415 3.34099 25.2783 3.21067C26.5973 3.08209 28.1187 3.29028 29.2403 4.41187Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clipPath id="clip0_6_543">
+<rect fill="white" height="48" width="48"></rect>
+</clipPath>
+</defs>
+</svg>
+</div>
+<h2 class="text-white text-2xl font-bold font-display uppercase tracking-wider">Event Horizon</h2>
+</a>
+</div>
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="index-en.html">Home</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="videos-en.html">Videos</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="articles-en.html">Articles</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="ecosysteme-en.html">Ecosystem</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors" href="a-propos-en.html">About</a>
+<a class="text-white text-sm font-semibold hover:text-primary transition-colors" href="contact-en.html">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+    <div class="flex items-center text-sm font-medium">
+        <a class="text-white/60 hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
+        <span class="text-white/30">/</span>
+        <a class="text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
     </div>
-                        <!-- Right-aligned items -->
-                        <div class="hidden md:flex items-center gap-10">
-                            <!-- Navigation -->
-                            <nav class="flex items-center gap-9">
-                                <a class="text-white text-sm font-medium leading-normal menu-item" href="index-en.html">Home</a>
-                                <a class="text-white text-sm font-medium leading-normal menu-item" href="videos-en.html">Videos</a>
-                                <a class="text-white text-sm font-medium leading-normal menu-item" href="articles-en.html">Articles</a>
-                                <a class="text-white text-sm font-medium leading-normal menu-item" href="ecosysteme-en.html">Ecosystem</a>
-                                <a class="text-white text-sm font-medium leading-normal menu-item" href="a-propos-en.html">About</a>
-                                <a class="text-white text-sm font-medium leading-normal menu-item" href="contact-en.html">Contact</a>
-                            </nav>
-                            <!-- Language and Theme controls -->
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center text-sm font-medium">
-                                    <a class="text-white/60 hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
-                                    <span class="text-white/30">/</span>
-                                    <a class="text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
-                                </div>
-                                <button id="theme-toggle" class="text-white">
-                                    <span class="material-symbols-outlined light-icon">light_mode</span>
-                                    <span class="material-symbols-outlined dark-icon" style="display: none;">dark_mode</span>
-                                </button>
-                            </div>
-                        </div>
-    <!-- Mobile menu button -->
-    <div class="md:hidden">
-        <button @click="open = !open" class="text-white">
-            <span x-show="!open" class="material-symbols-outlined">menu</span>
-            <span x-show="open" class="material-symbols-outlined" style="display: none;">close</span>
-        </button>
-    </div>
-    <!-- Mobile Menu -->
-    <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-background-dark md:hidden z-10 custom-border" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform -translate-y-2" x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform translate-y-0" x-transition:leave-end="opacity-0 transform -translate-y-2" style="display: none;">
-        <nav class="flex flex-col p-4">
-            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="index-en.html">Home</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="videos-en.html">Videos</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="articles-en.html">Articles</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="ecosysteme-en.html">Ecosystem</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="a-propos-en.html">About</a>
-            <a class="text-white text-sm font-medium leading-normal py-2 menu-item" href="contact-en.html">Contact</a>
-        </nav>
-        <div class="flex items-center text-sm font-medium p-4 border-t border-white/10">
-            <a class="text-white/60 hover:text-white px-2 py-1 rounded-md" href="contact.html">FR</a>
-            <span class="text-white/30">/</span>
-            <a class="text-white px-2 py-1 rounded-md" href="contact-en.html">EN</a>
-        </div>
-    </div>
+</div>
+<button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-white">
+<span x-show="!mobileMenuOpen" class="material-symbols-outlined">menu</span>
+<span x-show="mobileMenuOpen" class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="lg:hidden" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+<div class="absolute top-full left-0 w-full bg-background-dark shadow-lg rounded-b-lg border-t border-white/10">
+<nav class="flex flex-col p-4">
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors py-2" href="index-en.html">Home</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors py-2" href="videos-en.html">Videos</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors py-2" href="articles-en.html">Articles</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors py-2" href="ecosysteme-en.html">Ecosystem</a>
+<a class="text-slate-400 text-sm font-semibold hover:text-primary transition-colors py-2" href="a-propos-en.html">About</a>
+<a class="text-white text-sm font-semibold hover:text-primary transition-colors py-2" href="contact-en.html">Contact</a>
+</nav>
+</div>
+</div>
 </header>
-<!-- Main Content -->
-<main class="flex-grow">
-    <div class="relative flex items-center justify-center text-center py-20">
-        <div class="relative z-10">
-            <h1 class="text-5xl font-bold">
-                Contact Us
-            </h1>
-            <p class="mt-4 text-xl">A question, a suggestion? Get in touch with us.</p>
-        </div>
-    </div>
-
-    <section class="mt-16 md:mt-24 bg-background-dark-soft custom-border rounded-lg p-8 md:p-12 text-center mx-4">
-        <h3 class="text-2xl md:text-3xl font-bold text-white">Contact Form</h3>
-        <p class="text-white/70 mt-4 max-w-xl mx-auto">Feel free to contact us with any questions or suggestions.</p>
-        <form class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
-            <input class="w-full flex-grow bg-background-dark custom-border text-white placeholder-white/50 rounded-lg px-4 py-3 focus:ring-primary focus:border-primary" placeholder="Enter your email address" type="email"/>
-            <button class="w-full sm:w-auto bg-primary text-background-dark font-bold px-6 py-3 rounded-lg hover:bg-opacity-80" type="submit">Send</button>
-        </form>
-    </section>
+<main class="flex-1 px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+<div class="layout-content-container flex flex-col max-w-6xl mx-auto flex-1 gap-16 sm:gap-24">
+<section class="text-center">
+<h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight font-display text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400 leading-tight">Contact Us</h1>
+<p class="mt-4 text-xl sm:text-2xl text-slate-400 max-w-3xl mx-auto font-display font-medium">A question, a suggestion? Get in touch with us.</p>
+</section>
+<section class="rounded-lg bg-surface-dark border border-white/10 p-8 sm:p-10 text-center">
+<h3 class="text-white text-3xl sm:text-4xl font-bold font-display">Contact Form</h3>
+<p class="text-slate-400 mt-3 text-base max-w-2xl mx-auto">Feel free to contact us with any questions or suggestions.</p>
+<form class="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto mt-8">
+<input class="flex-grow rounded-md bg-background-dark border-white/20 text-white placeholder-slate-500 focus:ring-2 focus:ring-primary focus:border-primary h-12 px-5" placeholder="Your email address" type="email"/>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-white text-sm font-bold uppercase tracking-wider hover:bg-primary/90 transition-all shadow-lg shadow-primary/30" type="submit">
+<span class="truncate">Send</span>
+</button>
+</form>
+</section>
+</div>
 </main>
-                    <!-- Newsletter Section -->
-                    <section class="py-20 text-center">
-                        <h2 class="text-3xl font-bold">Stay ahead of the curve</h2>
-                        <p class="mt-4">Subscribe to the Event Horizon newsletter for exclusive content and the latest news.</p>
-                        <div class="mt-8 flex justify-center">
-                            <input type="email" placeholder="Your email" class="px-4 py-2 border rounded-l-md w-80">
-                            <button class="bg-accent text-white px-4 py-2 rounded-r-md">Subscribe</button>
-                        </div>
-                        <p class="mt-4 text-sm">Or <a href="contact-en.html" class="underline">contact us</a>.</p>
-                    </section>
-                    <!-- Footer Section -->
-                    <footer class="text-center py-10">
-                        <p>© 2026 Event Horizon. All rights reserved.</p>
-                        <div class="flex justify-center gap-4 mt-4">
-                            <a href="videos-en.html" class="text-sm">Videos</a>
-                            <a href="articles-en.html" class="text-sm">Articles</a>
-                        </div>
-                    </footer>
+<footer class="bg-black/20 border-t border-solid border-white/10 mt-16 sm:mt-24">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="rounded-lg bg-surface-dark border border-white/10 p-8 sm:p-10 text-center -mt-32 sm:-mt-36 mb-12 shadow-2xl shadow-black/50">
+<h3 class="text-white text-3xl sm:text-4xl font-bold font-display">Join our community</h3>
+<p class="text-slate-400 mt-3 text-base max-w-2xl mx-auto">Don't miss any of our publications and receive the latest news from the space industry.</p>
+<form class="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto mt-8">
+<input class="flex-grow rounded-md bg-background-dark border-white/20 text-white placeholder-slate-500 focus:ring-2 focus:ring-primary focus:border-primary h-12 px-5" placeholder="Your email address" type="email"/>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-white text-sm font-bold uppercase tracking-wider hover:bg-primary/90 transition-all shadow-lg shadow-primary/30" type="submit">
+<span class="truncate">Subscribe</span>
+</button>
+</form>
+</div>
+<div class="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+<p class="text-slate-500 text-sm">© 2024 Event Horizon. All rights reserved.</p>
+<div class="flex gap-6 text-sm">
+<a class="text-slate-400 hover:text-primary transition-colors" href="contact-en.html">Contact</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">Legal Notice</a>
+</div>
+</div>
+</div>
+</footer>
 </div>
 </div>
 </div>

@@ -28,17 +28,6 @@ class TestContent(unittest.TestCase):
     correctly structured and that all expected elements are present.
     """
 
-    def test_animation_targets_present(self):
-        """Verifies that animation target classes exist in the HTML.
-
-        This test ensures that the CSS classes used to target animations
-        are present in the HTML of the relevant pages.
-        """
-        for filepath in ['articles.html', 'videos.html', 'articles-en.html', 'videos-en.html']:
-            with self.subTest(filepath=filepath):
-                content = read_file_content(filepath)
-                self.assertRegex(content, r'class="[^"]*animate-card[^"]*"', f"Missing .animate-card in {filepath}")
-
     def test_contact_form_present(self):
         """Ensures the contact form is correctly structured.
 

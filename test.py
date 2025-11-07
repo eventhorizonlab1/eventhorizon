@@ -55,7 +55,7 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<script src="https://cdn.tailwindcss.com"></script>', content)
+                match = re.search(r'<script src="https://cdn.tailwindcss.com\?plugins=forms,container-queries"></script>', content)
                 self.assertIsNotNone(match, f"Tailwind CSS CDN link not found in {filepath}!")
 
     def test_header_present(self):
@@ -79,14 +79,14 @@ class TestSharedElements(unittest.TestCase):
         for filepath in FRENCH_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<footer.*>.*© 2024 Event Horizon. Tous droits réservés..*</footer>', content, re.DOTALL)
-                self.assertIsNotNone(match, f"French footer with copyright notice not found in {filepath}!")
+                match = re.search(r'<p class="text-slate-500 text-sm">© 2024 Event Horizon. Tous droits réservés.</p>', content, re.DOTALL)
+                self.assertIsNotNone(match, f"Footer with French copyright notice not found in {filepath}!")
 
         for filepath in ENGLISH_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<footer.*>.*© 2024 Event Horizon. All rights reserved..*</footer>', content, re.DOTALL)
-                self.assertIsNotNone(match, f"English footer with copyright notice not found in {filepath}!")
+                match = re.search(r'<p class="text-slate-500 text-sm">© 2024 Event Horizon. All rights reserved.</p>', content, re.DOTALL)
+                self.assertIsNotNone(match, f"Footer with English copyright notice not found in {filepath}!")
 
     def test_navigation_links_present(self):
         """Verifies that all main navigation links are in all HTML files.
