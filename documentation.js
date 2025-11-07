@@ -18,7 +18,8 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupMenuItemHovers();
-    setupThemeToggleGlow();
+    // TODO: The following function is not defined. Commenting out to prevent JS errors.
+    // setupThemeToggleGlow();
     setupLogoHoverAnimation();
     setupBackToTopButton();
     setupHeaderScrollAnimation();
