@@ -24,9 +24,6 @@ function initializeWebsiteInteractivity() {
     setupHeaderScrollAnimation();
     setupLazyLoading();
 
-    // Theme switcher functions
-    initializeTheme();
-    setupThemeToggleListener();
 }
 
 /**
@@ -81,7 +78,7 @@ function animateHeader() {
     // Selectors for all header elements
     const headerLogo = 'header h2';
     const navLinks = 'header nav a';
-    const controlIcons = '#theme-toggle, header .md\\:hidden button, header .hidden.md\\:flex .flex.items-center';
+    const controlIcons = 'header .md\\:hidden button, header .hidden.md\\:flex .flex.items-center';
 
     // Set initial state: invisible and shifted up
     anime.set([headerLogo, navLinks, controlIcons], {
@@ -221,99 +218,6 @@ function setupMenuItemHovers() {
                 ease: 'easeOutExpo'
             });
         });
-    });
-}
-
-/**
- * Adds a "glow" effect to the theme toggle button on hover.
- * This provides a subtle visual feedback to the user.
- *
- * @returns {void} This function does not return a value.
- */
-function setupThemeToggleGlow() {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    if (themeToggleButton) {
-        themeToggleButton.addEventListener('mouseenter', () => {
-            anime({
-                targets: themeToggleButton,
-                boxShadow: '0 0 12px #06ccf9',
-                duration: 300,
-                easing: 'easeOutExpo'
-            });
-        });
-
-        themeToggleButton.addEventListener('mouseleave', () => {
-            anime({
-                targets: themeToggleButton,
-                boxShadow: '0 0 0 rgba(0,0,0,0)',
-                duration: 300,
-                easing: 'easeOutExpo'
-            });
-        });
-    }
-}
-
-/**
- * Initializes the theme based on localStorage or the user's system preference.
- * Ensures the correct theme is applied on page load.
- *
- * @returns {void} This function does not return a value.
- */
-function initializeTheme() {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    if (!themeToggleButton) return;
-
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-}
-
-/**
- * Animates the theme transition with a fade and zoom effect.
- * Creates a smooth visual transition between light and dark modes.
- *
- * @returns {void} This function does not return a value.
- */
-function animateAndToggleTheme() {
-    const isDarkMode = document.documentElement.classList.contains('dark');
-
-    const timeline = anime.timeline({
-        duration: 400, // Each phase of the animation will be 0.4s, total 0.8s
-        easing: 'easeInOutExpo'
-    });
-
-    timeline
-        .add({
-            targets: 'body',
-            opacity: [1, 0],
-            scale: [1, 0.98],
-            complete: () => {
-                document.documentElement.classList.toggle('dark');
-                const newIsDarkMode = document.documentElement.classList.contains('dark');
-                localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
-            }
-        })
-        .add({
-            targets: 'body',
-            opacity: [0, 1],
-            scale: [0.98, 1]
-        });
-}
-
-/**
- * Sets up the event listener for the theme toggle button.
- * Toggles the theme and updates the icon on click.
- *
- * @returns {void} This function does not return a value.
- */
-function setupThemeToggleListener() {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    if (!themeToggleButton) return;
-
-    themeToggleButton.addEventListener('click', () => {
-        animateAndToggleTheme();
     });
 }
 
