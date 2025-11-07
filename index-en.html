@@ -42,7 +42,7 @@
 <div class="relative z-10 mx-auto max-w-7xl px-8 py-6 md:px-12 md:py-8">
 <header class="w-full">
 <nav class="flex items-center justify-between text-sm">
-<a class="font-serif text-2xl font-bold tracking-tight text-black" href="#">Event Horizon</a>
+<div class="logo-container"><a class="font-serif text-2xl font-bold tracking-tight text-black" href="index-en.html">Event Horizon</a></div>
 <div class="hidden items-center gap-x-8 text-text-primary md:flex">
 <a class="transition-colors hover:text-black" href="#videos">Videos</a>
 <a class="transition-colors hover:text-black" href="#articles">Articles</a>
@@ -60,11 +60,11 @@
 </header>
 <main class="w-full">
 <section class="flex min-h-[calc(100vh-120px)] w-full flex-col items-center justify-center py-20 text-center">
-<h1 class="font-serif text-[8vw] font-bold leading-none tracking-tighter text-black md:text-[7vw] lg:text-[6.5vw]">
+<h1 class="main-title font-serif text-[8vw] font-bold leading-none tracking-tighter text-black md:text-[7vw] lg:text-[6.5vw]">
           Event Horizon: Behind the scenes of the European space industry
         </h1>
 </section>
-<section class="w-full py-16 md:py-24" id="videos">
+<section class="animate-section w-full py-16 md:py-24" id="videos">
 <header class="mb-12 md:mb-16">
 <h2 class="font-serif text-5xl font-bold text-black md:text-6xl">Videos</h2>
 </header>
@@ -136,7 +136,7 @@
 </div>
 </div>
 </section>
-<section class="group w-full py-16 md:py-24" id="articles" x-data="{
+<section class="animate-section group w-full py-16 md:py-24" id="articles" x-data="{
     skip: 1,
     atBeginning: false,
     atEnd: false,
@@ -178,7 +178,7 @@
 </div>
 </header>
 <div @scroll.debounce.0ms="meta" x-ref="slider" class="flex snap-x snap-mandatory cursor-grab space-x-8 overflow-x-auto pb-8 -mx-8 px-8 md:-mx-12 md:px-12">
-<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
 <img alt="View of the Earth from space, symbolizing space sovereignty" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClS_osh1WrWBIhw-IXwTiHlVR1_DPSacdLEvx7F96ALwlxp_IB5I59d6huvMX9M8bxkC3vrd1Rr-Z6weV3slTVhNwe00k2wcTXb5OsqHtYxfzXo8OlChvmRphGhwxmKIg-E77IHWtHGR4vgsG7ZNBCilXiIw3QHwlJ_fi_SXoB9p7ZcKC30qGH0PI_ZRr3v6p1BaB2OS-amIsOloV_ZCpY9UhmNxpSwRQpQBWWU_Uj5Qz7WR9wfGwK5NgUi0zMw-L_q0QCKEE7Uqo"/>
@@ -187,7 +187,7 @@
 <p class="mt-1 text-sm text-text-secondary">ANALYSIS</p>
 </a>
 </div>
-<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
 <img alt="Portrait of an engineer in a high-tech environment" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJJrdDfOj3T5MslXHP8e9K-3Vuh_lMtenZEjcmNdN9mXCislnMOF8zgzRvHpBxsgHguVHwlf6qGK3tLEm6QqaKXH2rTPNtm5pN4mOcs_0NsAyxmafHu0MWZhyxxKbgH5AZJj1QDUOVRXJes3NRNbMU5Elb4X5OilNymhjP1aGJvXlveRP-ow8gvpfn-ZOBkKd2l2yAJ82ZAYLiTheUYacbkGz2tbajnqaI5omCPlZnYLmoFWp5y42IoMHw-VfzqHcQgz12CYQKQNY"/>
@@ -196,7 +196,7 @@
 <p class="mt-1 text-sm text-text-secondary">INTERVIEW</p>
 </a>
 </div>
-<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
 <img alt="View of the Earth from space, symbolizing space sovereignty" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClS_osh1WrWBIhw-IXwTiHlVR1_DPSacdLEvx7F96ALwlxp_IB5I59d6huvMX9M8bxkC3vrd1Rr-Z6weV3slTVhNwe00k2wcTXb5OsqHtYxfzXo8OlChvmRphGhwxmKIg-E77IHWtHGR4vgsG7ZNBCilXiIw3QHwlJ_fi_SXoB9p7ZcKC30qGH0PI_ZRr3v6p1BaB2OS-amIsOloV_ZCpY9UhmNxpSwRQpQBWWU_Uj5Qz7WR9wfGwK5NgUi0zMw-L_q0QCKEE7Uqo"/>
@@ -205,7 +205,7 @@
 <p class="mt-1 text-sm text-text-secondary">CATEGORY</p>
 </a>
 </div>
-<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
 <img alt="Illustration of satellite constellations" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC0QY9iV1Nw9-TD1wobJ9nm7W8S0p2lganCuUCMegfTFUBq-3mTH8A2cuIU_lrgAQRbh7NwCEhIwDZp5VaXLLUZE2euoQBVRKbMUsTfRnFoy2TLPT3iEf5Z3jscLR1_1AbTqxAWduuoe7H2hokRtk5NEBIjeLwQWZEbotCsiOpdEEO53j4gpFEz7nlC6MGmytQeUSWOlvYzK_6TrRRf8d7-jpzkkN3Js8baMZhuso3q9uUf4nkQ6l0pSnUzdvMfzpTBQt11gb7ago"/>
@@ -214,7 +214,7 @@
 <p class="mt-1 text-sm text-text-secondary">DEBATE</p>
 </a>
 </div>
-<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
 <img alt="Ariane 6 rocket on its launch pad" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkDrXg0XhwOLA29EVxZwqrqbAPp965xDTpgF_6bhhz-1QQt6qfXHBqXIheo_Jj--Wdxpm2lFzWMVEXYdBXD4TpuUWQm4xVLspAQrgbDaKgepZmhZEzGYEZDBv8HnggEaFjg3MhxFMQRAJ3Q6pmAOEHziKck0alPp-hlLSF3c-5crwpNMnl-NxNr26yXExBmOStwgCXI6VAudydCmbkktzAJz5VkIXOwvROhHTHe4sjHFhiW77BHUF9oAQluWvZFnPZp4-_7Tp8dJA"/>
@@ -273,7 +273,7 @@
 </div>
 </header>
 <div @scroll.debounce.0ms="meta" x-ref="slider" class="flex snap-x snap-mandatory cursor-grab space-x-8 overflow-x-auto pb-8 -mx-8 px-8 md:-mx-12 md:px-12">
-<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
+<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
 <img alt="Logo Airbus Defence and Space" class="h-auto w-4/5 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyaCXDTJK2DvA-j28V_vtRQCLee19Dl8wnXQX3DBstyN0PB8PNEND13DjALUC-LRpms9oDAMipFZxGb8XVB38ycudcbu9LJ-bpxZf-neYKwsJEf4Yf6jyo1-j_PZL17DXn0gBfZXF5aFZyhaX43dC8Y8376cBAMsYpPxfA8Bf2UApltzxY5zYet3rncRYVWMVmvUF9LfUGJmjXMEKaFbFuLzHA7Tv2XBRpoLWUyezxT8r26l1xRyzDya7wG4X44vHmZ-DjVMBH6Bs"/>
@@ -282,7 +282,7 @@
 <p class="mt-1 text-sm text-text-secondary">World leader</p>
 </a>
 </div>
-<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
+<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
 <img alt="Logo Thales Alenia Space" class="h-auto w-4/5 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmMMzpYpwcPeLn3MbQRoB05NcuaduwcRsfDWb1_8VBYk63N6TV6gI2KP_4yJOsAfMUCXpTBVYoa_zQBKmICxD5iv3UStAc7cZC4POLUDABiI6-pizQ2ZzkzZ9_S-NlOSpdPvAl7NvmfoMayg5ramdn9mAaqAhC1nolV2_y6vM2pycGGfEYWxPsOPwn0Uq8RqJ5dyTCKNm_7CYbtcm7YYJ7EYdOpPlT8WsruVcRms_0k352jViHakdOEeXreECXxeTV5QZC7OJKnR0"/>
@@ -291,7 +291,7 @@
 <p class="mt-1 text-sm text-text-secondary">Satellite solutions</p>
 </a>
 </div>
-<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
+<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
 <img alt="Logo CNES" class="h-auto w-4/5 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQNzkPKhc92Hr6kUsSKb85h7APs3PtTmv_Ha2-wl8SgPQ6PT1x9S2ZIMjAsr6bh1DMYoix_njLWCUCHKAT2yJOhot0ynOptriCqRicnAGeBSO-ONUef_Jm1YEuH45Opv33JHpZ-h2iDyik9VulT8wlqle8lJB2KTUBMmKEcxwogss4kojj64x1wiBM29JCnrCKYgvyYgkLxLjxx1n_4HLJhwsKHOh8xgzpkRynawc-ZxlAEyb7jGwXIfJquHtXAvOnwNnDXm_e7IA"/>
@@ -300,7 +300,7 @@
 <p class="mt-1 text-sm text-text-secondary">French space agency</p>
 </a>
 </div>
-<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
+<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
 <img alt="Logo Kinéis" class="h-auto w-4/5 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7ioTgNrpKH5bPq6mHBDkYejfnTrO3pXNNi_pcZJp1sAKQAJGgicyJAhEa_idnAK5doH5h8RuEn5F9p0rmYWjhctbQAEroI64SDEDyPxTN9QjwWRHb1u-z3cIvOG-OU1IzGq6jBFmMfniZEtYV_xW8Hz_yaJ4Sd9dbJKoKHM4LUcfWtbPdSV0IX1KAjMO4dWZa33oJ10JRfEYc-BMIRaWUtNDedzsEl6Uspor_mRd14jneONypoCWBqWsACYo8lfciEqc09YWJEmw"/>
@@ -309,7 +309,7 @@
 <p class="mt-1 text-sm text-text-secondary">IoT connectivity</p>
 </a>
 </div>
-<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
+<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
 <img alt="Logo ISAE-SUPAERO" class="h-auto w-4/5 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcPvPfCaZ_fuic1lOW6fxRQmoGHDUONcrQ_yI7Cz7qLBd4N8rIhkCLaOnt9fUUh8zhC58gIeK3hzs63OVe6dvWIcJT844ywif86GjvblxQIu6U7NcRSEi5BjEtz8FuqqTJEyXDKZgz2mh0qHtILyulb2CaujgsiU5DY0lHjuRoT7poQuOzMSV8K0CCU_qqWmIN6rOabyQZp8sXB4yB-iZGti3jf8HefqunQ_fj49PncRk-jW-Z96zcgInbnKK0oiMT3gKEBd78XFQ"/>
@@ -318,7 +318,7 @@
 <p class="mt-1 text-sm text-text-secondary">Training</p>
 </a>
 </div>
-<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
+<div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
 <a class="group block" href="#">
 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
 <img alt="Logo Cité de l'Espace" class="h-auto w-4/5 object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqTD8oSF8NEnZlrs6_GC1gXHTDAeEJH1Wtoqb4cnv4VAn8K8sISjuKmKW3lIKizgKA8xp0p9u03fWijy_cJd377A7eCAYMq5D7d-Yj9mZeeMPKNCcBDBEhnXIatjM53xf6xsClz3fXg1maDSyJw-1g5gJwEBx2lMFxP3FqpAMffipSIjGHDBeQs4ktOxaFe-Ke4ZIfaHq5uQuapSIT98VLu7XDxFJqPnIGDtU_H1NzDlLnhX3HEe3LRa2utYJ5hi9AvWDZIanrPfM"/>
