@@ -2,6 +2,16 @@
 
 Event Horizon is a static website for a French-language news source focused on the European space industry. It provides articles, videos, and information about the space ecosystem, with a parallel English version available for all pages.
 
+## Purpose
+
+This repository serves as a showcase of a modern, static website that is fully documented and tested. It demonstrates best practices in web development, including:
+
+-   **Responsive Design**: The website is fully responsive and works on all screen sizes, from mobile to desktop.
+-   **Bilingual Support**: All content is available in both French and English, with a seamless language switcher.
+-   **Animations and Interactivity**: The website uses JavaScript to create a dynamic and engaging user experience.
+-   **Testing**: A comprehensive suite of tests is included to ensure the quality and correctness of the code.
+-   **Documentation**: The entire codebase, including JavaScript and Python files, is fully documented.
+
 ## Table of Contents
 
 - [Technology Stack](#technology-stack)
@@ -84,16 +94,17 @@ You can also run each test file individually:
 -   `test_lazy_loading.py`: Contains tests for the lazy loading of images, verifying that the correct attributes and classes are present.
 -   `test_links.py`: Verifies the integrity of all internal links to prevent broken navigation.
 -   `test_browser_animations.py`: Uses Playwright to simulate user interactions and verify that the JavaScript-based animations behave as expected in a live browser environment.
+-   `test_browser_documentation.py`: Uses Playwright to simulate user interactions and verify that the JavaScript functions in `documentation.js` are behaving as expected.
 -   `test_hardcoded_hover_color.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
 -   `test_link_checker_logic.py`: Verifies that there is no redundant link check logic in `test_links.py`, ensuring that the test logic is clean and maintainable.
 -   `test_quick_link_theme_change.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
--   `test_theme_icon.py`: Uses Playwright to simulate user interactions and verify that the theme icon toggles correctly between light and dark modes.
+
 
 Each test script is self-contained and can be run with `python3 <filename>`. All tests are fully documented with Google Style Python Docstrings.
 
 ## JavaScript Documentation
 
-All JavaScript code is located in the `documentation.js` file and is fully documented using JSDoc. To generate a documentation website from these comments, you can use a tool like JSDoc.
+All JavaScript code is located in the `documentation.js` file and is fully documented using JSDoc. This allows for the automatic generation of a documentation website, making it easy to understand the purpose and functionality of each JavaScript function.
 
 ### Generating Documentation
 

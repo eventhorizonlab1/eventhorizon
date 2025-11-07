@@ -16,7 +16,12 @@ class TestFooterLinks(unittest.TestCase):
     """
 
     def test_footer_links(self):
-        """Verifies that the footer links are correct."""
+        """Verifies that the footer links are correct and present.
+
+        This test iterates through all HTML files and checks for the
+        presence of expected footer links, including social media and
+        internal page links, appropriate for each language version.
+        """
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 with open(filepath, "r", encoding="utf-8") as f:
