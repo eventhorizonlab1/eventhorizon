@@ -22,6 +22,8 @@ function initializeWebsiteInteractivity() {
         .add(animateMainTitle(), '-=500');
 
     setupIntersectionObserver();
+    setupQuickLinkHovers();
+    setupLogoHoverAnimation();
 }
 
 /**
@@ -108,6 +110,57 @@ function setupIntersectionObserver() {
 
 
 
+
+/**
+ * Sets up hover effects for the quick links in the footer.
+ * Links move up and change color on hover.
+ */
+function setupQuickLinkHovers() {
+    const quickLinks = document.querySelectorAll('.quick-link');
+    quickLinks.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            anime({
+                targets: link,
+                translateY: -5,
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        });
+
+        link.addEventListener('mouseleave', () => {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            anime({
+                targets: link,
+                translateY: 0,
+                color: isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        });
+    });
+}
+
+function setupLogoHoverAnimation() {
+    const logos = document.querySelectorAll('.logo-container');
+    logos.forEach(logo => {
+        logo.addEventListener('mouseenter', () => {
+            anime({
+                targets: logo.querySelector('a'),
+                scale: 1.05,
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        });
+        logo.addEventListener('mouseleave', () => {
+            anime({
+                targets: logo.querySelector('a'),
+                scale: 1,
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        });
+    });
+}
 
 // Initialize everything after the DOM is loaded.
 document.addEventListener('DOMContentLoaded', initializeWebsiteInteractivity);
