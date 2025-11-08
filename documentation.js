@@ -12,9 +12,15 @@
  * @returns {void} This function does not return a value.
  */
 function initializeWebsiteInteractivity() {
-    // Animation functions
-    animateHeader();
-    animateMainTitle();
+    const timeline = anime.timeline({
+        easing: 'easeOutExpo',
+        duration: 1000
+    });
+
+    timeline
+        .add(animateHeader())
+        .add(animateMainTitle(), '-=500');
+
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupMenuItemHovers();
@@ -22,7 +28,6 @@ function initializeWebsiteInteractivity() {
     setupBackToTopButton();
     setupHeaderScrollAnimation();
     setupLazyLoading();
-
 }
 
 /**
@@ -32,13 +37,20 @@ function initializeWebsiteInteractivity() {
  * @returns {void} This function does not return a value.
  */
 function animateMainTitle() {
-    anime({
-        targets: '.main-title',
+    const mainTitle = document.querySelector('.main-title');
+    if (!mainTitle) return;
+
+    const words = mainTitle.innerText.split(' ');
+    mainTitle.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
+
+    return anime({
+        targets: '.main-title span',
         opacity: [0, 1],
-        translateY: [-50, 0],
-        duration: 1000,
-        ease: 'easeOutExpo'
-    });
+        translateY: [50, 0],
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo',
+        duration: 1000
+    }).finished;
 }
 
 /**
@@ -52,16 +64,18 @@ function setupLogoHoverAnimation() {
     logos.forEach(logo => {
         logo.addEventListener('mouseenter', () => {
             anime({
-                targets: logo,
-                scale: [
-                    { value: 1.05, duration: 200 },
-                    { value: 1, duration: 200 }
-                ],
-                skew: [
-                    { value: 1, duration: 200 },
-                    { value: 0, duration: 200 }
-                ],
-                ease: 'easeInOutQuad'
+                targets: logo.querySelector('a'),
+                color: '#FFFFFF',
+                duration: 300,
+                easing: 'easeOutExpo'
+            });
+        });
+        logo.addEventListener('mouseleave', () => {
+            anime({
+                targets: logo.querySelector('a'),
+                color: '#B0B0B0',
+                duration: 300,
+                easing: 'easeOutExpo'
             });
         });
     });
@@ -74,41 +88,14 @@ function setupLogoHoverAnimation() {
  * @returns {void} This function does not return a value.
  */
 function animateHeader() {
-    // Selectors for all header elements
-    const headerLogo = 'header h2';
-    const navLinks = 'header nav a';
-    const controlIcons = 'header .md\\:hidden button, header .hidden.md\\:flex .flex.items-center';
-
-    // Set initial state: invisible and shifted up
-    anime.set([headerLogo, navLinks, controlIcons], {
-        opacity: 0,
-        translateY: -15
-    });
-
-    // Create the animation timeline
-    const timeline = anime.timeline({
+    return anime({
+        targets: 'header nav > *',
+        opacity: [0, 1],
+        translateY: [-30, 0],
+        delay: anime.stagger(100),
         easing: 'easeOutExpo',
-    });
-
-    timeline
-        .add({
-            targets: headerLogo,
-            opacity: 1,
-            translateY: 0,
-            duration: 500,
-        })
-        .add({
-            targets: navLinks,
-            opacity: 1,
-            translateY: 0,
-            duration: 400,
-            delay: anime.stagger(75),
-        }, '-=300') // Starts 300ms before the previous animation ends
-        .add({
-            targets: controlIcons,
-            opacity: 1,
-            duration: 300,
-        }, '-=400'); // Adjust offset to ensure smooth transition
+        duration: 800
+    }).finished;
 }
 
 /**
@@ -122,34 +109,31 @@ function setupIntersectionObserver() {
     const sections = document.querySelectorAll('.animate-section');
     if (sections.length === 0) return;
 
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cards = entry.target.querySelectorAll('.animate-card');
+                const elements = cards.length > 0 ? Array.from(cards) : [entry.target];
+
+                anime.timeline({
+                    easing: 'easeOutExpo'
+                })
+                .add({
+                    targets: elements,
+                    opacity: [0, 1],
+                    translateY: [100, 0],
+                    duration: 1200,
+                    delay: anime.stagger(150)
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
     sections.forEach(section => {
-        const cards = section.querySelectorAll('.animate-card');
-        const elementsToAnimate = cards.length > 0 ? cards : section;
-
-        anime.set(elementsToAnimate, {
-            opacity: 0,
-            translateY: 50
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const targets = cards.length > 0 ? cards : entry.target;
-                    anime({
-                        targets: targets,
-                        opacity: 1,
-                        translateY: 0,
-                        duration: 800,
-                        delay: cards.length > 0 ? anime.stagger(100) : 0,
-                        ease: 'easeOutExpo'
-                    });
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
         observer.observe(section);
     });
 }
