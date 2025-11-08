@@ -36,12 +36,13 @@ All external libraries are loaded via CDN links in the HTML files, eliminating t
 
 The repository is organized as follows:
 
--   `index.html` / `index-en.html`: The main landing page, featuring the latest videos and articles.
--   `videos.html` / `videos-en.html`: A gallery of all video content.
--   `articles.html` / `articles-en.html`: A collection of all written articles.
--   `ecosysteme.html` / `ecosysteme-en.html`: Information about the European space ecosystem.
--   `a-propos.html` / `a-propos-en.html`: The "About" page, with information about the project and its creator.
--   `contact.html` / `contact-en.html`: A contact page with a form for user inquiries.
+-   `index.html`: The main landing page, featuring the latest videos and articles.
+-   `videos.html`: A gallery of all video content.
+-   `articles.html`: A collection of all written articles.
+-   `ecosysteme.html`: Information about the European space ecosystem.
+-   `a-propos.html`: The "About" page, with information about the project and its creator.
+-   `contact.html`: A contact page with a form for user inquiries.
+-   `locales/`: This directory contains the JSON files for internationalization. `fr.json` and `en.json` hold the translations for French and English, respectively.
 -   `documentation.js`: This file contains all JavaScript code for the website, including animations, theme switching, and other interactive features. It is fully documented with JSDoc.
 -   `test_*.py`: A suite of Python-based tests to ensure the consistency and correctness of the website.
 -   `README.md`: This file, providing a comprehensive overview of the project.
