@@ -1,19 +1,25 @@
+"""Tests for the presence of calls to undefined functions in JavaScript files.
+
+This file is fully documented with Google Style Python Docstrings.
+"""
+
 import unittest
 import re
 
 class TestUndefinedFunctions(unittest.TestCase):
-    """
-    Tests for the presence of calls to undefined functions in JavaScript files.
+    """Test suite for undefined function calls.
+
+    This class contains tests to ensure that there are no calls to undefined
+    functions in the JavaScript code.
     """
 
     def test_no_undefined_function_calls(self):
-        """
-        Asserts that there are no calls to the undefined function 'setupThemeToggleGlow'.
+        """Asserts that there are no calls to 'setupThemeToggleGlow'.
 
-        This test performs a static analysis of the 'documentation.js' file to ensure that
-        the known latent bug—a commented-out call to an undefined function—is not present.
-        If this test fails, it means the line has been uncommented and could break the site's
-        JavaScript functionality.
+        This test performs a static analysis of `documentation.js` to prevent
+        the reintroduction of a latent bug—a commented-out call to an
+        undefined function. If this test fails, it means the line has been
+        uncommented, which could break the site's JavaScript functionality.
         """
         with open('documentation.js', 'r') as f:
             content = f.read()
