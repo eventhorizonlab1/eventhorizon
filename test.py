@@ -10,10 +10,14 @@ import re
 import os
 import unittest
 
-# A list of all HTML files in the current directory to be tested.
 ALL_HTML_FILES = ["index.html"]
+"""A list of all HTML files in the current directory to be tested."""
+
 FRENCH_HTML_FILES = ["index.html"]
+"""A list of all French HTML files in the current directory to be tested."""
+
 ENGLISH_HTML_FILES = []
+"""A list of all English HTML files in the current directory to be tested."""
 
 def read_file_content(filepath):
     """Reads and returns the content of a given file.

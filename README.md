@@ -72,7 +72,16 @@ No complex setup is required to run this project. The website is static and can 
 
 ## Testing
 
-The project includes a comprehensive suite of Python-based tests to verify the integrity of the website. These tests are designed to be run without any additional setup.
+The project includes a comprehensive suite of Python-based tests to verify the integrity of the website. The testing strategy combines static analysis and browser-based tests to ensure a high level of quality.
+
+### Testing Strategy
+
+The testing strategy is divided into two main categories:
+
+-   **Static Analysis**: These tests check the code for correctness without running it in a browser. They are used to verify things like the presence of required HTML elements, the correctness of links, and the absence of calls to undefined functions.
+-   **Browser-based Tests**: These tests use a real browser to simulate user interactions and verify that the website behaves as expected. They are used to test things like animations, language switching, and other interactive features.
+
+This combination of static analysis and browser-based tests provides a high level of confidence in the quality and correctness of the code.
 
 ### Running All Tests
 
@@ -99,6 +108,7 @@ You can also run each test file individually:
 -   `test_link_checker_logic.py`: Verifies that there is no redundant link check logic in `test_links.py`, ensuring that the test logic is clean and maintainable.
 -   `test_quick_link_theme_change.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
 -   `test_footer_links.py`: Verifies that the footer links are correct and that there are no broken links.
+-   `test_i18n.py`: Verifies that the internationalization (i18n) and language switching functionality works as expected. **Note:** This test requires a local web server to be running.
 -   `test_newsletter_form.py`: Verifies that the newsletter form is correctly structured.
 -   `test_undefined_functions.py`: Verifies that there are no calls to undefined functions in the JavaScript code.
 

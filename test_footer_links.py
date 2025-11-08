@@ -7,6 +7,7 @@ import os
 import unittest
 
 ALL_HTML_FILES = ["index.html"]
+"""A list of all HTML files in the current directory to be tested."""
 
 class TestFooterLinks(unittest.TestCase):
     """Test suite for footer links.
