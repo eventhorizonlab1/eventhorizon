@@ -178,5 +178,48 @@ function setupLogoHoverAnimation() {
     });
 }
 
+/**
+ * Sets up the theme switcher functionality.
+ * This function handles the theme toggle buttons, reads the user's preference
+ * from localStorage, and applies the corresponding theme (light or dark). It
+ * also adds event listeners to the buttons to allow theme switching.
+ *
+ * @returns {void} This function does not return a value.
+ */
+function setupThemeSwitcher() {
+    const themeToggleButtons = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+    const htmlElement = document.documentElement;
+
+    // Function to update the theme based on the isDarkMode flag
+    const updateTheme = (isDarkMode) => {
+        htmlElement.classList.toggle('dark', isDarkMode);
+        themeToggleButtons.forEach(button => {
+            if (button) {
+                button.querySelector('span').textContent = isDarkMode ? 'dark_mode' : 'light_mode';
+            }
+        });
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    };
+
+    // Initialize theme based on localStorage or default to light
+    const storedTheme = localStorage.getItem('theme');
+    const initialThemeIsDark = storedTheme === 'dark';
+    updateTheme(initialThemeIsDark);
+
+    // Add click listeners to the buttons
+    themeToggleButtons.forEach(button => {
+        if (button) {
+            button.addEventListener('click', () => {
+                const isCurrentlyDark = htmlElement.classList.contains('dark');
+                updateTheme(!isCurrentlyDark);
+            });
+        }
+    });
+}
+
 // Initialize everything after the DOM is loaded.
-document.addEventListener('DOMContentLoaded', initializeWebsiteInteractivity);
+document.addEventListener('DOMContentLoaded', () => {
+    // Setup theme switcher first to ensure it runs even if animations fail
+    setupThemeSwitcher();
+    initializeWebsiteInteractivity();
+});
