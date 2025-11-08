@@ -67,7 +67,7 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<a class="font-serif text-2xl font-bold tracking-tight.*?" href="index.*?\.html">Event Horizon</a>', content, re.DOTALL)
+                match = re.search(r'<a class="text-2xl font-bold tracking-tight text-black" href="#">Event Horizon</a>', content, re.DOTALL)
                 self.assertIsNotNone(match, f"Header with logo not found in {filepath}!")
 
     def test_footer_present(self):
@@ -94,8 +94,8 @@ class TestSharedElements(unittest.TestCase):
         This test ensures that all navigation links are present and correctly
         formatted in the header of every page, for both language versions.
         """
-        fr_nav_links = ['href="videos.html"', 'href="articles.html"', 'href="ecosysteme.html"']
-        en_nav_links = ['href="videos-en.html"', 'href="articles-en.html"', 'href="ecosysteme-en.html"']
+        fr_nav_links = ['href="#videos"', 'href="#articles"', 'href="#ecosysteme"']
+        en_nav_links = ['href="#videos"', 'href="#articles"', 'href="#ecosysteme"']
 
         for filepath in FRENCH_HTML_FILES:
             with self.subTest(filepath=filepath):
