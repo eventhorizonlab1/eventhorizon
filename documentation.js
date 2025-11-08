@@ -1,9 +1,101 @@
 /**
  * @file Central repository for all documented JavaScript functions,
  * including animations, theme switching, and other interactive features.
- * This file is fully documented with JSDoc.
  * @author Jules
  */
+
+// =================================================================================================
+// Internationalization (i18n)
+// =================================================================================================
+
+/**
+ * @property {object} translations - An object to store the loaded translation strings.
+ */
+let translations = {};
+
+/**
+ * Asynchronously loads a translation file for a given language.
+ * @param {string} lang - The language code (e.g., 'fr', 'en').
+ * @returns {Promise<void>} A promise that resolves when translations are loaded.
+ */
+async function loadTranslations(lang) {
+    try {
+        const response = await fetch(`locales/${lang}.json`);
+        if (!response.ok) {
+            throw new Error(`Network response was not ok for ${lang}.json`);
+        }
+        translations = await response.json();
+    } catch (error) {
+        console.error('Failed to load translations:', error);
+    }
+}
+
+/**
+ * Applies the currently loaded translations to all elements with `data-i18n-key`.
+ * @returns {void}
+ */
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n-key]').forEach(element => {
+        const key = element.getAttribute('data-i18n-key');
+        const translation = translations[key];
+
+        if (translation) {
+            const attr = element.getAttribute('data-i18n-attr');
+            if (attr) {
+                element.setAttribute(attr, translation);
+            } else {
+                element.textContent = translation;
+            }
+        }
+    });
+}
+
+/**
+ * Sets the application language, loads and applies translations.
+ * @param {string} lang - The language to switch to ('fr' or 'en').
+ * @returns {Promise<void>}
+ */
+async function setLanguage(lang) {
+    await loadTranslations(lang);
+    applyTranslations();
+    updateLanguageSwitcherUI(lang);
+}
+
+/**
+ * Updates the UI of the language switcher to highlight the active language.
+ * @param {string} activeLang - The currently active language code.
+ * @returns {void}
+ */
+function updateLanguageSwitcherUI(activeLang) {
+    document.querySelectorAll('[data-lang]').forEach(link => {
+        const linkLang = link.getAttribute('data-lang');
+        const isSelected = linkLang === activeLang;
+
+        link.classList.toggle('text-light-text-primary', isSelected);
+        link.classList.toggle('dark:text-dark-text-primary', isSelected);
+        link.classList.toggle('text-light-text-secondary', !isSelected);
+        link.classList.toggle('dark:text-dark-text-secondary', !isSelected);
+    });
+}
+
+/**
+ * Initializes the language switcher event listeners.
+ * @returns {void}
+ */
+function setupLanguageSwitcher() {
+    document.querySelector('.language-switcher').addEventListener('click', (event) => {
+        if (event.target.matches('[data-lang]')) {
+            event.preventDefault();
+            const lang = event.target.getAttribute('data-lang');
+            setLanguage(lang);
+        }
+    });
+}
+
+
+// =================================================================================================
+// Animations & Interactivity
+// =================================================================================================
 
 /**
  * Initializes all animations and event listeners when the DOM is fully loaded.
@@ -12,20 +104,18 @@
  * @returns {void} This function does not return a value.
  */
 function initializeWebsiteInteractivity() {
-    // Animation functions
-    animateMainTitle();
-    animateMenuItems();
+    const timeline = anime.timeline({
+        easing: 'easeOutExpo',
+        duration: 1000
+    });
+
+    timeline
+        .add(animateHeader())
+        .add(animateMainTitle(), '-=500');
+
     setupIntersectionObserver();
     setupQuickLinkHovers();
-    setupThemeToggleGlow();
     setupLogoHoverAnimation();
-    setupBackToTopButton();
-    setupHeaderScrollAnimation();
-    setupLazyLoading();
-
-    // Theme switcher functions
-    initializeTheme();
-    setupThemeToggleListener();
 }
 
 /**
@@ -35,63 +125,48 @@ function initializeWebsiteInteractivity() {
  * @returns {void} This function does not return a value.
  */
 function animateMainTitle() {
-    anime({
-        targets: '.main-title',
-        opacity: [0, 1],
-        translateY: [-50, 0],
-        duration: 1000,
-        ease: 'easeOutExpo'
-    });
-}
+    const mainTitle = document.querySelector('.main-title');
+    if (!mainTitle) return;
 
-/**
- * Sets up a hover animation for the logo.
- * Creates a subtle distortion effect on hover to add a modern touch.
- *
- * @returns {void} This function does not return a value.
- */
-function setupLogoHoverAnimation() {
-    const logos = document.querySelectorAll('.logo-container');
-    logos.forEach(logo => {
-        logo.addEventListener('mouseenter', () => {
-            anime({
-                targets: logo,
-                scale: [
-                    { value: 1.05, duration: 200 },
-                    { value: 1, duration: 200 }
-                ],
-                skew: [
-                    { value: 1, duration: 200 },
-                    { value: 0, duration: 200 }
-                ],
-                ease: 'easeInOutQuad'
-            });
-        });
-    });
-}
+    const words = mainTitle.innerText.split(' ');
+    mainTitle.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
 
-/**
- * Animates the menu items on page load.
- * Each item fades in and slides from the left with a staggered delay,
- * creating a clean, sequential appearance.
- *
- * @returns {void} This function does not return a value.
- */
-function animateMenuItems() {
-    anime({
-        targets: '.menu-item',
+    return anime({
+        targets: '.main-title span',
         opacity: [0, 1],
-        translateX: [-50, 0],
-        duration: 800,
+        translateY: [50, 0],
         delay: anime.stagger(100),
-        ease: 'easeOutExpo'
-    });
+        easing: 'easeOutExpo',
+        duration: 1000
+    }).finished;
 }
 
 /**
- * Sets up an Intersection Observer to animate elements as they enter the viewport.
- * Sections without cards fade in and slide up.
- * Cards within sections fade in and slide up with a staggered delay for a dynamic effect.
+ * Animates the header elements on page load.
+ * Creates a staggered appearance timeline for the logo, navigation links, and control icons.
+ *
+ * @returns {void} This function does not return a value.
+ */
+function animateHeader() {
+    return anime({
+        targets: 'header nav > *',
+        opacity: [0, 1],
+        translateY: [-30, 0],
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo',
+        duration: 800
+    }).finished;
+}
+
+/**
+ * Sets up an Intersection Observer to trigger animations when elements become visible.
+ *
+ * This function observes sections with the class `.animate-section`. When a
+ * section enters the viewport, it checks for elements with the class
+ * `.animate-card` within it. If cards are present, they are animated with a
+ * staggered fade-in and slide-up effect. If no cards are found, the section
+ * itself is animated. Once an element has been animated, it is unobserved to
+ * prevent the animation from re-triggering.
  *
  * @returns {void} This function does not return a value.
  */
@@ -99,41 +174,45 @@ function setupIntersectionObserver() {
     const sections = document.querySelectorAll('.animate-section');
     if (sections.length === 0) return;
 
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cards = entry.target.querySelectorAll('.animate-card');
+                const elements = cards.length > 0 ? Array.from(cards) : [entry.target];
+
+                anime.timeline({
+                    easing: 'easeOutExpo'
+                })
+                .add({
+                    targets: elements,
+                    opacity: [0, 1],
+                    translateY: [100, 0],
+                    duration: 1200,
+                    delay: anime.stagger(150)
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
     sections.forEach(section => {
-        const cards = section.querySelectorAll('.animate-card');
-        const elementsToAnimate = cards.length > 0 ? cards : section;
-
-        anime.set(elementsToAnimate, {
-            opacity: 0,
-            translateY: 50
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const targets = cards.length > 0 ? cards : entry.target;
-                    anime({
-                        targets: targets,
-                        opacity: 1,
-                        translateY: 0,
-                        duration: 800,
-                        delay: cards.length > 0 ? anime.stagger(100) : 0,
-                        ease: 'easeOutExpo'
-                    });
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
         observer.observe(section);
     });
 }
 
+
+
+
+
+
 /**
  * Sets up hover effects for the quick links in the footer.
- * Links move up and change color on hover for a clear visual cue.
+ * On mouse-over, the link animates upwards. On mouse-out, it returns to its
+ * original position and its color is restored based on the current theme
+ * (light or dark mode).
  *
  * @returns {void} This function does not return a value.
  */
@@ -144,210 +223,100 @@ function setupQuickLinkHovers() {
             anime({
                 targets: link,
                 translateY: -5,
-                color: '#06ccf9',
                 duration: 300,
-                ease: 'easeOutExpo'
+                easing: 'easeOutExpo'
             });
         });
 
         link.addEventListener('mouseleave', () => {
+            const isDarkMode = document.documentElement.classList.contains('dark');
             anime({
                 targets: link,
                 translateY: 0,
-                duration: 300,
-                ease: 'easeOutExpo'
-            });
-        });
-    });
-}
-
-/**
- * Adds a "glow" effect to the theme toggle button on hover.
- * This provides a subtle visual feedback to the user.
- *
- * @returns {void} This function does not return a value.
- */
-function setupThemeToggleGlow() {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    if (themeToggleButton) {
-        themeToggleButton.addEventListener('mouseenter', () => {
-            anime({
-                targets: themeToggleButton,
-                boxShadow: '0 0 12px #06ccf9',
+                color: isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
                 duration: 300,
                 easing: 'easeOutExpo'
             });
         });
+    });
+}
 
-        themeToggleButton.addEventListener('mouseleave', () => {
+/**
+ * Sets up a hover animation for the site logo.
+ * When the user hovers over the logo, it scales up slightly to provide
+ * visual feedback. When the mouse leaves, it scales back to its original size.
+ *
+ * @returns {void} This function does not return a value.
+ */
+function setupLogoHoverAnimation() {
+    const logos = document.querySelectorAll('.logo-container');
+    logos.forEach(logo => {
+        logo.addEventListener('mouseenter', () => {
             anime({
-                targets: themeToggleButton,
-                boxShadow: '0 0 0 rgba(0,0,0,0)',
+                targets: logo.querySelector('a'),
+                scale: 1.05,
                 duration: 300,
                 easing: 'easeOutExpo'
             });
         });
-    }
-}
-
-/**
- * Initializes the theme based on localStorage or the user's system preference.
- * Ensures the correct theme is applied on page load.
- *
- * @returns {void} This function does not return a value.
- */
-function initializeTheme() {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    if (!themeToggleButton) return;
-    const themeToggleIcon = themeToggleButton.querySelector('span');
-
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-        themeToggleIcon.textContent = 'dark_mode';
-    } else {
-        document.documentElement.classList.remove('dark');
-        themeToggleIcon.textContent = 'light_mode';
-    }
-}
-
-/**
- * Animates the theme transition with a fade and zoom effect.
- * Creates a smooth visual transition between light and dark modes.
- *
- * @returns {void} This function does not return a value.
- */
-function animateAndToggleTheme() {
-    const isDarkMode = document.documentElement.classList.contains('dark');
-
-    const timeline = anime.timeline({
-        duration: 400, // Each phase of the animation will be 0.4s, total 0.8s
-        easing: 'easeInOutExpo'
-    });
-
-    timeline
-        .add({
-            targets: 'body',
-            opacity: [1, 0],
-            scale: [1, 0.98],
-            complete: () => {
-                const themeToggleButton = document.getElementById('theme-toggle');
-                const themeToggleIcon = themeToggleButton.querySelector('span');
-                document.documentElement.classList.toggle('dark');
-                const newIsDarkMode = document.documentElement.classList.contains('dark');
-                localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
-                themeToggleIcon.textContent = newIsDarkMode ? 'dark_mode' : 'light_mode';
-            }
-        })
-        .add({
-            targets: 'body',
-            opacity: [0, 1],
-            scale: [0.98, 1]
-        });
-}
-
-/**
- * Sets up the event listener for the theme toggle button.
- * Toggles the theme and updates the icon on click.
- *
- * @returns {void} This function does not return a value.
- */
-function setupThemeToggleListener() {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    if (!themeToggleButton) return;
-
-    themeToggleButton.addEventListener('click', () => {
-        animateAndToggleTheme();
-    });
-}
-
-/**
- * Sets up the "Back to Top" button functionality.
- * The button appears on scroll and smoothly scrolls to the top when clicked,
- * improving navigation on long pages.
- *
- * @returns {void} This function does not return a value.
- */
-function setupBackToTopButton() {
-    const backToTopButton = document.getElementById('back-to-top');
-    if (!backToTopButton) return;
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopButton.classList.add('show');
-        } else {
-            backToTopButton.classList.remove('show');
-        }
-    });
-
-    backToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-}
-
-/**
- * Sets up a scroll animation for the header.
- * Adds a 'scrolled' class to the header when the user scrolls down,
- * providing a visual cue that the header is in a fixed state.
- *
- * @returns {void} This function does not return a value.
- */
-function setupHeaderScrollAnimation() {
-    const header = document.querySelector('header');
-    if (!header) return;
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-}
-
-/**
- * Sets up lazy loading for images and divs with background images.
- * Elements with the 'lazy' class will be loaded only when they enter the viewport,
- * improving page load performance.
- *
- * @returns {void} This function does not return a value.
- */
-function setupLazyLoading() {
-    const lazyElements = document.querySelectorAll('.lazy');
-
-    if ('IntersectionObserver' in window) {
-        let lazyElementObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    let lazyElement = entry.target;
-                    if (lazyElement.tagName === 'IMG') {
-                        lazyElement.src = lazyElement.dataset.src;
-                    } else {
-                        lazyElement.style.backgroundImage = lazyElement.dataset.src;
-                    }
-                    lazyElement.classList.remove('lazy');
-                    lazyElementObserver.unobserve(lazyElement);
-                }
+        logo.addEventListener('mouseleave', () => {
+            anime({
+                targets: logo.querySelector('a'),
+                scale: 1,
+                duration: 300,
+                easing: 'easeOutExpo'
             });
         });
+    });
+}
 
-        lazyElements.forEach((lazyElement) => {
-            lazyElementObserver.observe(lazyElement);
-        });
-    } else {
-        // Fallback for browsers that don't support IntersectionObserver
-        lazyElements.forEach((lazyElement) => {
-            if (lazyElement.tagName === 'IMG') {
-                lazyElement.src = lazyElement.dataset.src;
-            } else {
-                lazyElement.style.backgroundImage = lazyElement.dataset.src;
+/**
+ * Sets up the theme switcher functionality.
+ * This function handles the theme toggle buttons, reads the user's preference
+ * from localStorage, and applies the corresponding theme (light or dark). It
+ * also adds event listeners to the buttons to allow theme switching.
+ *
+ * @returns {void} This function does not return a value.
+ */
+function setupThemeSwitcher() {
+    const themeToggleButtons = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+    const htmlElement = document.documentElement;
+
+    // Function to update the theme based on the isDarkMode flag
+    const updateTheme = (isDarkMode) => {
+        htmlElement.classList.toggle('dark', isDarkMode);
+        themeToggleButtons.forEach(button => {
+            if (button) {
+                button.querySelector('span').textContent = isDarkMode ? 'dark_mode' : 'light_mode';
             }
-            lazyElement.classList.remove('lazy');
         });
-    }
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    };
+
+    // Initialize theme based on localStorage or default to light
+    const storedTheme = localStorage.getItem('theme');
+    const initialThemeIsDark = storedTheme === 'dark';
+    updateTheme(initialThemeIsDark);
+
+    // Add click listeners to the buttons
+    themeToggleButtons.forEach(button => {
+        if (button) {
+            button.addEventListener('click', () => {
+                const isCurrentlyDark = htmlElement.classList.contains('dark');
+                updateTheme(!isCurrentlyDark);
+            });
+        }
+    });
 }
 
 // Initialize everything after the DOM is loaded.
-document.addEventListener('DOMContentLoaded', initializeWebsiteInteractivity);
+document.addEventListener('DOMContentLoaded', () => {
+    // Setup theme switcher first to ensure it runs even if animations fail
+    setupThemeSwitcher();
+    setupLanguageSwitcher();
+
+    // Set default language to French
+    setLanguage('fr');
+
+    initializeWebsiteInteractivity();
+});
