@@ -67,9 +67,14 @@ function animateHeader() {
 }
 
 /**
- * Sets up an Intersection Observer to animate elements as they enter the viewport.
- * Sections without cards fade in and slide up.
- * Cards within sections fade in and slide up with a staggered delay for a dynamic effect.
+ * Sets up an Intersection Observer to trigger animations when elements become visible.
+ *
+ * This function observes sections with the class `.animate-section`. When a
+ * section enters the viewport, it checks for elements with the class
+ * `.animate-card` within it. If cards are present, they are animated with a
+ * staggered fade-in and slide-up effect. If no cards are found, the section
+ * itself is animated. Once an element has been animated, it is unobserved to
+ * prevent the animation from re-triggering.
  *
  * @returns {void} This function does not return a value.
  */
@@ -113,7 +118,11 @@ function setupIntersectionObserver() {
 
 /**
  * Sets up hover effects for the quick links in the footer.
- * Links move up and change color on hover.
+ * On mouse-over, the link animates upwards. On mouse-out, it returns to its
+ * original position and its color is restored based on the current theme
+ * (light or dark mode).
+ *
+ * @returns {void} This function does not return a value.
  */
 function setupQuickLinkHovers() {
     const quickLinks = document.querySelectorAll('.quick-link');
@@ -140,6 +149,13 @@ function setupQuickLinkHovers() {
     });
 }
 
+/**
+ * Sets up a hover animation for the site logo.
+ * When the user hovers over the logo, it scales up slightly to provide
+ * visual feedback. When the mouse leaves, it scales back to its original size.
+ *
+ * @returns {void} This function does not return a value.
+ */
 function setupLogoHoverAnimation() {
     const logos = document.querySelectorAll('.logo-container');
     logos.forEach(logo => {

@@ -98,6 +98,9 @@ You can also run each test file individually:
 -   `test_hardcoded_hover_color.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
 -   `test_link_checker_logic.py`: Verifies that there is no redundant link check logic in `test_links.py`, ensuring that the test logic is clean and maintainable.
 -   `test_quick_link_theme_change.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
+-   `test_footer_links.py`: Verifies that the footer links are correct and that there are no broken links.
+-   `test_newsletter_form.py`: Verifies that the newsletter form is correctly structured.
+-   `test_undefined_functions.py`: Verifies that there are no calls to undefined functions in the JavaScript code.
 
 
 Each test script is self-contained and can be run with `python3 <filename>`. All tests are fully documented with Google Style Python Docstrings.
