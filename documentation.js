@@ -28,6 +28,48 @@ function initializeWebsiteInteractivity() {
     setupBackToTopButton();
     setupHeaderScrollAnimation();
     setupLazyLoading();
+    setupThemeSwitcher();
+}
+
+/**
+ * Sets up the theme switcher functionality.
+ * The theme switcher allows the user to toggle between light and dark modes.
+ * The selected theme is saved to localStorage to persist across sessions.
+ * @returns {void} This function does not return a value.
+ */
+function setupThemeSwitcher() {
+    const themeSwitcher = document.getElementById('theme-switcher');
+    if (!themeSwitcher) return;
+
+    const sunIcon = themeSwitcher.querySelector('.sun-icon');
+    const moonIcon = themeSwitcher.querySelector('.moon-icon');
+
+    const savedTheme = localStorage.getItem('theme');
+
+    // Default to light theme if no theme is saved
+    let isDark = savedTheme === 'dark';
+
+    function updateTheme(isDark) {
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // Set initial theme
+    updateTheme(isDark);
+
+    themeSwitcher.addEventListener('click', () => {
+        isDark = !isDark;
+        updateTheme(isDark);
+    });
 }
 
 /**
