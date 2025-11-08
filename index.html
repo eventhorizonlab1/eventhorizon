@@ -9,7 +9,7 @@
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -57,7 +57,7 @@
             <header class="w-full" x-data="{ open: false }">
                 <nav class="flex items-center justify-between text-sm">
                     <div class="logo-container">
-                        <a class="font-serif text-2xl font-bold tracking-tight text-light-text-primary dark:text-dark-text-primary" href="index.html">Event Horizon</a>
+                        <a class="font-serif text-2xl font-bold tracking-tight text-light-text-secondary dark:text-dark-text-secondary transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="index.html">Event Horizon</a>
                     </div>
                     <div class="hidden items-center gap-x-8 text-light-text-secondary dark:text-dark-text-secondary md:flex">
                         <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="#videos">Vidéos</a>
@@ -71,8 +71,8 @@
                             <a class="px-2 py-1 text-light-text-secondary dark:text-dark-text-secondary hover:text-light-text-primary dark:hover:text-dark-text-primary rounded-md" href="index-en.html">EN</a>
                         </div>
                         <button id="theme-switcher" class="ml-4" type="button">
-                            <span class="material-symbols-outlined sun-icon text-light-text-primary dark:text-dark-text-primary" style="display: none;">light_mode</span>
-                            <span class="material-symbols-outlined moon-icon text-light-text-primary dark:text-dark-text-primary" style="display: none;">dark_mode</span>
+                            <span class="material-symbols-outlined sun-icon text-light-text-primary dark:text-dark-text-primary">light_mode</span>
+                            <span class="material-symbols-outlined moon-icon text-light-text-primary dark:text-dark-text-primary">dark_mode</span>
                         </button>
                         <button @click="open = !open" class="ml-4 md:hidden" type="button">
                             <span class="material-symbols-outlined text-light-text-primary dark:text-dark-text-primary">menu</span>
@@ -216,7 +216,7 @@
             <div class="mx-auto max-w-7xl px-8 py-16 md:px-12 md:py-20">
                 <div class="flex flex-col items-center justify-between gap-y-12 border-b border-light-border-light dark:border-dark-border-light pb-10 md:flex-row">
                     <div class="text-center md:text-left">
-                        <a class="font-serif text-2xl font-bold tracking-tight text-light-text-primary dark:text-dark-text-primary" href="index.html">Event Horizon</a>
+                        <a class="font-serif text-2xl font-bold tracking-tight text-light-text-secondary dark:text-dark-text-secondary transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="index.html">Event Horizon</a>
                         <nav class="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-light-text-secondary dark:text-dark-text-secondary md:justify-start">
                             <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary quick-link" href="a-propos.html">À propos</a>
                             <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary quick-link" href="mailto:contact@eventhorizon.fr">Contact</a>
