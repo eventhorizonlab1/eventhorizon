@@ -24,7 +24,6 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupMenuItemHovers();
-    setupLogoHoverAnimation();
     setupBackToTopButton();
     setupHeaderScrollAnimation();
     setupLazyLoading();
@@ -93,34 +92,6 @@ function animateMainTitle() {
         easing: 'easeOutExpo',
         duration: 1000
     }).finished;
-}
-
-/**
- * Sets up a hover animation for the logo.
- * Creates a subtle distortion effect on hover to add a modern touch.
- *
- * @returns {void} This function does not return a value.
- */
-function setupLogoHoverAnimation() {
-    const logos = document.querySelectorAll('.logo-container');
-    logos.forEach(logo => {
-        logo.addEventListener('mouseenter', () => {
-            anime({
-                targets: logo.querySelector('a'),
-                color: '#FFFFFF',
-                duration: 300,
-                easing: 'easeOutExpo'
-            });
-        });
-        logo.addEventListener('mouseleave', () => {
-            anime({
-                targets: logo.querySelector('a'),
-                color: '#B0B0B0',
-                duration: 300,
-                easing: 'easeOutExpo'
-            });
-        });
-    });
 }
 
 /**
@@ -196,7 +167,7 @@ function setupQuickLinkHovers() {
                 targets: link,
                 translateY: -5,
                 duration: 300,
-                ease: 'easeOutExpo'
+                easing: 'easeOutExpo'
             });
         });
 
@@ -206,7 +177,7 @@ function setupQuickLinkHovers() {
                 targets: link,
                 translateY: 0,
                 duration: 300,
-                ease: 'easeOutExpo'
+                easing: 'easeOutExpo'
             });
         });
     });
@@ -229,7 +200,7 @@ function setupMenuItemHovers() {
                 targets: link,
                 translateY: -5,
                 duration: 300,
-                ease: 'easeOutExpo'
+                easing: 'easeOutExpo'
             });
         });
 
@@ -240,7 +211,7 @@ function setupMenuItemHovers() {
                 targets: link,
                 translateY: 0,
                 duration: 300,
-                ease: 'easeOutExpo'
+                easing: 'easeOutExpo'
             });
         });
     });
