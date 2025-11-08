@@ -101,23 +101,22 @@ class TestBrowserDocumentation(unittest.TestCase):
             quick_link = await self.page.query_selector('footer a[href="a-propos.html"]')
             self.assertIsNotNone(quick_link, "Quick link not found")
 
-            # 1. Check initial state
-            initial_class = await quick_link.get_attribute('class')
-            self.assertNotIn('text-primary', initial_class or '', "Quick link should not have 'text-primary' class initially")
+            # 1. Check initial color
+            initial_color = await quick_link.evaluate('(element) => window.getComputedStyle(element).color')
 
-            # 2. Hover over the link and check for 'text-primary' class
+            # 2. Hover over the link and check for color change
             await quick_link.hover()
             await self.page.wait_for_timeout(500) # Wait for animation
 
-            hover_class = await quick_link.get_attribute('class')
-            self.assertIn('text-primary', hover_class or '', "Quick link should have 'text-primary' class on hover")
+            hover_color = await quick_link.evaluate('(element) => window.getComputedStyle(element).color')
+            self.assertNotEqual(initial_color, hover_color, "Quick link color should change on hover")
 
-            # 3. Move the mouse away and check for 'text-primary' class removal
+            # 3. Move the mouse away and check for color to revert
             await self.page.mouse.move(0, 0)
             await self.page.wait_for_timeout(500) # Wait for animation
 
-            final_class = await quick_link.get_attribute('class')
-            self.assertNotIn('text-primary', final_class or '', "Quick link should not have 'text-primary' class after hover")
+            final_color = await quick_link.evaluate('(element) => window.getComputedStyle(element).color')
+            self.assertEqual(initial_color, final_color, "Quick link color should revert after hover")
 
         self.loop.run_until_complete(run_test())
 

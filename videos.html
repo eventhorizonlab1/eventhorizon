@@ -1,217 +1,152 @@
 <!DOCTYPE html>
-<html class="dark" lang="fr">
-
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta name="description" content="Regardez nos dernières vidéos sur l'industrie spatiale européenne. Des documentaires exclusifs, des interviews et des analyses." />
     <title>Vidéos - Event Horizon</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-<script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
-<script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            'text-primary': '#FFFFFF',
-            'text-secondary': '#B0B0B0',
-            'border-light': '#333333',
-          },
-          fontFamily: {
-            serif: ["Rajdhani", "sans-serif"],
-            sans: ["Open Sans", "sans-serif"],
-          },
-        },
-      },
-    };
-  </script>
-<style type="text/tailwindcss">
-    @layer base {
-      html {
-        @apply scroll-smooth;
-      }
-      body {
-        @apply bg-white font-sans text-gray-800 antialiased;
-      }
-      .dark body {
-        @apply bg-black text-text-primary;
-      }
-    }
-  </style>
-</head>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#3b82f6',
+                        'light-text-primary': '#000000',
+                        'light-text-secondary': '#555555',
+                        'light-bg-primary': '#FFFFFF',
+                        'light-border-light': '#DDDDDD',
 
+                        'dark-text-primary': '#FFFFFF',
+                        'dark-text-secondary': '#B0B0B0',
+                        'dark-bg-primary': '#000000',
+                        'dark-border-light': '#333333',
+                    },
+                    fontFamily: {
+                        serif: ["Rajdhani", "sans-serif"],
+                        sans: ["Open Sans", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            html {
+                @apply scroll-smooth;
+            }
+            body {
+                @apply bg-light-bg-primary font-sans text-light-text-primary antialiased;
+            }
+            .dark body {
+                @apply bg-dark-bg-primary text-dark-text-primary;
+            }
+        }
+    </style>
+</head>
 <body class="overflow-x-hidden">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-<script src="documentation.js"></script>
-<div class="min-h-screen w-full">
-<div class="relative z-10 mx-auto max-w-7xl px-8 py-6 md:px-12 md:py-8">
-<header class="w-full" x-data="{ open: false }">
-    <nav class="flex items-center justify-between text-sm">
-        <div class="logo-container">
-            <a class="font-serif text-2xl font-bold tracking-tight text-gray-800 dark:text-white" href="index.html">Event Horizon</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="documentation.js"></script>
+    <div class="min-h-screen w-full">
+        <div class="relative z-10 mx-auto max-w-7xl px-8 py-6 md:px-12 md:py-8">
+            <header class="w-full" x-data="{ open: false }">
+                <nav class="flex items-center justify-between text-sm">
+                    <div class="logo-container">
+                        <a class="font-serif text-2xl font-bold tracking-tight text-light-text-primary dark:text-dark-text-primary" href="index.html">Event Horizon</a>
+                    </div>
+                    <div class="hidden items-center gap-x-8 text-light-text-secondary dark:text-dark-text-secondary md:flex">
+                        <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="videos.html">Vidéos</a>
+                        <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="articles.html">Articles</a>
+                        <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="ecosysteme.html">L'Écosystème Toulousain</a>
+                        <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="a-propos.html">À Propos</a>
+                        <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="contact.html">Contact</a>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="hidden items-center text-sm font-medium md:flex">
+                            <a class="px-2 py-1 text-light-text-primary dark:text-dark-text-primary rounded-md" href="videos.html">FR</a>
+                            <span class="text-gray-300 dark:text-white/30">/</span>
+                            <a class="px-2 py-1 text-light-text-secondary dark:text-dark-text-secondary hover:text-light-text-primary dark:hover:text-dark-text-primary rounded-md" href="videos-en.html">EN</a>
+                        </div>
+                        <button id="theme-switcher" class="ml-4" type="button">
+                            <span class="material-symbols-outlined sun-icon text-light-text-primary dark:text-dark-text-primary" style="display: none;">light_mode</span>
+                            <span class="material-symbols-outlined moon-icon text-light-text-primary dark:text-dark-text-primary" style="display: none;">dark_mode</span>
+                        </button>
+                        <button @click="open = !open" class="ml-4 md:hidden" type="button">
+                            <span class="material-symbols-outlined text-light-text-primary dark:text-dark-text-primary">menu</span>
+                        </button>
+                        <a class="hidden ml-4 border border-light-text-primary dark:border-dark-text-primary bg-light-text-primary dark:bg-dark-text-primary px-4 py-2 text-xs font-semibold uppercase tracking-wider text-light-bg-primary dark:text-dark-bg-primary transition-colors hover:bg-light-bg-primary dark:hover:bg-dark-bg-primary hover:text-light-text-primary dark:hover:text-dark-text-primary md:block" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">S'abonner</a>
+                    </div>
+                </nav>
+            </header>
+            <main class="w-full">
+                <section class="animate-section w-full py-16 md:py-24" id="videos">
+                    <header class="mb-12 md:mb-16">
+                        <h2 class="font-serif text-5xl font-bold text-light-text-primary dark:text-dark-text-primary md:text-6xl">Vidéos</h2>
+                    </header>
+                    <div class="space-y-16">
+                        <div class="w-full">
+                            <a class="group" href="#">
+                                <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-light-bg-primary dark:bg-dark-bg-primary">
+                                    <img alt="ESA Rocket Launch" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkDrXg0XhwOLA29EVxZwqrqbAPp965xDTpgF_6bhhz-1QQt6qfXHBqXIheo_Jj--Wdxpm2lFzWMVEXYdBXD4TpuUWQm4xVLspAQrgbDaKgepZmhZEzGYEZDBv8HnggEaFjg3MhxFMQRAJ3Q6pmAOEHziKck0alPp-hlLSF3c-5crwpNMnl-NxNr26yXExBmOStwgCXI6VAudydCmbkktzAJz5VkIXOwvROhHTHe4sjHFhiW77BHUF9oAQluWvZFnPZp4-_7Tp8dJA" />
+                                </div>
+                                <h3 class="font-serif text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">Ariane 6 : Le nouveau titan européen</h3>
+                                <p class="mt-1 text-base text-light-text-secondary dark:text-dark-text-secondary">Développement, défis et ambitions</p>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </main>
         </div>
-        <div class="hidden items-center gap-x-8 text-gray-600 dark:text-text-primary md:flex">
-            <a class="transition-colors hover:text-black dark:hover:text-white" href="videos.html">Vidéos</a>
-            <a class="transition-colors hover:text-black dark:hover:text-white" href="articles.html">Articles</a>
-            <a class="transition-colors hover:text-black dark:hover:text-white" href="ecosysteme.html">L'Écosystème Toulousain</a>
-            <a class="transition-colors hover:text-black dark:hover:text-white" href="a-propos.html">À Propos</a>
-            <a class="transition-colors hover:text-black dark:hover:text-white" href="contact.html">Contact</a>
-        </div>
-        <div class="flex items-center">
-            <div class="hidden items-center text-sm font-medium md:flex">
-                <a class="px-2 py-1 text-gray-800 dark:text-white rounded-md" href="videos.html">FR</a>
-                <span class="text-gray-300 dark:text-white/30">/</span>
-                <a class="px-2 py-1 text-gray-500 dark:text-white/60 hover:text-black dark:hover:text-white rounded-md" href="videos-en.html">EN</a>
-            </div>
-            <button id="theme-switcher" class="ml-4" type="button">
-                <span class="material-symbols-outlined sun-icon text-gray-800 dark:text-white" style="display: none;">light_mode</span>
-                <span class="material-symbols-outlined moon-icon text-gray-800 dark:text-white" style="display: none;">dark_mode</span>
-            </button>
-            <button @click="open = !open" class="ml-4 md:hidden" type="button">
-                <span class="material-symbols-outlined text-gray-800 dark:text-white">menu</span>
-            </button>
-            <a class="hidden ml-4 border border-black dark:border-white bg-black dark:bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white dark:text-black transition-colors hover:bg-gray-800 dark:hover:bg-gray-200 md:block" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">S'abonner</a>
-        </div>
-    </nav>
-    <div x-show="open" @click.away="open = false" class="fixed inset-0 z-50 bg-black bg-opacity-50" x-cloak>
-        <div class="absolute inset-y-0 right-0 w-64 h-full bg-white dark:bg-black shadow-lg">
-            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800">
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Menu</h2>
-                <button @click="open = false" type="button">
-                    <span class="material-symbols-outlined text-gray-800 dark:text-white">close</span>
-                </button>
-            </div>
-            <div class="flex flex-col px-4 py-2">
-                <a class="py-2 text-gray-800 dark:text-white" href="videos.html">Vidéos</a>
-                <a class="py-2 text-gray-800 dark:text-white" href="articles.html">Articles</a>
-                <a class="py-2 text-gray-800 dark:text-white" href="ecosysteme.html">L'Écosystème Toulousain</a>
-                <a class="py-2 text-gray-800 dark:text-white" href="a-propos.html">À Propos</a>
-                <a class="py-2 text-gray-800 dark:text-white" href="contact.html">Contact</a>
-                <div class="flex items-center mt-4">
-                    <a class="px-2 py-1 text-gray-800 dark:text-white rounded-md" href="videos.html">FR</a>
-                    <span class="text-gray-300 dark:text-white/30">/</span>
-                    <a class="px-2 py-1 text-gray-500 dark:text-white/60 hover:text-black dark:hover:text-white rounded-md" href="videos-en.html">EN</a>
+        <footer class="w-full bg-light-bg-primary dark:bg-dark-bg-primary border-t border-light-border-light dark:border-dark-border-light">
+            <div class="mx-auto max-w-7xl px-8 py-16 md:px-12 md:py-20">
+                <div class="rounded-lg bg-light-bg-primary dark:bg-dark-bg-primary border border-light-border-light dark:border-dark-border-light p-8 sm:p-10 text-center mb-12">
+                    <h3 class="text-light-text-primary dark:text-dark-text-primary text-3xl sm:text-4xl font-bold font-serif">Rejoignez notre communauté</h3>
+                    <p class="text-light-text-secondary dark:text-dark-text-secondary mt-3 text-base max-w-2xl mx-auto">Ne manquez aucune de nos publications et recevez les dernières nouvelles de l'industrie spatiale.</p>
+                    <form class="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto mt-8">
+                        <input class="flex-grow rounded-md bg-light-bg-primary dark:bg-dark-bg-primary border-light-border-light dark:border-dark-border-light text-light-text-primary dark:text-dark-text-primary placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary h-12 px-5" placeholder="Votre adresse e-mail" type="email" />
+                        <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-light-text-primary dark:bg-dark-text-primary text-light-bg-primary dark:text-dark-bg-primary text-sm font-bold uppercase tracking-wider hover:bg-gray-800 dark:hover:bg-gray-200 transition-all" type="submit">
+                            <span class="truncate">S'inscrire</span>
+                        </button>
+                    </form>
                 </div>
-                <a class="mt-4 border border-black dark:border-white bg-black dark:bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white dark:text-black transition-colors hover:bg-gray-800 dark:hover:bg-gray-200" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">S'abonner</a>
+                <div class="flex flex-col items-center justify-between gap-y-12 border-b border-light-border-light dark:border-dark-border-light pb-10 md:flex-row">
+                    <div class="text-center md:text-left">
+                        <a class="font-serif text-2xl font-bold tracking-tight text-light-text-primary dark:text-dark-text-primary" href="index.html">Event Horizon</a>
+                        <nav class="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-light-text-secondary dark:text-dark-text-secondary md:justify-start">
+                            <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary quick-link" href="a-propos.html">À Propos</a>
+                            <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary quick-link" href="mailto:contact@eventhorizon.fr">Contact</a>
+                        </nav>
+                    </div>
+                    <div class="flex items-center gap-x-4">
+                        <a class="text-light-text-secondary dark:text-dark-text-secondary transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="https://www.youtube.com" title="YouTube">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path>
+                            </svg>
+                        </a>
+                        <a class="text-light-text-secondary dark:text-dark-text-secondary transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="https://www.linkedin.com" title="LinkedIn">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+                            </svg>
+                        </a>
+                        <a class="text-light-text-secondary dark:text-dark-text-secondary transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="https://twitter.com" title="Twitter">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.22-1.95-.55v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center justify-between gap-y-4 pt-10 text-center text-sm text-light-text-secondary dark:text-dark-text-secondary md:flex-row md:text-left">
+                    <p>© 2023 Event Horizon. Tous droits réservés.</p>
+                    <a class="transition-colors hover:text-light-text-primary dark:hover:text-dark-text-primary" href="#">Politique de Confidentialité</a>
+                </div>
             </div>
-        </div>
+        </footer>
     </div>
-</header>
-<main class="w-full">
-<section class="animate-section w-full py-16 md:py-24" id="videos">
-<header class="mb-12 md:mb-16">
-<h2 class="font-serif text-5xl font-bold text-gray-800 dark:text-white md:text-6xl">Vidéos</h2>
-</header>
-<div class="space-y-16">
-<div class="w-full">
-<a class="group" href="#">
-<div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-white">
-<img alt="ESA Rocket Launch" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkDrXg0XhwOLA29EVxZwqrqbAPp965xDTpgF_6bhhz-1QQt6qfXHBqXIheo_Jj--Wdxpm2lFzWMVEXYdBXD4TpuUWQm4xVLspAQrgbDaKgepZmhZEzGYEZDBv8HnggEaFjg3MhxFMQRAJ3Q6pmAOEHziKck0alPp-hlLSF3c-5crwpNMnl-NxNr26yXExBmOStwgCXI6VAudydCmbkktzAJz5VkIXOwvROhHTHe4sjHFhiW77BHUF9oAQluWvZFnPZp4-_7Tp8dJA"/>
-</div>
-<h3 class="font-serif text-3xl font-bold">Ariane 6 : Le nouveau titan européen</h3>
-<p class="mt-1 text-base text-text-secondary">Développement, défis et ambitions</p>
-</a>
-</div>
-<div class="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-<div>
-<a class="group" href="#">
-<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-white">
-<img alt="Engineer working on satellite" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC0QY9iV1Nw9-TD1wobJ9nm7W8S0p2lganCuUCMegfTFUBq-3mTH8A2cuIU_lrgAQRbh7NwCEhIwDZp5VaXLLUZE2euoQBVRKbMUsTfRnFoy2TLPT3iEf5Z3jscLR1_1AbTqxAWduuoe7H2hokRtk5NEBIjeLwQWZEbotCsiOpdEEO53j4gpFEz7nlC6MGmytQeUSWOlvYzK_6TrRRf8d7-jpzkkN3Js8baMZhuso3q9uUf4nkQ6l0pSnUzdvMfzpTBQt11gb7ago"/>
-</div>
-<h3 class="font-serif text-2xl font-bold">L'Avenir des Satellites</h3>
-<p class="mt-1 text-sm text-text-secondary">Constellations et Connectivité</p>
-</a>
-</div>
-<div>
-<a class="group" href="#">
-<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-white">
-<img alt="Mars Rover" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4FWa7acUokiQ3kJe5xcL7daq83wqQnHko4ETt_UBYlSzNScBVg0V9EahBQp9W-AT-l74q2zON58jmZ80rkvTrrQlEtBH9ZUMqq6R1YYPHZYAh_8uCROZSYR3U0txPp9kzJ4bSfBBT_HeMikkH0ti99YtNcDdgVnKtfP2J9oFwEyCPa-wLGPyp6jMDaZQXhBCcX9RjiLrM6VJzhvd5Xr5ouL-JO-xlwcDyuJiyYBKL3-Dgvr0rNcrRtmUX6lVCX0nFSM_2NQXJu_w"/>
-</div>
-<h3 class="font-serif text-2xl font-bold">Exploration Martienne</h3>
-<p class="mt-1 text-sm text-text-secondary">Les rovers européens en action</p>
-</a>
-</div>
-<div>
-<a class="group" href="#">
-<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-white">
-<img alt="Galileo satellite in orbit" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzADaL3sWaoGftACt_MtnU-QxlsJXREr3UzgZ4oh4s4tAyrOgKz8F9ExVUs1TpBhtc5w-8aFVWZv1fmY4BHc1VNFa3HnfznedbCi5l0MnnDYP_i8mhyNqJwAWRRSKKlBSfLMPlZMXEqATXcmMKr1V1F8aannf_lvTPwr9gNwSSIjKUG3S5tI9OslKB9QccG8U7dnu9OPGhqk921DfxZMuxnpWJKPD58y3HY9m_rHiCh9siWMTwn17guq-aYdwTjGJGDHsQGkVNM68"/>
-</div>
-<h3 class="font-serif text-2xl font-bold">Galileo: La précision européenne</h3>
-<p class="mt-1 text-sm text-text-secondary">L'alternative au GPS</p>
-</a>
-</div>
-<div>
-<a class="group" href="#">
-<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-white">
-<img alt="Astronaut on a spacewalk" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6kuB4wWkCYTv9WDM9002pSNWsmFP44XitIPeFU9AKOK8_sU7FFTQV5irv2vF6DD1r1jCI0ar8QLDKWk9jF2FiQ5ROgojh92aVhN6PUBZMq7kCnIpmNF3D-2NEUSb_8_vVau8MKMVAwNuDaac9GBsZyzZCE-TonO0w0BqUjbHHyPtxony14CrfBJ9JkfEKXmizBG-8e0OQ3JLVVlmM-Kz_gIlRGz2vJojLiY2_3XGOJpQ4mPC76rkxORDWt_rZlC-iTU94JeymXbg"/>
-</div>
-<h3 class="font-serif text-2xl font-bold">La vie dans l'ISS</h3>
-<p class="mt-1 text-sm text-text-secondary">Le quotidien des astronautes ESA</p>
-</a>
-</div>
-<div>
-<a class="group" href="#">
-<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-white">
-<img alt="Space debris" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfMhtiOLifqEC_2mPIUZ-wrjQ5OPZw3rZv16ycrTx05MU-88MJlEXCiKIhRIGEtlEiRn9YoA8I8bSNAiR1JVNikZlp2E7Qb_MqBUK1VrbcRDZSJA5M7cvKDLhT7fv6RvHrGzbPkaMsywY3ydlUOe7YiNlNALziwI9G486MsogXnXBHo4UiC7Nc90YrN6lk6xtiitHWAhMbaARAfhvcZpBWPrYznoa98Qo3boQlcFn1zvnhMyoxep-gehgaWV6XHcN-PVhok_nVYbg"/>
-</div>
-<h3 class="font-serif text-2xl font-bold">Nettoyer l'orbite terrestre</h3>
-<p class="mt-1 text-sm text-text-secondary">La mission contre les débris spatiaux</p>
-</a>
-</div>
-<div>
-<a class="group" href="#">
-<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-white">
-<img alt="Vega Rocket" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs2T-O_q8wSp52BQuMwt2J0WdTfrZAQ7t4_8FnDiv08ULNhp8tT-2d8BgCgU4tnM1bBEYEg5LVibeiTVqR_pqfoXjoeJWixUx67lpKAz3-8m0UQHci6-EFCzgU2hGGhkOFMrts4kCbgea2K41OX_83cUd_YS9CTshwYqh4gAe-D46aRBrfKViRGAkOVy5YY7UK1ogevS_0cUWgFrJLcURBk1RLiSIBMsoUnbeh5_iOF7dZxQaKgXbombI0ol60CZUIvVyHqEBZDsw"/>
-</div>
-<h3 class="font-serif text-2xl font-bold">Vega-C: Lanceur polyvalent</h3>
-<p class="mt-1 text-sm text-text-secondary">Flexibilité pour les petits satellites</p>
-</a>
-</div>
-</div>
-</div>
-</section>
-</main>
-</div>
-<footer class="w-full bg-black text-white">
-<div class="mx-auto max-w-7xl px-8 py-16 md:px-12 md:py-20">
-    <div class="rounded-lg bg-gray-800 border border-border-light p-8 sm:p-10 text-center mb-12">
-        <h3 class="text-white text-3xl sm:text-4xl font-bold font-serif">Rejoignez notre communauté</h3>
-        <p class="text-text-secondary mt-3 text-base max-w-2xl mx-auto">Ne manquez aucune de nos publications et recevez les dernières nouvelles de l'industrie spatiale.</p>
-        <form class="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto mt-8">
-            <input class="flex-grow rounded-md bg-black border-border-light text-white placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary h-12 px-5" placeholder="Votre adresse e-mail" type="email"/>
-            <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-white text-black text-sm font-bold uppercase tracking-wider hover:bg-gray-200 transition-all" type="submit">
-                <span class="truncate">S'inscrire</span>
-            </button>
-        </form>
-    </div>
-<div class="flex flex-col items-center justify-between gap-y-12 border-b border-gray-800 pb-10 md:flex-row">
-<div class="text-center md:text-left">
-<a class="font-serif text-2xl font-bold tracking-tight text-white" href="index.html">Event Horizon</a>
-<nav class="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-400 md:justify-start">
-<a class="transition-colors hover:text-white quick-link" href="a-propos.html">À Propos</a>
-<a class="transition-colors hover:text-white quick-link" href="mailto:contact@eventhorizon.fr">Contact</a>
-</nav>
-</div>
-<div class="flex items-center gap-x-4">
-<a class="text-gray-400 transition-colors hover:text-white" href="https://www.youtube.com" title="YouTube">
-<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
-</a>
-<a class="text-gray-400 transition-colors hover:text-white" href="https://www.linkedin.com" title="LinkedIn">
-<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg>
-</a>
-<a class="text-gray-400 transition-colors hover:text-white" href="https://twitter.com" title="Twitter">
-<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.22-1.95-.55v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"></path></svg>
-</a>
-</div>
-</div>
-<div class="flex flex-col items-center justify-between gap-y-4 pt-10 text-center text-sm text-gray-400 md:flex-row md:text-left">
-<p>© 2023 Event Horizon. Tous droits réservés.</p>
-<a class="transition-colors hover:text-white" href="#">Politique de Confidentialité</a>
-</div>
-</div>
-</footer>
+</body>
+</html>

@@ -64,10 +64,10 @@ class TestSharedElements(unittest.TestCase):
         This test ensures that the `header` element, including the site logo,
         is present on every page for consistent branding and navigation.
         """
-        for filepath in ["index.html", "index-en.html"]:
+        for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<a class="font-serif text-2xl font-bold tracking-tight text-black" href="#">Event Horizon</a>', content, re.DOTALL)
+                match = re.search(r'<a class="font-serif text-2xl font-bold tracking-tight.*?" href="index.*?\.html">Event Horizon</a>', content, re.DOTALL)
                 self.assertIsNotNone(match, f"Header with logo not found in {filepath}!")
 
     def test_footer_present(self):
@@ -94,16 +94,16 @@ class TestSharedElements(unittest.TestCase):
         This test ensures that all navigation links are present and correctly
         formatted in the header of every page, for both language versions.
         """
-        fr_nav_links = ['href="#videos"', 'href="#articles"', 'href="#ecosysteme"']
-        en_nav_links = ['href="#videos"', 'href="#articles"', 'href="#ecosysteme"']
+        fr_nav_links = ['href="videos.html"', 'href="articles.html"', 'href="ecosysteme.html"']
+        en_nav_links = ['href="videos-en.html"', 'href="articles-en.html"', 'href="ecosysteme-en.html"']
 
-        for filepath in ["index.html"]:
+        for filepath in FRENCH_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
                 for link in fr_nav_links:
                     self.assertIn(link, content, f"Navigation link {link} not found in {filepath}!")
 
-        for filepath in ["index-en.html"]:
+        for filepath in ENGLISH_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
                 for link in en_nav_links:
@@ -115,7 +115,7 @@ class TestSharedElements(unittest.TestCase):
         This test verifies that the FR/EN language switcher links point to the
         correct equivalent page, ensuring seamless navigation between languages.
         """
-        for filepath in ["index.html"]:
+        for filepath in FRENCH_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
                 en_equivalent = filepath.replace('.html', '-en.html')
@@ -124,7 +124,7 @@ class TestSharedElements(unittest.TestCase):
                 self.assertRegex(content, fr_link_pattern, f"FR link incorrect in {filepath}")
                 self.assertRegex(content, en_link_pattern, f"EN link incorrect in {filepath}")
 
-        for filepath in ["index-en.html"]:
+        for filepath in ENGLISH_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
                 fr_equivalent = filepath.replace('-en.html', '.html')
