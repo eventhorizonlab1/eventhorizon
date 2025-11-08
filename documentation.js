@@ -5,6 +5,96 @@
  * @author Jules
  */
 
+// =================================================================================================
+// Internationalization (i18n)
+// =================================================================================================
+
+let translations = {};
+
+/**
+ * Asynchronously loads a translation file for a given language.
+ * @param {string} lang - The language code (e.g., 'fr', 'en').
+ * @returns {Promise<void>} A promise that resolves when translations are loaded.
+ */
+async function loadTranslations(lang) {
+    try {
+        const response = await fetch(`locales/${lang}.json`);
+        if (!response.ok) {
+            throw new Error(`Network response was not ok for ${lang}.json`);
+        }
+        translations = await response.json();
+    } catch (error) {
+        console.error('Failed to load translations:', error);
+    }
+}
+
+/**
+ * Applies the currently loaded translations to all elements with `data-i18n-key`.
+ * @returns {void}
+ */
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n-key]').forEach(element => {
+        const key = element.getAttribute('data-i18n-key');
+        const translation = translations[key];
+
+        if (translation) {
+            const attr = element.getAttribute('data-i18n-attr');
+            if (attr) {
+                element.setAttribute(attr, translation);
+            } else {
+                element.textContent = translation;
+            }
+        }
+    });
+}
+
+/**
+ * Sets the application language, loads and applies translations.
+ * @param {string} lang - The language to switch to ('fr' or 'en').
+ * @returns {Promise<void>}
+ */
+async function setLanguage(lang) {
+    await loadTranslations(lang);
+    applyTranslations();
+    updateLanguageSwitcherUI(lang);
+}
+
+/**
+ * Updates the UI of the language switcher to highlight the active language.
+ * @param {string} activeLang - The currently active language code.
+ * @returns {void}
+ */
+function updateLanguageSwitcherUI(activeLang) {
+    document.querySelectorAll('[data-lang]').forEach(link => {
+        const linkLang = link.getAttribute('data-lang');
+        const isSelected = linkLang === activeLang;
+
+        link.classList.toggle('text-light-text-primary', isSelected);
+        link.classList.toggle('dark:text-dark-text-primary', isSelected);
+        link.classList.toggle('text-light-text-secondary', !isSelected);
+        link.classList.toggle('dark:text-dark-text-secondary', !isSelected);
+    });
+}
+
+/**
+ * Initializes the language switcher event listeners.
+ * @returns {void}
+ */
+function setupLanguageSwitcher() {
+    document.querySelector('.language-switcher').addEventListener('click', (event) => {
+        if (event.target.matches('[data-lang]')) {
+            event.preventDefault();
+            const lang = event.target.getAttribute('data-lang');
+            setLanguage(lang);
+        }
+    });
+}
+
+
+// =================================================================================================
+// Animations & Interactivity
+// =================================================================================================
+
 /**
  * Initializes all animations and event listeners when the DOM is fully loaded.
  * It serves as the main entry point for all client-side interactivity.
@@ -221,5 +311,10 @@ function setupThemeSwitcher() {
 document.addEventListener('DOMContentLoaded', () => {
     // Setup theme switcher first to ensure it runs even if animations fail
     setupThemeSwitcher();
+    setupLanguageSwitcher();
+
+    // Set default language to French
+    setLanguage('fr');
+
     initializeWebsiteInteractivity();
 });
