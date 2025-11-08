@@ -87,18 +87,100 @@
                         Event Horizon : Dans les coulisses de l'industrie spatiale européenne
                     </h1>
                 </section>
-                <section class="animate-section w-full py-16 md:py-24" id="videos">
-                    <header class="mb-12 md:mb-16">
-                        <h2 class="font-serif text-5xl font-bold text-light-text-primary dark:text-dark-text-primary md:text-6xl">Vidéos</h2>
+                <section class="animate-section group w-full py-16 md:py-24" id="videos" x-data="{
+                    skip: 1,
+                    atBeginning: false,
+                    atEnd: false,
+                    next() {
+                        this.to((current, offset) => current + offset * this.skip)
+                    },
+                    prev() {
+                        this.to((current, offset) => current - offset * this.skip)
+                    },
+                    to(strategy) {
+                        let slider = this.$refs.slider
+                        let current = slider.scrollLeft
+                        let offset = slider.firstElementChild.getBoundingClientRect().width
+                        slider.scrollTo({ left: strategy(current, offset), behavior: 'smooth' })
+                    },
+                    meta() {
+                        let slider = this.$refs.slider
+                        this.atBeginning = slider.scrollLeft === 0
+                        this.atEnd = Math.abs(slider.scrollWidth - slider.offsetWidth - slider.scrollLeft) < 5
+                    },
+                    init() {
+                        this.meta()
+                        this.$watch('skip', () => {
+                            this.meta()
+                        })
+                    }
+                }">
+                    <header class="mb-12 flex items-center justify-between md:mb-16">
+                        <div>
+                            <h2 class="font-serif text-5xl font-bold text-light-text-primary dark:text-dark-text-primary md:text-6xl">Vidéos</h2>
+                        </div>
+                        <div class="hidden items-center gap-x-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:flex">
+                            <button @click="prev" class="flex h-10 w-10 items-center justify-center rounded-full border border-light-border-light dark:border-dark-border-light bg-light-bg-primary dark:bg-dark-bg-primary text-light-text-secondary dark:text-dark-text-secondary transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-light-text-primary dark:hover:text-dark-text-primary" :disabled="atBeginning">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <button @click="next" class="flex h-10 w-10 items-center justify-center rounded-full border border-light-border-light dark:border-dark-border-light bg-light-bg-primary dark:bg-dark-bg-primary text-light-text-secondary dark:text-dark-text-secondary transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-light-text-primary dark:hover:text-dark-text-primary" :disabled="atEnd">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
                     </header>
-                    <div class="space-y-16">
-                        <div class="w-full">
+                    <div @scroll.debounce.0ms="meta" x-ref="slider" class="flex snap-x snap-mandatory cursor-grab space-x-8 overflow-x-auto pb-8 -mx-8 px-8 md:-mx-12 md:px-12">
+                        <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
                             <a class="group" href="#">
                                 <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
                                     <img alt="ESA Rocket Launch" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkDrXg0XhwOLA29EVxZwqrqbAPp965xDTpgF_6bhhz-1QQt6qfXHBqXIheo_Jj--Wdxpm2lFzWMVEXYdBXD4TpuUWQm4xVLspAQrgbDaKgepZmhZEzGYEZDBv8HnggEaFjg3MhxFMQRAJ3Q6pmAOEHziKck0alPp-hlLSF3c-5crwpNMnl-NxNr26yXExBmOStwgCXI6VAudydCmbkktzAJz5VkIXOwvROhHTHe4sjHFhiW77BHUF9oAQluWvZFnPZp4-_7Tp8dJA" />
                                 </div>
                                 <h3 class="font-serif text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">Ariane 6 : Le nouveau titan européen</h3>
                                 <p class="mt-1 text-base text-light-text-secondary dark:text-dark-text-secondary">Développement, défis et ambitions</p>
+                            </a>
+                        </div>
+                        <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+                            <a class="group" href="#">
+                                <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+                                    <img alt="L'avenir des satellites" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV-92s-0-a-6-d-g-f-s-h-j-k-l-m-n-b-v-c-x-z" />
+                                </div>
+                                <h3 class="font-serif text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">L'avenir des satellites</h3>
+                                <p class="mt-1 text-base text-light-text-secondary dark:text-dark-text-secondary">Constellations et Connectivité</p>
+                            </a>
+                        </div>
+                        <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+                            <a class="group" href="#">
+                                <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+                                    <img alt="Exploration Martienne" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-z-9-8-7-6-5-4-3-2-1-0-a-b-c-d-e-f-g-h" />
+                                </div>
+                                <h3 class="font-serif text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">Exploration Martienne</h3>
+                                <p class="mt-1 text-base text-light-text-secondary dark:text-dark-text-secondary">Les rovers européens en action</p>
+                            </a>
+                        </div>
+                        <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+                            <a class="group" href="#">
+                                <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+                                    <img alt="Galileo: La précision européenne" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-1-2-3-4-5-6-7-8-9-0-z-y-x-w-v-u-t-s" />
+                                </div>
+                                <h3 class="font-serif text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">Galileo: La précision européenne</h3>
+                                <p class="mt-1 text-base text-light-text-secondary dark:text-dark-text-secondary">L'alternative au GPS</p>
+                            </a>
+                        </div>
+                        <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+                            <a class="group" href="#">
+                                <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+                                    <img alt="La vie dans l'ISS" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-a-b-c-d-e-f-g-h-i-j-k-l-m-n-o-p-q-r" />
+                                </div>
+                                <h3 class="font-serif text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">La vie dans l'ISS</h3>
+                                <p class="mt-1 text-base text-light-text-secondary dark:text-dark-text-secondary">Le quotidien des astronautes ESA</p>
+                            </a>
+                        </div>
+                        <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+                            <a class="group" href="#">
+                                <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+                                    <img alt="Nettoyer l'orbite terrestre" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-1-a-2-b-3-c-4-d-5-e-6-f-7-g-8-h-9-i" />
+                                </div>
+                                <h3 class="font-serif text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">Nettoyer l'orbite terrestre</h3>
+                                <p class="mt-1 text-base text-light-text-secondary dark:text-dark-text-secondary">La mission contre les débris spatiaux</p>
                             </a>
                         </div>
                     </div>
@@ -152,6 +234,51 @@
 </div>
 <h3 class="font-serif text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Souveraineté spatiale européenne</h3>
 <p class="mt-1 text-sm text-light-text-secondary dark:text-dark-text-secondary">ANALYSE</p>
+</a>
+</div>
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+<a class="group block" href="#">
+<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+<img alt="Rencontre avec un ingénieur ESA" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA123456789" />
+</div>
+<h3 class="font-serif text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Rencontre avec un ingénieur ESA</h3>
+<p class="mt-1 text-sm text-light-text-secondary dark:text-dark-text-secondary">INTERVIEW</p>
+</a>
+</div>
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+<a class="group block" href="#">
+<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+<img alt="Un autre article" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB987654321" />
+</div>
+<h3 class="font-serif text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Un autre article</h3>
+<p class="mt-1 text-sm text-light-text-secondary dark:text-dark-text-secondary">CATÉGORIE</p>
+</a>
+</div>
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+<a class="group block" href="#">
+<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+<img alt="Article 4" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1122334455" />
+</div>
+<h3 class="font-serif text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Quatrième article</h3>
+<p class="mt-1 text-sm text-light-text-secondary dark:text-dark-text-secondary">EXPLORATION</p>
+</a>
+</div>
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+<a class="group block" href="#">
+<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+<img alt="Article 5" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6677889900" />
+</div>
+<h3 class="font-serif text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Cinquième article</h3>
+<p class="mt-1 text-sm text-light-text-secondary dark:text-dark-text-secondary">TECHNOLOGIE</p>
+</a>
+</div>
+<div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+<a class="group block" href="#">
+<div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-light-bg-secondary dark:bg-dark-bg-secondary">
+<img alt="Article 6" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuE1212121212" />
+</div>
+<h3 class="font-serif text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Sixième article</h3>
+<p class="mt-1 text-sm text-light-text-secondary dark:text-dark-text-secondary">AVENIR</p>
 </a>
 </div>
 </div>
