@@ -14,6 +14,7 @@
 <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -35,7 +36,10 @@
         @apply scroll-smooth;
       }
       body {
-        @apply bg-black font-sans text-text-primary antialiased;
+        @apply bg-white font-sans text-gray-800 antialiased;
+      }
+      .dark body {
+        @apply bg-black text-text-primary;
       }
     }
   </style>
@@ -49,47 +53,51 @@
 <header class="w-full" x-data="{ open: false }">
     <nav class="flex items-center justify-between text-sm">
         <div class="logo-container">
-            <a class="font-serif text-2xl font-bold tracking-tight text-white" href="index.html">Event Horizon</a>
+            <a class="font-serif text-2xl font-bold tracking-tight text-gray-800 dark:text-white" href="index.html">Event Horizon</a>
         </div>
-        <div class="hidden items-center gap-x-8 text-text-primary md:flex">
-            <a class="transition-colors hover:text-white" href="videos.html">Vidéos</a>
-            <a class="transition-colors hover:text-white" href="articles.html">Articles</a>
-            <a class="transition-colors hover:text-white" href="ecosysteme.html">L'Écosystème Toulousain</a>
-            <a class="transition-colors hover:text-white" href="a-propos.html">À Propos</a>
-            <a class="transition-colors hover:text-white" href="contact.html">Contact</a>
+        <div class="hidden items-center gap-x-8 text-gray-600 dark:text-text-primary md:flex">
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="videos.html">Vidéos</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="articles.html">Articles</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="ecosysteme.html">L'Écosystème Toulousain</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="a-propos.html">À Propos</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="contact.html">Contact</a>
         </div>
         <div class="flex items-center">
             <div class="hidden items-center text-sm font-medium md:flex">
-                <a class="px-2 py-1 text-white rounded-md" href="videos.html">FR</a>
-                <span class="text-white/30">/</span>
-                <a class="px-2 py-1 text-white/60 hover:text-white rounded-md" href="videos-en.html">EN</a>
+                <a class="px-2 py-1 text-gray-800 dark:text-white rounded-md" href="videos.html">FR</a>
+                <span class="text-gray-300 dark:text-white/30">/</span>
+                <a class="px-2 py-1 text-gray-500 dark:text-white/60 hover:text-black dark:hover:text-white rounded-md" href="videos-en.html">EN</a>
             </div>
-            <button @click="open = !open" class="ml-4 md:hidden" type="button">
-                <span class="material-symbols-outlined text-white">menu</span>
+            <button id="theme-switcher" class="ml-4" type="button">
+                <span class="material-symbols-outlined sun-icon text-gray-800 dark:text-white" style="display: none;">light_mode</span>
+                <span class="material-symbols-outlined moon-icon text-gray-800 dark:text-white" style="display: none;">dark_mode</span>
             </button>
-            <a class="hidden ml-4 border border-white bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-black transition-colors hover:bg-black hover:text-white md:block" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">S'abonner</a>
+            <button @click="open = !open" class="ml-4 md:hidden" type="button">
+                <span class="material-symbols-outlined text-gray-800 dark:text-white">menu</span>
+            </button>
+            <a class="hidden ml-4 border border-black dark:border-white bg-black dark:bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white dark:text-black transition-colors hover:bg-gray-800 dark:hover:bg-gray-200 md:block" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">S'abonner</a>
         </div>
     </nav>
     <div x-show="open" @click.away="open = false" class="fixed inset-0 z-50 bg-black bg-opacity-50" x-cloak>
-        <div class="absolute inset-y-0 right-0 w-64 h-full bg-black shadow-lg">
-            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-800">
-                <h2 class="text-lg font-semibold text-white">Menu</h2>
+        <div class="absolute inset-y-0 right-0 w-64 h-full bg-white dark:bg-black shadow-lg">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Menu</h2>
                 <button @click="open = false" type="button">
-                    <span class="material-symbols-outlined text-white">close</span>
+                    <span class="material-symbols-outlined text-gray-800 dark:text-white">close</span>
                 </button>
             </div>
             <div class="flex flex-col px-4 py-2">
-                <a class="py-2 text-white" href="videos.html">Vidéos</a>
-                <a class="py-2 text-white" href="articles.html">Articles</a>
-                <a class="py-2 text-white" href="ecosysteme.html">L'Écosystème Toulousain</a>
-                <a class="py-2 text-white" href="a-propos.html">À Propos</a>
-                <a class="py-2 text-white" href="contact.html">Contact</a>
+                <a class="py-2 text-gray-800 dark:text-white" href="videos.html">Vidéos</a>
+                <a class="py-2 text-gray-800 dark:text-white" href="articles.html">Articles</a>
+                <a class="py-2 text-gray-800 dark:text-white" href="ecosysteme.html">L'Écosystème Toulousain</a>
+                <a class="py-2 text-gray-800 dark:text-white" href="a-propos.html">À Propos</a>
+                <a class="py-2 text-gray-800 dark:text-white" href="contact.html">Contact</a>
                 <div class="flex items-center mt-4">
-                    <a class="px-2 py-1 text-white rounded-md" href="videos.html">FR</a>
-                    <span class="text-white/30">/</span>
-                    <a class="px-2 py-1 text-white/60 hover:text-white rounded-md" href="videos-en.html">EN</a>
+                    <a class="px-2 py-1 text-gray-800 dark:text-white rounded-md" href="videos.html">FR</a>
+                    <span class="text-gray-300 dark:text-white/30">/</span>
+                    <a class="px-2 py-1 text-gray-500 dark:text-white/60 hover:text-black dark:hover:text-white rounded-md" href="videos-en.html">EN</a>
                 </div>
-                <a class="mt-4 border border-white bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-black transition-colors hover:bg-black hover:text-white" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">S'abonner</a>
+                <a class="mt-4 border border-black dark:border-white bg-black dark:bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white dark:text-black transition-colors hover:bg-gray-800 dark:hover:bg-gray-200" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">S'abonner</a>
             </div>
         </div>
     </div>
@@ -97,7 +105,7 @@
 <main class="w-full">
 <section class="animate-section w-full py-16 md:py-24" id="videos">
 <header class="mb-12 md:mb-16">
-<h2 class="font-serif text-5xl font-bold text-white md:text-6xl">Vidéos</h2>
+<h2 class="font-serif text-5xl font-bold text-gray-800 dark:text-white md:text-6xl">Vidéos</h2>
 </header>
 <div class="space-y-16">
 <div class="w-full">

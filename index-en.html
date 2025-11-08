@@ -6,21 +6,22 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter-tight@5.2.7/variable.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-<script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            'text-primary': '#111111',
-            'text-secondary': '#666666',
-            'border-light': '#E5E5E5',
+            'text-primary': '#FFFFFF',
+            'text-secondary': '#B0B0B0',
+            'border-light': '#333333',
           },
           fontFamily: {
-            serif: ["Inter Tight", "serif"],
-            sans: ["Inter", "sans-serif"],
+            serif: ["Rajdhani", "sans-serif"],
+            sans: ["Open Sans", "sans-serif"],
           },
         },
       },
@@ -32,7 +33,10 @@
         @apply scroll-smooth;
       }
       body {
-        @apply bg-white font-sans text-text-primary antialiased;
+        @apply bg-white font-sans text-gray-800 antialiased;
+      }
+      .dark body {
+        @apply bg-black text-text-primary;
       }
     }
   </style>
@@ -40,33 +44,42 @@
 <body class="overflow-x-hidden">
 <div class="min-h-screen w-full">
 <div class="relative z-10 mx-auto max-w-7xl px-8 py-6 md:px-12 md:py-8">
-<header class="w-full">
-<nav class="flex items-center justify-between text-sm">
-<div class="logo-container"><a class="font-serif text-2xl font-bold tracking-tight text-black" href="index-en.html">Event Horizon</a></div>
-<div class="hidden items-center gap-x-8 text-text-primary md:flex">
-<a class="transition-colors hover:text-black" href="#videos">Videos</a>
-<a class="transition-colors hover:text-black" href="#articles">Articles</a>
-<a class="transition-colors hover:text-black" href="#ecosysteme">The Toulouse Ecosystem</a>
-</div>
-<div class="flex items-center">
-    <div class="flex items-center text-sm font-medium">
-        <a class="text-black/60 hover:text-black px-2 py-1 rounded-md" href="index.html">FR</a>
-        <span class="text-black/30">/</span>
-        <a class="text-black px-2 py-1 rounded-md" href="index-en.html">EN</a>
-    </div>
-<a class="border border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">Subscribe</a>
-</div>
-</nav>
+<header class="w-full" x-data="{ open: false }">
+    <nav class="flex items-center justify-between text-sm">
+        <div class="logo-container">
+            <a class="font-serif text-2xl font-bold tracking-tight text-gray-800 dark:text-white" href="index-en.html">Event Horizon</a>
+        </div>
+        <div class="hidden items-center gap-x-8 text-gray-600 dark:text-text-primary md:flex">
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="#videos">Videos</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="#articles">Articles</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="#ecosysteme">The Toulouse Ecosystem</a>
+        </div>
+        <div class="flex items-center">
+            <div class="hidden items-center text-sm font-medium md:flex">
+                <a class="px-2 py-1 text-gray-500 dark:text-white/60 hover:text-black dark:hover:text-white rounded-md" href="index.html">FR</a>
+                <span class="text-gray-300 dark:text-white/30">/</span>
+                <a class="px-2 py-1 text-gray-800 dark:text-white rounded-md" href="index-en.html">EN</a>
+            </div>
+            <button id="theme-switcher" class="ml-4" type="button">
+                <span class="material-symbols-outlined sun-icon text-gray-800 dark:text-white" style="display: none;">light_mode</span>
+                <span class="material-symbols-outlined moon-icon text-gray-800 dark:text-white" style="display: none;">dark_mode</span>
+            </button>
+            <button @click="open = !open" class="ml-4 md:hidden" type="button">
+                <span class="material-symbols-outlined text-gray-800 dark:text-white">menu</span>
+            </button>
+            <a class="hidden ml-4 border border-black dark:border-white bg-black dark:bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white dark:text-black transition-colors hover:bg-gray-800 dark:hover:bg-gray-200 md:block" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">Subscribe</a>
+        </div>
+    </nav>
 </header>
 <main class="w-full">
 <section class="flex min-h-[calc(100vh-120px)] w-full flex-col items-center justify-center py-20 text-center">
-<h1 class="main-title font-serif text-[8vw] font-bold leading-none tracking-tighter text-black md:text-[7vw] lg:text-[6.5vw]">
+<h1 class="main-title font-serif text-[8vw] font-bold leading-none tracking-tighter text-gray-800 dark:text-white md:text-[7vw] lg:text-[6.5vw]">
           Event Horizon: Behind the scenes of the European space industry
         </h1>
 </section>
 <section class="animate-section w-full py-16 md:py-24" id="videos">
 <header class="mb-12 md:mb-16">
-<h2 class="font-serif text-5xl font-bold text-black md:text-6xl">Videos</h2>
+<h2 class="font-serif text-5xl font-bold text-gray-800 dark:text-white md:text-6xl">Videos</h2>
 </header>
 <div class="space-y-16">
 <div class="w-full">
