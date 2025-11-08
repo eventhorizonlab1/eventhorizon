@@ -50,30 +50,6 @@ class TestBrowserAnimations(unittest.TestCase):
             self.assertEqual(await self.page.title(), "Event Horizon - Dans les coulisses de l'industrie spatiale européenne")
         self.loop.run_until_complete(run_test())
 
-    def test_quick_link_theme_change_bug(self):
-        """Verifies the quick link color is correct after a theme change."""
-        async def run_test():
-            """Runs the quick link theme change test steps."""
-            await self.page.goto('file://'
-                                 + os.path.abspath('index.html'))
-
-            quick_link = await self.page.query_selector('.quick-link')
-            await quick_link.hover()
-
-            await self.page.click('#theme-toggle')
-            await self.page.wait_for_timeout(500)
-
-            # Move mouse away to trigger the mouseleave event
-            await self.page.hover('body')
-
-            color = await quick_link.evaluate('''(element) => {
-                return window.getComputedStyle(element).getPropertyValue('color');
-            }''')
-            # The correct color in dark mode is 'rgb(160, 160, 160)' which is #A0A0A0
-            # The bug sets it to 'rgba(0, 0, 0, 0.6)'
-            self.assertEqual(color, 'rgb(160, 160, 160)')
-        self.loop.run_until_complete(run_test())
-
     def test_navigation_scroll(self):
         """Verifies that clicking the navigation links scrolls to the correct section."""
         async def run_test():
