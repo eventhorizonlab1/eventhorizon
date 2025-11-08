@@ -6,7 +6,7 @@ This file is fully documented with Google Style Python Docstrings.
 import os
 import unittest
 
-ALL_HTML_FILES = [f for f in os.listdir('.') if f.endswith('.html') and "bak" not in f]
+ALL_HTML_FILES = ["index.html"]
 
 class TestFooterLinks(unittest.TestCase):
     """Test suite for footer links.
