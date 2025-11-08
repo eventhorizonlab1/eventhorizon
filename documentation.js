@@ -1,7 +1,6 @@
 /**
  * @file Central repository for all documented JavaScript functions,
  * including animations, theme switching, and other interactive features.
- * This file is fully documented with JSDoc.
  * @author Jules
  */
 
@@ -9,6 +8,9 @@
 // Internationalization (i18n)
 // =================================================================================================
 
+/**
+ * @property {object} translations - An object to store the loaded translation strings.
+ */
 let translations = {};
 
 /**

@@ -48,6 +48,7 @@ class TestBrowserDocumentation(unittest.TestCase):
         scope, which is crucial for all animations to work.
         """
         async def run_test():
+            """Runs the anime.js definition test steps."""
             await self.page.goto('file://' + os.path.abspath('index.html'))
             anime_defined = await self.page.evaluate('typeof anime')
             self.assertEqual(anime_defined, 'function')

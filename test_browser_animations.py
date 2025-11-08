@@ -44,6 +44,7 @@ class TestBrowserAnimations(unittest.TestCase):
     def test_page_title(self):
         """Verifies that the page title is correct."""
         async def run_test():
+            """Runs the page title test steps."""
             await self.page.goto('file://'
                                  + os.path.abspath('index.html'))
             self.assertEqual(await self.page.title(), "Event Horizon - Dans les coulisses de l'industrie spatiale européenne")
@@ -52,6 +53,7 @@ class TestBrowserAnimations(unittest.TestCase):
     def test_navigation_scroll(self):
         """Verifies that clicking the navigation links scrolls to the correct section."""
         async def run_test():
+            """Runs the navigation scroll test steps."""
             await self.page.goto('file://'
                                  + os.path.abspath('index.html'))
             await self.page.click('a[href="#videos"]')

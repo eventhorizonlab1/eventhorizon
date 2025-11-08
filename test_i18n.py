@@ -44,6 +44,12 @@ class TestInternationalization(unittest.TestCase):
     def test_language_switcher(self):
         """Verifies that the language switcher correctly changes the page content."""
         async def run_test():
+            """Runs the language switcher test steps.
+
+            This async function navigates to the page, checks the initial
+            language, switches to English and verifies the change, then switches
+            back to French and verifies the change again.
+            """
             await self.page.goto('http://localhost:8000/index.html')
 
             # Check the initial language (French)
@@ -56,9 +62,9 @@ class TestInternationalization(unittest.TestCase):
             await self.page.click('a[data-lang="en"]')
 
             english_title = "Event Horizon: Behind the scenes of the European space industry"
-            await self.page.wait_for_function(f"""
+            await self.page.wait_for_function(f'''
                 () => document.querySelector('[data-i18n-key="main_title"]').innerText.trim() === "{english_title}"
-            """)
+            ''')
 
             # Check for the English title
             translated_title = await main_title_element.inner_text()
@@ -66,9 +72,9 @@ class TestInternationalization(unittest.TestCase):
 
             # Switch back to French
             await self.page.click('a[data-lang="fr"]')
-            await self.page.wait_for_function(f"""
+            await self.page.wait_for_function(f'''
                 () => document.querySelector('[data-i18n-key="main_title"]').innerText.trim() === "{french_title}"
-            """)
+            ''')
 
             # Check for the French title again
             reverted_title = await main_title_element.inner_text()
