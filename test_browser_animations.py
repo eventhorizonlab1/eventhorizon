@@ -44,6 +44,28 @@ class TestBrowserAnimations(unittest.TestCase):
     def test_page_title(self):
         """Verifies that the page title is correct."""
         async def run_test():
-            await self.page.goto('file://' + os.path.abspath('index.html'))
+            await self.page.goto('file://'
+                                 + os.path.abspath('index.html'))
             self.assertEqual(await self.page.title(), "Event Horizon - Dans les coulisses de l'industrie spatiale européenne")
+        self.loop.run_until_complete(run_test())
+
+    def test_navigation_scroll(self):
+        """Verifies that clicking the navigation links scrolls to the correct section."""
+        async def run_test():
+            await self.page.goto('file://'
+                                 + os.path.abspath('index.html'))
+            await self.page.click('a[href="#videos"]')
+            await self.page.wait_for_timeout(1000)  # Wait for scroll animation
+            videos_section = await self.page.query_selector('#videos')
+            self.assertTrue(await videos_section.is_visible())
+
+            await self.page.click('a[href="#articles"]')
+            await self.page.wait_for_timeout(1000)  # Wait for scroll animation
+            articles_section = await self.page.query_selector('#articles')
+            self.assertTrue(await articles_section.is_visible())
+
+            await self.page.click('a[href="#ecosysteme"]')
+            await self.page.wait_for_timeout(1000)  # Wait for scroll animation
+            ecosysteme_section = await self.page.query_selector('#ecosysteme')
+            self.assertTrue(await ecosysteme_section.is_visible())
         self.loop.run_until_complete(run_test())
