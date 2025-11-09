@@ -6,7 +6,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
 <script>
@@ -37,6 +37,19 @@
       body {
         @apply bg-white font-sans text-text-primary antialiased dark:bg-dark-bg dark:text-dark-text-primary;
       }
+      
+      /* --- Début de l'ajout pour les particules --- */
+      .particle {
+        @apply absolute rounded-full;
+        background-color: rgba(255, 255, 255, 0.15); /* Couleur par défaut (mode sombre) */
+        width: 3px;
+        height: 3px;
+      }
+      /* Règle pour le mode clair (quand .dark n'est PAS présent sur html) */
+      html:not(.dark) .particle {
+         background-color: rgba(0, 0, 0, 0.15); /* Couleur sombre pour fond clair */
+      }
+      /* --- Fin de l'ajout pour les particules --- */
     }
   </style>
 </head>
@@ -95,7 +108,8 @@
 </div>
 </header>
 <main class="w-full">
-<section class="flex min-h-[calc(100vh-120px)] w-full flex-col items-center justify-center py-20 text-center">
+<section class="relative flex min-h-[calc(100vh-120px)] w-full flex-col items-center justify-center py-20 text-center overflow-hidden">
+<div id="particle-container" class="absolute inset-0 -z-10"></div>
 <h1 class="text-[8vw] font-extrabold leading-none tracking-tighter text-black dark:text-white md:text-[7vw] lg:text-[6.5vw]" data-i18n-key="main_title">
           Event Horizon : Dans les coulisses de l'industrie spatiale européenne
         </h1>
