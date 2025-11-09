@@ -1,9 +1,8 @@
 """Verifies that browser animations and interactions work as expected.
 
-This script contains a suite of browser-based tests for the Event Horizon
+This module contains a suite of browser-based tests for the Event Horizon
 website, using Playwright to ensure that animations and interactive elements
 are functioning correctly.
-This file is fully documented with Google Style Python Docstrings.
 """
 
 import asyncio

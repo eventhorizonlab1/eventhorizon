@@ -1,9 +1,9 @@
-"""Verifies that the internationalization (i18n) and language switching
-functionality works as expected.
+"""Tests for the internationalization (i18n) and language switching functionality.
 
-This script contains a suite of browser-based tests for the Event Horizon
+This module contains a suite of browser-based tests for the Event Horizon
 website, using Playwright to ensure that the language switcher is functioning
-correctly.
+correctly. It verifies that the content of the page is correctly translated
+when the user switches between French and English.
 """
 
 import asyncio

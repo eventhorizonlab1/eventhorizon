@@ -1,6 +1,6 @@
 """Tests for the animation logic of the Event Horizon website.
 
-This file is fully documented with Google Style Python Docstrings.
+This module contains tests for the animation logic of the Event Horizon website.
 """
 
 import re

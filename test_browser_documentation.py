@@ -1,9 +1,8 @@
 """Verifies that the website's JavaScript functions are working correctly.
 
-This script contains a suite of browser-based tests for the Event Horizon
+This module contains a suite of browser-based tests for the Event Horizon
 website, using Playwright to ensure that the JavaScript functions in
 `documentation.js` are behaving as expected.
-This file is fully documented with Google Style Python Docstrings.
 """
 
 import asyncio

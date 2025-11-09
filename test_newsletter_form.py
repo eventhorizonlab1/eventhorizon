@@ -1,6 +1,8 @@
-"""Tests to validate the newsletter form of the Event Horizon website.
+"""Tests for the newsletter form of the Event Horizon website.
 
-This file is fully documented with Google Style Python Docstrings.
+This module contains tests to validate the structure of the newsletter form.
+It ensures that the form and its input fields have the necessary attributes
+for proper submission.
 """
 
 import os

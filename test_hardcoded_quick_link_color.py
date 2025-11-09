@@ -1,23 +1,18 @@
-# -*- coding: utf-8 -*-
-"""
-Tests for the Quick Link Hover Animation.
+"""Tests for the quick link hover animation.
 
-This test module verifies that the hover animation for the quick links in the
-footer does not use a hardcoded color. Hardcoding colors in JavaScript can
-lead to inconsistencies when the website's theme is updated.
+This module verifies that the hover animation for the quick links in the footer
+does not use a hardcoded color. Hardcoding colors in JavaScript can lead to
+inconsistencies when the website's theme is updated.
 """
 
 import re
 import unittest
 
 class TestQuickLinkHoverAnimation(unittest.TestCase):
-    """
-    Test suite for the quick link hover animation.
-    """
+    """Test suite for the quick link hover animation."""
 
     def test_hover_animation_does_not_use_hardcoded_color(self):
-        """
-        Verifies that the quick link hover animation does not use a hardcoded color.
+        """Verifies that the quick link hover animation does not use a hardcoded color.
 
         This test reads the content of the `documentation.js` file and uses a
         regular expression to check that the `setupQuickLinkHovers` function

@@ -19,6 +19,7 @@ This repository serves as a showcase of a modern, static website that is fully d
 - [Setup and Usage](#setup-and-usage)
 - [Testing](#testing)
 - [JavaScript Documentation](#javascript-documentation)
+- [Contributing](#contributing)
 - [License](#license)
 
 ## Technology Stack
@@ -131,6 +132,15 @@ All JavaScript code is located in the `documentation.js` file and is fully docum
     jsdoc documentation.js
     ```
 This will create an `out` directory containing the HTML documentation.
+
+## Contributing
+
+Contributions are welcome! If you would like to contribute to this project, please follow these steps:
+
+1.  **Fork the repository.**
+2.  **Create a new branch** for your feature or bug fix.
+3.  **Make your changes** and ensure that all tests pass.
+4.  **Submit a pull request** with a clear description of your changes.
 
 ## License
 
