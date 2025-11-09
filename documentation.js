@@ -116,7 +116,7 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupLogoHoverAnimation();
-
+    
     // --- Appel de la nouvelle fonction de particules ---
     setupParticleBackground();
 }
@@ -222,7 +222,7 @@ function setupParticleBackground() {
     for (let i = 0; i < numParticles; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-
+        
         // Position initiale aléatoire
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
@@ -273,9 +273,11 @@ function setupQuickLinkHovers() {
         });
 
         link.addEventListener('mouseleave', () => {
+            const isDarkMode = document.documentElement.classList.contains('dark');
             anime({
                 targets: link,
                 translateY: 0,
+                color: isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
                 duration: 300,
                 easing: 'easeOutExpo'
             });
