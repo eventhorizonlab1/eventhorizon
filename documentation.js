@@ -116,17 +116,20 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupLogoHoverAnimation();
+    
+    // --- Appel de la nouvelle fonction de particules ---
+    setupParticleBackground();
 }
 
 /**
  * Animates the main title on page load.
  * The title fades in and slides down for a smooth entrance effect.
  *
- * @returns {void} This function does not return a value.
+ * @returns {Promise} A promise that resolves when the animation is finished.
  */
 function animateMainTitle() {
     const mainTitle = document.querySelector('.main-title');
-    if (!mainTitle) return;
+    if (!mainTitle) return Promise.resolve(); // Retourne une promesse résolue si l'élément n'existe pas
 
     const words = mainTitle.innerText.split(' ');
     mainTitle.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
@@ -138,14 +141,14 @@ function animateMainTitle() {
         delay: anime.stagger(100),
         easing: 'easeOutExpo',
         duration: 1000
-    }).finished;
+    }).finished; // --- Amélioration : retourne la promesse .finished ---
 }
 
 /**
  * Animates the header elements on page load.
  * Creates a staggered appearance timeline for the logo, navigation links, and control icons.
  *
- * @returns {void} This function does not return a value.
+ * @returns {Promise} A promise that resolves when the animation is finished.
  */
 function animateHeader() {
     return anime({
@@ -155,7 +158,7 @@ function animateHeader() {
         delay: anime.stagger(100),
         easing: 'easeOutExpo',
         duration: 800
-    }).finished;
+    }).finished; // --- Amélioration : retourne la promesse .finished ---
 }
 
 /**
@@ -203,9 +206,50 @@ function setupIntersectionObserver() {
     });
 }
 
+// ---
+// --- NOUVELLE FONCTION AJOUTÉE ---
+// ---
+/**
+ * Crée un fond de particules lent et discret pour la section principale.
+ * @returns {void}
+ */
+function setupParticleBackground() {
+    const container = document.getElementById('particle-container');
+    if (!container) return; // Ne fait rien si le conteneur n'existe pas
 
+    const numParticles = 50; // Ajustez ce nombre selon vos goûts (50 est un bon début)
 
+    for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Position initiale aléatoire
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
 
+        container.appendChild(particle);
+    }
+
+    // Animation avec anime.js
+    anime({
+        targets: '.particle',
+        translateX: () => anime.random(-150, 150), // Dérive horizontale lente
+        translateY: () => anime.random(-150, 150), // Dérive verticale lente
+        opacity: [
+            // Apparaît, reste visible, puis disparaît
+            { value: 0, duration: 0 },
+            { value: () => anime.random(0.1, 0.4), duration: () => anime.random(1000, 3000) }, // Fade in
+            { value: 0, duration: () => anime.random(1000, 3000), delay: () => anime.random(15000, 25000) } // Fade out
+        ],
+        easing: 'linear',
+        duration: () => anime.random(30000, 50000), // Durée très longue (30-50s)
+        loop: true,
+        delay: () => anime.random(0, 30000) // Départ décalé pour chaque particule
+    });
+}
+// ---
+// --- FIN DE LA NOUVELLE FONCTION ---
+// ---
 
 
 /**
