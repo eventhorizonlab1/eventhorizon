@@ -1,9 +1,8 @@
 """Verifies the consistency of shared elements across all HTML pages.
 
-This script contains a suite of tests for the Event Horizon static website,
+This module contains a suite of tests for the Event Horizon static website,
 ensuring that elements such as CDN links, headers, footers, and navigation
-bars are present and correct in all HTML files, for both French and English versions.
-This file is fully documented with Google Style Python Docstrings.
+bars are present and correct in all HTML files.
 """
 
 import re
@@ -13,11 +12,6 @@ import unittest
 ALL_HTML_FILES = ["index.html"]
 """A list of all HTML files in the current directory to be tested."""
 
-FRENCH_HTML_FILES = ["index.html"]
-"""A list of all French HTML files in the current directory to be tested."""
-
-ENGLISH_HTML_FILES = []
-"""A list of all English HTML files in the current directory to be tested."""
 
 def read_file_content(filepath):
     """Reads and returns the content of a given file.
@@ -30,6 +24,7 @@ def read_file_content(filepath):
     """
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
+
 
 class TestSharedElements(unittest.TestCase):
     """Test suite for shared elements across all HTML pages.
@@ -78,7 +73,7 @@ class TestSharedElements(unittest.TestCase):
         """Verifies that all main navigation links are in all HTML files.
 
         This test ensures that all navigation links are present and correctly
-        formatted in the header of every page, for both language versions.
+        formatted in the header of every page.
         """
         nav_links = ['href="#videos"', 'href="#articles"', 'href="#ecosysteme"']
 

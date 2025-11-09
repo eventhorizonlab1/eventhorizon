@@ -1,6 +1,8 @@
-"""Tests for the presence of calls to undefined functions in JavaScript files.
+"""Tests for the presence of calls to undefined functions in JavaScript.
 
-This file is fully documented with Google Style Python Docstrings.
+This module contains a static analysis test to prevent the reintroduction of
+a latent bug—a commented-out call to an undefined function. This ensures that
+the JavaScript code remains clean and free of potential runtime errors.
 """
 
 import unittest

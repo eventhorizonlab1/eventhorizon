@@ -1,6 +1,7 @@
 """Tests for the footer links of the Event Horizon website.
 
-This file is fully documented with Google Style Python Docstrings.
+This module contains tests to ensure that the footer links are correctly
+implemented and behave as expected.
 """
 
 import os

@@ -1,7 +1,12 @@
 /**
- * @file Central repository for all documented JavaScript functions,
- * including animations, theme switching, and other interactive features.
+ * @file This file is the central repository for all JavaScript functions
+ * responsible for the interactivity and animations of the Event Horizon website.
+ * It handles internationalization (i18n), animations, theme switching,
+ * and other dynamic features.
+ *
  * @author Jules
+ * @see <a href="https://animejs.com/">anime.js</a> for the animation library used.
+ * @see <a href="https://alpinejs.dev/">Alpine.js</a> for the framework used for interactivity.
  */
 
 // =================================================================================================
@@ -9,12 +14,14 @@
 // =================================================================================================
 
 /**
- * @property {object} translations - An object to store the loaded translation strings.
+ * An object to store the loaded translation strings.
+ * @property {object} translations
  */
 let translations = {};
 
 /**
  * Asynchronously loads a translation file for a given language.
+ *
  * @param {string} lang - The language code (e.g., 'fr', 'en').
  * @returns {Promise<void>} A promise that resolves when translations are loaded.
  */
@@ -32,6 +39,7 @@ async function loadTranslations(lang) {
 
 /**
  * Applies the currently loaded translations to all elements with `data-i18n-key`.
+ *
  * @returns {void}
  */
 function applyTranslations() {
@@ -52,6 +60,7 @@ function applyTranslations() {
 
 /**
  * Sets the application language, loads and applies translations.
+ *
  * @param {string} lang - The language to switch to ('fr' or 'en').
  * @returns {Promise<void>}
  */
@@ -63,6 +72,7 @@ async function setLanguage(lang) {
 
 /**
  * Updates the UI of the language switcher to highlight the active language.
+ *
  * @param {string} activeLang - The currently active language code.
  * @returns {void}
  */
@@ -80,6 +90,7 @@ function updateLanguageSwitcherUI(activeLang) {
 
 /**
  * Initializes the language switcher event listeners.
+ *
  * @returns {void}
  */
 function setupLanguageSwitcher() {
@@ -116,9 +127,7 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupLogoHoverAnimation();
-    
-    // --- Appel de la nouvelle fonction de particules ---
-    setupParticleBackground();
+    initializeParticleSystem();
 }
 
 /**
@@ -129,7 +138,7 @@ function initializeWebsiteInteractivity() {
  */
 function animateMainTitle() {
     const mainTitle = document.querySelector('.main-title');
-    if (!mainTitle) return Promise.resolve(); // Retourne une promesse résolue si l'élément n'existe pas
+    if (!mainTitle) return Promise.resolve();
 
     const words = mainTitle.innerText.split(' ');
     mainTitle.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
@@ -141,7 +150,7 @@ function animateMainTitle() {
         delay: anime.stagger(100),
         easing: 'easeOutExpo',
         duration: 1000
-    }).finished; // --- Amélioration : retourne la promesse .finished ---
+    }).finished;
 }
 
 /**
@@ -158,7 +167,7 @@ function animateHeader() {
         delay: anime.stagger(100),
         easing: 'easeOutExpo',
         duration: 800
-    }).finished; // --- Amélioration : retourne la promesse .finished ---
+    }).finished;
 }
 
 /**
@@ -206,51 +215,45 @@ function setupIntersectionObserver() {
     });
 }
 
-// ---
-// --- NOUVELLE FONCTION AJOUTÉE ---
-// ---
 /**
- * Crée un fond de particules lent et discret pour la section principale.
- * @returns {void}
+ * Creates a slow and subtle particle background for the main section.
+ * This function generates a specified number of particle elements and animates
+ * them to create a drifting effect. The particles fade in and out over a long
+ * duration, creating a gentle and unobtrusive background animation.
+ *
+ * @returns {void} This function does not return a value.
  */
-function setupParticleBackground() {
+function initializeParticleSystem() {
     const container = document.getElementById('particle-container');
-    if (!container) return; // Ne fait rien si le conteneur n'existe pas
+    if (!container) return;
 
-    const numParticles = 50; // Ajustez ce nombre selon vos goûts (50 est un bon début)
+    const numParticles = 50;
 
     for (let i = 0; i < numParticles; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
         
-        // Position initiale aléatoire
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
 
         container.appendChild(particle);
     }
 
-    // Animation avec anime.js
     anime({
         targets: '.particle',
-        translateX: () => anime.random(-150, 150), // Dérive horizontale lente
-        translateY: () => anime.random(-150, 150), // Dérive verticale lente
+        translateX: () => anime.random(-150, 150),
+        translateY: () => anime.random(-150, 150),
         opacity: [
-            // Apparaît, reste visible, puis disparaît
             { value: 0, duration: 0 },
-            { value: () => anime.random(0.1, 0.4), duration: () => anime.random(1000, 3000) }, // Fade in
-            { value: 0, duration: () => anime.random(1000, 3000), delay: () => anime.random(15000, 25000) } // Fade out
+            { value: () => anime.random(0.1, 0.4), duration: () => anime.random(1000, 3000) },
+            { value: 0, duration: () => anime.random(1000, 3000), delay: () => anime.random(15000, 25000) }
         ],
         easing: 'linear',
-        duration: () => anime.random(30000, 50000), // Durée très longue (30-50s)
+        duration: () => anime.random(30000, 50000),
         loop: true,
-        delay: () => anime.random(0, 30000) // Départ décalé pour chaque particule
+        delay: () => anime.random(0, 30000)
     });
 }
-// ---
-// --- FIN DE LA NOUVELLE FONCTION ---
-// ---
-
 
 /**
  * Sets up hover effects for the quick links in the footer.
@@ -326,7 +329,11 @@ function setupThemeSwitcher() {
     const themeToggleButtons = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
     const htmlElement = document.documentElement;
 
-    // Function to update the theme based on the isDarkMode flag
+    /**
+     * Updates the theme based on the provided isDarkMode flag.
+     * @param {boolean} isDarkMode - A boolean indicating whether to apply the dark mode.
+     * @returns {void}
+     */
     const updateTheme = (isDarkMode) => {
         htmlElement.classList.toggle('dark', isDarkMode);
         themeToggleButtons.forEach(button => {
@@ -337,12 +344,10 @@ function setupThemeSwitcher() {
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     };
 
-    // Initialize theme based on localStorage or default to light
     const storedTheme = localStorage.getItem('theme');
     const initialThemeIsDark = storedTheme === 'dark';
     updateTheme(initialThemeIsDark);
 
-    // Add click listeners to the buttons
     themeToggleButtons.forEach(button => {
         if (button) {
             button.addEventListener('click', () => {
@@ -353,14 +358,14 @@ function setupThemeSwitcher() {
     });
 }
 
-// Initialize everything after the DOM is loaded.
+/**
+ * Initializes the website's interactivity.
+ * This function is the entry point for all client-side JavaScript.
+ * It sets up the theme switcher, language switcher, and all animations.
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    // Setup theme switcher first to ensure it runs even if animations fail
     setupThemeSwitcher();
     setupLanguageSwitcher();
-
-    // Set default language to French
     setLanguage('fr');
-
     initializeWebsiteInteractivity();
 });
