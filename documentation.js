@@ -150,7 +150,7 @@ function animateMainTitle() {
         delay: anime.stagger(100),
         easing: 'easeOutExpo',
         duration: 1000
-    }).finished;
+    });
 }
 
 /**
@@ -167,7 +167,7 @@ function animateHeader() {
         delay: anime.stagger(100),
         easing: 'easeOutExpo',
         duration: 800
-    }).finished;
+    });
 }
 
 /**
