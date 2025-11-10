@@ -72,11 +72,85 @@ class TestBrowserDocumentation(unittest.TestCase):
             Navigates to the index page and checks if the anime.js library
             has been successfully loaded and is available in the global scope.
             """
-            await self.page.goto('file://' + os.path.abspath('index.html'))
+            await self.page.goto('http://localhost:8000/index.html')
             anime_defined = await self.page.evaluate('typeof anime')
             self.assertEqual(anime_defined, 'function')
 
         self.loop.run_until_complete(run_test())
+
+    def test_theme_switcher(self):
+        """Verifies that the theme switcher toggles the 'dark' class.
+
+        This test simulates a user clicking the theme toggle button and
+        asserts that the 'dark' class is correctly applied to the HTML element,
+        switching the page to dark mode.
+        """
+        async def run_test():
+            """Runs the theme switcher test steps."""
+            await self.page.goto('http://localhost:8000/index.html')
+            # Check initial state (should not be dark)
+            html_class = await self.page.evaluate('document.documentElement.className')
+            self.assertNotIn('dark', html_class)
+
+            # Click the theme toggle button
+            await self.page.click('#theme-toggle')
+
+            # Verify that the 'dark' class is now present
+            html_class = await self.page.evaluate('document.documentElement.className')
+            self.assertIn('dark', html_class)
+
+            # Click again to toggle back
+            await self.page.click('#theme-toggle')
+            html_class = await self.page.evaluate('document.documentElement.className')
+            self.assertNotIn('dark', html_class)
+
+        self.loop.run_until_complete(run_test())
+
+    def test_language_switcher(self):
+        """Verifies that the language switcher updates the text content.
+
+        This test simulates a user clicking the language switcher and asserts
+        that the text content of a key element is updated with the correct
+        translation.
+        """
+        async def run_test():
+            """Runs the language switcher test steps."""
+            await self.page.goto('http://localhost:8000/index.html')
+
+            # Check initial language (French)
+            h1_text = await self.page.inner_text('h1.main-title')
+            self.assertIn("l'industrie spatiale européenne", h1_text)
+
+            # Click the 'EN' language link
+            await self.page.click('a[data-lang="en"]')
+
+            # Wait for the text to update
+            await self.page.wait_for_function('''() => {
+                const el = document.querySelector('h1.main-title');
+                return el && el.innerText.includes('European space industry');
+            }''')
+
+            # Verify that the text has been translated to English
+            h1_text = await self.page.inner_text('h1.main-title')
+            self.assertIn("European space industry", h1_text)
+
+        self.loop.run_until_complete(run_test())
+
+    def test_particle_network_initialization(self):
+        """Verifies that the particle network canvas is created."""
+        async def run_test():
+            """Runs the particle network initialization test steps."""
+            await self.page.goto('http://localhost:8000/index.html')
+
+            # Wait for the canvas to be created
+            await self.page.wait_for_selector('#particle-network')
+
+            # Verify that the canvas is inside the container
+            canvas_handle = await self.page.query_selector('#particle-container > #particle-network')
+            self.assertIsNotNone(canvas_handle)
+
+        self.loop.run_until_complete(run_test())
+
 
 if __name__ == '__main__':
     unittest.main()
