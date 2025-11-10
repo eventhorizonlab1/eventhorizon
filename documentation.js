@@ -1,6 +1,6 @@
 /**
- * Event Horizon - Interactive Script (version finale)
- * Effet : Réseau de particules connectées, pulsantes et réactives au curseur
+ * Event Horizon - Interactive Script (version ultime)
+ * Effet réseau de particules connectées, pulsantes, réactives au curseur et au scroll
  */
 
 let translations = {};
@@ -78,7 +78,7 @@ function initializeWebsiteInteractivity() {
 }
 
 // ================================================================
-// 🌌 Réseau de particules connectées + pulsation + interaction souris
+// 🌌 Réseau de particules connectées : pulsation + curseur + scroll
 // ================================================================
 function initializeParticleNetwork() {
   const container = document.getElementById("particle-container");
@@ -100,6 +100,7 @@ function initializeParticleNetwork() {
   const maxDist = 160;
 
   let mouse = { x: null, y: null, radius: 200 };
+  let scrollOffset = 0;
 
   function resizeCanvas() {
     canvas.width = container.offsetWidth;
@@ -108,19 +109,26 @@ function initializeParticleNetwork() {
   window.addEventListener("resize", resizeCanvas);
   resizeCanvas();
 
-  // Gestion de la position de la souris
+  // 🧭 Curseur
   window.addEventListener("mousemove", (e) => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
   });
-
   window.addEventListener("mouseleave", () => {
     mouse.x = null;
     mouse.y = null;
   });
 
-  // Création des particules
+  // 🌀 Scroll reactivity
+  let lastScroll = window.scrollY;
+  window.addEventListener("scroll", () => {
+    const delta = window.scrollY - lastScroll;
+    scrollOffset = anime.utils.clamp(-1, 1, delta * 0.02);
+    lastScroll = window.scrollY;
+  });
+
+  // Particules initiales
   for (let i = 0; i < numParticles; i++) {
     particles.push({
       x: Math.random() * canvas.width,
@@ -141,15 +149,14 @@ function initializeParticleNetwork() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Mise à jour et dessin des particules
     for (let p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
+      p.x += p.vx + scrollOffset * 0.5; // effet scroll
+      p.y += p.vy - scrollOffset * 0.3;
 
       if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
       if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-      // Interaction avec la souris
+      // Interaction curseur
       if (mouse.x && mouse.y) {
         const dx = mouse.x - p.x;
         const dy = mouse.y - p.y;
@@ -161,7 +168,7 @@ function initializeParticleNetwork() {
         }
       }
 
-      // Effet de pulsation (respiration lumineuse)
+      // Pulsation (respiration lumineuse)
       p.pulse += 0.02;
       const pulseScale = 1 + Math.sin(p.pulse) * 0.3;
 
@@ -171,10 +178,10 @@ function initializeParticleNetwork() {
       ctx.fill();
     }
 
-    // Connexions dynamiques
     pulseTime += 0.02;
     const pulseIntensity = (Math.sin(pulseTime) + 1) / 2;
 
+    // Connexions
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -193,10 +200,13 @@ function initializeParticleNetwork() {
       }
     }
 
+    // Dissipation progressive du scrollOffset
+    scrollOffset *= 0.9;
+
     requestAnimationFrame(drawNetwork);
   }
 
-  // Animation d’apparition initiale
+  // Apparition douce
   anime({
     targets: particles,
     opacity: [0, 1],
@@ -207,7 +217,7 @@ function initializeParticleNetwork() {
 }
 
 // ================================================================
-// Autres animations (inchangées)
+// Autres animations
 // ================================================================
 function animateMainTitle() {
   const mainTitle = document.querySelector(".main-title");
