@@ -9,7 +9,11 @@ import re
 import unittest
 
 class TestQuickLinkHoverAnimation(unittest.TestCase):
-    """Test suite for the quick link hover animation."""
+    """Test suite for the quick link hover animation.
+
+    This class contains tests to ensure that the quick link hover animation
+    does not use a hardcoded color.
+    """
 
     def test_hover_animation_does_not_use_hardcoded_color(self):
         """Verifies that the quick link hover animation does not use a hardcoded color.
@@ -18,7 +22,7 @@ class TestQuickLinkHoverAnimation(unittest.TestCase):
         regular expression to check that the `setupQuickLinkHovers` function
         does not contain a hardcoded color property. This ensures that the
         animation is theme-agnostic and will not cause issues when the theme
-        is changed.
+        is changed. A theme-aware application should not have hardcoded colors.
         """
         with open('documentation.js', 'r', encoding='utf-8') as f:
             js_code = f.read()

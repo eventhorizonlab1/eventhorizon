@@ -21,6 +21,7 @@ This repository serves as a showcase of a modern, static website that is fully d
 - [JavaScript Documentation](#javascript-documentation)
 - [Contributing](#contributing)
 - [License](#license)
+- [Project Analysis](#project-analysis)
 
 ## Technology Stack
 
@@ -146,3 +147,73 @@ Contributions are welcome! If you would like to contribute to this project, plea
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+## Project Analysis
+
+This document provides a comprehensive analysis of the Event Horizon project,
+intended to serve as a guide for new developers. It covers the project's
+architecture, testing strategy, and other important details.
+
+### Project Architecture
+
+The Event Horizon website is a static website built with a simple and robust
+technology stack. This architecture was chosen for its simplicity, performance,
+and ease of deployment.
+
+#### Technology Stack
+
+*   **HTML**: The core markup for all pages.
+*   **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+*   **Alpine.js**: A minimal JavaScript framework for adding interactivity.
+*   **anime.js**: A lightweight JavaScript animation library.
+
+All external libraries are loaded via CDN links in the HTML files, eliminating
+the need for a complex build process.
+
+#### File Structure
+
+*   `index.html`: The main landing page.
+*   `locales/`: Contains JSON files for internationalization.
+*   `documentation.js`: The central repository for all JavaScript code.
+*   `test_*.py`: A suite of Python-based tests.
+*   `README.md`: A high-level overview of the project.
+*   `ANALYSIS.md`: This file, providing a deep dive into the project's
+    architecture and testing strategy.
+
+### Testing Strategy
+
+The project includes a comprehensive suite of Python-based tests to verify the
+integrity of the website. The testing strategy combines static analysis and
+browser-based tests to ensure a high level of quality.
+
+#### Static Analysis
+
+These tests check the code for correctness without running it in a browser.
+They are used to verify things like the presence of required HTML elements, the
+correctness of links, and the absence of calls to undefined functions.
+
+*   `test.py`: Verifies the consistency of shared elements.
+*   `test_animations.py`: Tests the animation logic in `documentation.js`.
+*   `test_footer_links.py`: Verifies that the footer links are correct.
+*   `test_hardcoded_quick_link_color.py`: Verifies that the quick link hover
+    animation does not use a hardcoded color.
+*   `test_newsletter_form.py`: Verifies that the newsletter form is correctly
+    structured.
+*   `test_undefined_functions.py`: Verifies that there are no calls to
+    undefined functions in the JavaScript code.
+
+#### Browser-based Tests
+
+These tests use a real browser to simulate user interactions and verify that
+the website behaves as expected. They are used to test things like animations,
+language switching, and other interactive features.
+
+*   `test_browser_animations.py`: Verifies that browser animations and
+    interactions work as expected.
+*   `test_browser_documentation.py`: Verifies that the website's JavaScript
+    functions are working correctly.
+*   `test_i18n.py`: Verifies that the internationalization (i18n) and language
+    switching functionality works as expected.
+
+This combination of static analysis and browser-based tests provides a high
+level of confidence in the quality and correctness of the code.

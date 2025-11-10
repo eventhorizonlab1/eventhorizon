@@ -21,9 +21,13 @@ let translations = {};
 
 /**
  * Asynchronously loads a translation file for a given language.
+ * Fetches a JSON file from the `locales/` directory and parses it into the
+ * global `translations` object. This function is essential for the site's
+ * internationalization (i18n) functionality.
  *
- * @param {string} lang - The language code (e.g., 'fr', 'en').
- * @returns {Promise<void>} A promise that resolves when translations are loaded.
+ * @param {string} lang - The language code (e.g., 'fr', 'en') corresponding to the translation file.
+ * @returns {Promise<void>} A promise that resolves when the translations have been successfully loaded and parsed.
+ * @throws {Error} Throws an error if the network response is not 'ok', indicating a problem fetching the translation file.
  */
 async function loadTranslations(lang) {
     try {
@@ -39,8 +43,11 @@ async function loadTranslations(lang) {
 
 /**
  * Applies the currently loaded translations to all elements with `data-i18n-key`.
+ * Iterates through all elements that have the `data-i18n-key` attribute and
+ * updates their content with the corresponding string from the `translations` object.
+ * This function is called after `loadTranslations` to update the UI.
  *
- * @returns {void}
+ * @returns {void} This function does not return a value.
  */
 function applyTranslations() {
     document.querySelectorAll('[data-i18n-key]').forEach(element => {
@@ -60,9 +67,13 @@ function applyTranslations() {
 
 /**
  * Sets the application language, loads and applies translations.
+ * This function orchestrates the language switching process by calling
+ * `loadTranslations` to fetch the new language file, `applyTranslations`
+ * to update the UI, and `updateLanguageSwitcherUI` to reflect the change
+ * in the language switcher component.
  *
- * @param {string} lang - The language to switch to ('fr' or 'en').
- * @returns {Promise<void>}
+ * @param {string} lang - The language to switch to (e.g., 'fr', 'en').
+ * @returns {Promise<void>} A promise that resolves when the language has been set and the UI has been updated.
  */
 async function setLanguage(lang) {
     await loadTranslations(lang);
@@ -72,9 +83,11 @@ async function setLanguage(lang) {
 
 /**
  * Updates the UI of the language switcher to highlight the active language.
+ * Toggles CSS classes to visually indicate which language is currently
+ * selected in the language switcher component.
  *
- * @param {string} activeLang - The currently active language code.
- * @returns {void}
+ * @param {string} activeLang - The language code for the currently active language (e.g., 'fr', 'en').
+ * @returns {void} This function does not return a value.
  */
 function updateLanguageSwitcherUI(activeLang) {
     document.querySelectorAll('[data-lang]').forEach(link => {
@@ -90,8 +103,10 @@ function updateLanguageSwitcherUI(activeLang) {
 
 /**
  * Initializes the language switcher event listeners.
+ * Attaches a click event listener to the language switcher component,
+ * allowing users to change the site's language.
  *
- * @returns {void}
+ * @returns {void} This function does not return a value.
  */
 function setupLanguageSwitcher() {
     document.querySelector('.language-switcher').addEventListener('click', (event) => {
@@ -110,7 +125,8 @@ function setupLanguageSwitcher() {
 
 /**
  * Initializes all animations and event listeners when the DOM is fully loaded.
- * It serves as the main entry point for all client-side interactivity.
+ * It serves as the main entry point for all client-side interactivity,
+ * orchestrating the execution of animations and the setup of event listeners.
  *
  * @returns {void} This function does not return a value.
  */
@@ -132,8 +148,9 @@ function initializeWebsiteInteractivity() {
 /**
  * Animates the main title on page load.
  * The title fades in and slides down for a smooth entrance effect.
+ * This function is part of the initial animation sequence.
  *
- * @returns {Promise} A promise that resolves when the animation is finished.
+ * @returns {anime.AnimeInstance} An anime.js animation instance.
  */
 function animateMainTitle() {
     const mainTitle = document.querySelector('.main-title');
@@ -155,8 +172,9 @@ function animateMainTitle() {
 /**
  * Animates the header elements on page load.
  * Creates a staggered appearance timeline for the logo, navigation links, and control icons.
+ * This function is part of the ainitial animation sequence.
  *
- * @returns {Promise} A promise that resolves when the animation is finished.
+ * @returns {anime.AnimeInstance} An anime.js animation instance.
  */
 function animateHeader() {
     return anime({
@@ -177,7 +195,7 @@ function animateHeader() {
  * `.animate-card` within it. If cards are present, they are animated with a
  * staggered fade-in and slide-up effect. If no cards are found, the section
  * itself is animated. Once an element has been animated, it is unobserved to
- * prevent the animation from re-triggering.
+ * prevent the animation from re-triggering. This is a performance optimization.
  *
  * @returns {void} This function does not return a value.
  */
@@ -227,7 +245,7 @@ function setupIntersectionObserver() {
  * Sets up hover effects for the quick links in the footer.
  * On mouse-over, the link animates upwards. On mouse-out, it returns to its
  * original position and its color is restored based on the current theme
- * (light or dark mode).
+ * (light or dark mode). This ensures the hover effect is theme-aware.
  *
  * @returns {void} This function does not return a value.
  */
@@ -260,6 +278,7 @@ function setupQuickLinkHovers() {
  * Sets up a hover animation for the site logo.
  * When the user hovers over the logo, it scales up slightly to provide
  * visual feedback. When the mouse leaves, it scales back to its original size.
+ * This provides a subtle and engaging user interaction.
  *
  * @returns {void} This function does not return a value.
  */
@@ -289,7 +308,8 @@ function setupLogoHoverAnimation() {
  * Sets up the theme switcher functionality.
  * This function handles the theme toggle buttons, reads the user's preference
  * from localStorage, and applies the corresponding theme (light or dark). It
- * also adds event listeners to the buttons to allow theme switching.
+ * also adds event listeners to the buttons to allow theme switching. This
+ * function is a core part of the site's user experience.
  *
  * @returns {void} This function does not return a value.
  */
@@ -327,9 +347,12 @@ function setupThemeSwitcher() {
 }
 
 /**
- * Initializes the website's interactivity.
- * This function is the entry point for all client-side JavaScript.
- * It sets up the theme switcher, language switcher, and all animations.
+ * Initializes the website's interactivity upon DOM content loading.
+ * This function serves as the main entry point for all client-side JavaScript.
+ * It ensures that the theme switcher, language switcher, and all animations
+ * are set up and initialized as soon as the DOM is ready.
+ *
+ * @event DOMContentLoaded
  */
 document.addEventListener('DOMContentLoaded', () => {
     setupThemeSwitcher();

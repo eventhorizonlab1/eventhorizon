@@ -19,17 +19,20 @@ def read_file_content(filepath):
         return f.read()
 
 class TestAnimations(unittest.TestCase):
-    """Test suite for animation logic.
+    """Test suite for the animation logic in `documentation.js`.
 
-    This class contains tests to ensure that the JavaScript-based animations
-    are correctly implemented and behave as expected.
+    This class contains a static analysis test to ensure that the JavaScript
+    file responsible for animations is present and not empty. This serves as a
+    basic safeguard against accidental deletion or corruption of the animation
+    script, which would break all visual interactivity on the website.
     """
 
     def test_animations_js_not_empty(self):
         """Ensures that the `documentation.js` file is not empty.
 
         This test serves as a basic check to confirm that the animation
-        script has not been accidentally wiped or corrupted.
+        script has not been accidentally wiped or corrupted. An empty
+        JavaScript file would break all animations and interactivity.
         """
         content = read_file_content('documentation.js')
         self.assertGreater(len(content), 0, "The 'documentation.js' file is empty!")

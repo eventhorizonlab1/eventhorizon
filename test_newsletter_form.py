@@ -27,8 +27,9 @@ def read_file_content(filepath):
 class TestNewsletterForm(unittest.TestCase):
     """Test suite for the newsletter form.
 
-    This class contains tests to ensure that the newsletter form is
-    correctly structured and that all expected attributes are present.
+    This class contains a static analysis test to ensure that the newsletter
+    form is correctly structured. A properly structured form is essential for
+    successful user subscriptions.
     """
 
     def test_newsletter_form_attributes(self):
@@ -36,7 +37,8 @@ class TestNewsletterForm(unittest.TestCase):
 
         This test verifies that if a newsletter form is present on a page,
         it contains the necessary 'action' and 'method' attributes,
-        and that the email input has a 'name' attribute.
+        and that the email input has a 'name' attribute. These attributes
+        are essential for the form to be submitted correctly.
         """
         for filepath in HTML_FILES:
             with self.subTest(filepath=filepath):

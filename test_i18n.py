@@ -14,13 +14,19 @@ from playwright.async_api import async_playwright
 class TestInternationalization(unittest.TestCase):
     """Test suite for internationalization and language switching.
 
-    This class sets up a Playwright browser instance and runs tests to verify
-    the correct behavior of the language switching functionality on the website.
+    This class uses Playwright to conduct browser-based tests on the language
+    switching functionality. It verifies that when a user clicks the language
+    switcher, the content of the page is correctly translated. This is a critical
+    test for a bilingual website.
     """
 
     @classmethod
     def setUpClass(cls):
-        """Sets up the browser and event loop for the test class."""
+        """Sets up the browser and event loop for the test class.
+
+        This method is called once before any tests in this class are run.
+        It sets up a Playwright browser instance and an asyncio event loop.
+        """
         cls.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(cls.loop)
         cls.playwright = cls.loop.run_until_complete(async_playwright().start())
@@ -28,21 +34,40 @@ class TestInternationalization(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        """Tears down the browser and event loop after the tests."""
+        """Tears down the browser and event loop after the tests.
+
+        This method is called once after all tests in this class have been run.
+        It closes the Playwright browser instance and the asyncio event loop.
+        """
         cls.loop.run_until_complete(cls.browser.close())
         cls.loop.run_until_complete(cls.playwright.stop())
         cls.loop.close()
 
     def setUp(self):
-        """Sets up a new page for each test."""
+        """Sets up a new page for each test.
+
+        This method is called before each test in this class is run.
+        It creates a new Playwright page for each test to ensure that
+        tests are isolated from each other.
+        """
         self.page = self.loop.run_until_complete(self.browser.new_page())
 
     def tearDown(self):
-        """Tears down the page after each test."""
+        """Tears down the page after each test.
+
+        This method is called after each test in this class is run.
+        It closes the Playwright page to ensure that resources are
+        cleaned up correctly.
+        """
         self.loop.run_until_complete(self.page.close())
 
     def test_language_switcher(self):
-        """Verifies that the language switcher correctly changes the page content."""
+        """Verifies that the language switcher correctly changes the page content.
+
+        This test simulates a user switching between French and English and
+        verifies that the content is updated accordingly. This is a crucial
+        feature for a bilingual website.
+        """
         async def run_test():
             """Runs the language switcher test steps.
 

@@ -31,13 +31,15 @@ class TestSharedElements(unittest.TestCase):
 
     This class contains tests to ensure that common elements like the header,
     footer, and CDN links are consistently applied across all HTML files.
+    This is important for maintaining a consistent user experience.
     """
 
     def test_alpine_version(self):
         """Checks for the correct Alpine.js CDN link in all HTML files.
 
         This test verifies that the pinned version of Alpine.js (v2.8.2) is
-        correctly referenced in all HTML files.
+        correctly referenced in all HTML files. It is important to pin the
+        version to avoid unexpected breaking changes from the CDN.
         """
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
@@ -49,7 +51,8 @@ class TestSharedElements(unittest.TestCase):
         """Ensures the Tailwind CSS CDN link is in all HTML files.
 
         This test confirms that the Tailwind CSS library is loaded via its CDN
-        in every HTML file.
+        in every HTML file. This is crucial for the site's styling to be
+        applied correctly.
         """
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
@@ -62,6 +65,7 @@ class TestSharedElements(unittest.TestCase):
 
         This test ensures that the `header` element, including the site logo,
         is present on every page for consistent branding and navigation.
+        A consistent header is essential for a good user experience.
         """
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
@@ -73,7 +77,8 @@ class TestSharedElements(unittest.TestCase):
         """Verifies that all main navigation links are in all HTML files.
 
         This test ensures that all navigation links are present and correctly
-        formatted in the header of every page.
+        formatted in the header of every page. This is critical for site
+        navigation and user experience.
         """
         nav_links = ['href="#videos"', 'href="#articles"', 'href="#ecosysteme"']
 

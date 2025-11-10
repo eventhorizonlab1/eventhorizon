@@ -11,8 +11,9 @@ import re
 class TestUndefinedFunctions(unittest.TestCase):
     """Test suite for undefined function calls.
 
-    This class contains tests to ensure that there are no calls to undefined
-    functions in the JavaScript code.
+    This class contains a static analysis test to ensure that there are no calls
+    to undefined functions in the JavaScript code. This prevents latent bugs
+    from being reintroduced into the codebase.
     """
 
     def test_no_undefined_function_calls(self):
@@ -22,6 +23,7 @@ class TestUndefinedFunctions(unittest.TestCase):
         the reintroduction of a latent bug—a commented-out call to an
         undefined function. If this test fails, it means the line has been
         uncommented, which could break the site's JavaScript functionality.
+        This is a regression test.
         """
         with open('documentation.js', 'r') as f:
             content = f.read()
