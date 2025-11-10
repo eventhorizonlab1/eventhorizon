@@ -127,7 +127,6 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupLogoHoverAnimation();
-    initializeShootingStars();
 }
 
 /**
@@ -223,46 +222,6 @@ function setupIntersectionObserver() {
  *
  * @returns {void} This function does not return a value.
  */
-function initializeShootingStars() {
-  const container = document.getElementById('particle-container');
-  if (!container) {
-    console.log('❌ Particle container not found!');
-    return;
-  }
-
-  console.log('✅ Shooting stars initialized!');
-
-  function createShootingStar() {
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
-
-    const startX = Math.random() * 100;
-    const startY = Math.random() * 50;
-
-    star.style.left = `${startX}%`;
-    star.style.top = `${startY}%`;
-
-    container.appendChild(star);
-
-    anime({
-      targets: star,
-      translateX: [0, -300],
-      translateY: [0, 300],
-      opacity: [0.3, 1, 0.3],
-      duration: 2000,
-      easing: 'easeInQuad',
-      complete: () => star.remove()
-    });
-  }
-
-  // Create first star immediately
-  createShootingStar();
-
-  // Create a star every 1.5 seconds (removed the random check)
-  setInterval(() => {
-    createShootingStar();
-  }, 1500);
-}
 
 /**
  * Sets up hover effects for the quick links in the footer.
