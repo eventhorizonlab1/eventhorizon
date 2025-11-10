@@ -225,7 +225,11 @@ function setupIntersectionObserver() {
  */
 function initializeParticleSystem() {
     const container = document.getElementById('particle-container');
-    if (!container) return;
+    if (!container) {
+        console.error('Particle container not found!');
+        return;
+    }
+    console.log('Particles initialized: creating 50 particles');
 
     const numParticles = 50;
 
@@ -244,14 +248,13 @@ function initializeParticleSystem() {
         translateX: () => anime.random(-150, 150),
         translateY: () => anime.random(-150, 150),
         opacity: [
-            { value: 0, duration: 0 },
-            { value: () => anime.random(0.1, 0.4), duration: () => anime.random(1000, 3000) },
+            { value: () => anime.random(0.4, 0.8), duration: () => anime.random(1000, 3000) },
             { value: 0, duration: () => anime.random(1000, 3000), delay: () => anime.random(15000, 25000) }
         ],
         easing: 'linear',
         duration: () => anime.random(30000, 50000),
         loop: true,
-        delay: () => anime.random(0, 30000)
+        delay: () => anime.random(0, 2000)
     });
 }
 
