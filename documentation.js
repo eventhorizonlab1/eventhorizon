@@ -1,11 +1,13 @@
 /**
- * Event Horizon - Interactive Script
- * Nouvelle version : effet réseau de particules connectées
- * Remplace l'ancien "dot grid" par un effet dynamique connecté
+ * Event Horizon - Interactive Script (version finale)
+ * Effet : Réseau de particules connectées, pulsantes et réactives au curseur
  */
 
 let translations = {};
 
+// ================================================================
+// 🌍 Gestion des langues
+// ================================================================
 async function loadTranslations(lang) {
   try {
     const response = await fetch(`locales/${lang}.json`);
@@ -57,10 +59,9 @@ function setupLanguageSwitcher() {
   });
 }
 
-// =================================================================================================
+// ================================================================
 // ✨ ANIMATIONS & INTERACTIVITÉ
-// =================================================================================================
-
+// ================================================================
 function initializeWebsiteInteractivity() {
   anime.timeline({ easing: "easeOutExpo", duration: 1000 })
     .add(animateHeader())
@@ -72,11 +73,13 @@ function initializeWebsiteInteractivity() {
   setupHoverAnimations();
   animateSectionTitles();
 
-  // ⚡ Nouveau fond animé
+  // 🌌 Fond spatial animé
   initializeParticleNetwork();
 }
 
-// === Nouveau fond "réseau de particules connectées" ===
+// ================================================================
+// 🌌 Réseau de particules connectées + pulsation + interaction souris
+// ================================================================
 function initializeParticleNetwork() {
   const container = document.getElementById("particle-container");
   if (!container) return;
@@ -88,13 +91,15 @@ function initializeParticleNetwork() {
   canvas.style.zIndex = "-1";
   canvas.style.width = "100%";
   canvas.style.height = "100%";
-  container.innerHTML = ""; // supprime les anciens dots
+  container.innerHTML = "";
   container.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
   let particles = [];
-  const numParticles = 70;
-  const maxDist = 150;
+  const numParticles = 80;
+  const maxDist = 160;
+
+  let mouse = { x: null, y: null, radius: 200 };
 
   function resizeCanvas() {
     canvas.width = container.offsetWidth;
@@ -103,7 +108,19 @@ function initializeParticleNetwork() {
   window.addEventListener("resize", resizeCanvas);
   resizeCanvas();
 
-  // Crée les particules
+  // Gestion de la position de la souris
+  window.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+
+  window.addEventListener("mouseleave", () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  // Création des particules
   for (let i = 0; i < numParticles; i++) {
     particles.push({
       x: Math.random() * canvas.width,
@@ -111,29 +128,52 @@ function initializeParticleNetwork() {
       vx: (Math.random() - 0.5) * 0.6,
       vy: (Math.random() - 0.5) * 0.6,
       radius: Math.random() * 2 + 1,
+      pulse: Math.random() * Math.PI * 2,
     });
   }
 
+  let pulseTime = 0;
+
   function drawNetwork() {
     const isDark = document.documentElement.classList.contains("dark");
-    const dotColor = isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)";
-    const lineColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
+    const dotColor = isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)";
+    const baseLineColor = isDark ? "255,255,255" : "0,0,0";
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
+    // Mise à jour et dessin des particules
+    for (let p of particles) {
       p.x += p.vx;
       p.y += p.vy;
 
       if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
       if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
+      // Interaction avec la souris
+      if (mouse.x && mouse.y) {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < mouse.radius) {
+          const force = (mouse.radius - dist) / mouse.radius;
+          p.vx -= (dx / dist) * force * 0.03;
+          p.vy -= (dy / dist) * force * 0.03;
+        }
+      }
+
+      // Effet de pulsation (respiration lumineuse)
+      p.pulse += 0.02;
+      const pulseScale = 1 + Math.sin(p.pulse) * 0.3;
+
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, p.radius * pulseScale, 0, Math.PI * 2);
       ctx.fillStyle = dotColor;
       ctx.fill();
     }
+
+    // Connexions dynamiques
+    pulseTime += 0.02;
+    const pulseIntensity = (Math.sin(pulseTime) + 1) / 2;
 
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -142,11 +182,12 @@ function initializeParticleNetwork() {
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * (0.2 + pulseIntensity * 0.3);
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = lineColor;
-          ctx.lineWidth = 1 - dist / maxDist;
+          ctx.strokeStyle = `rgba(${baseLineColor}, ${alpha})`;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
@@ -155,7 +196,7 @@ function initializeParticleNetwork() {
     requestAnimationFrame(drawNetwork);
   }
 
-  // Démarre avec une légère animation d’apparition
+  // Animation d’apparition initiale
   anime({
     targets: particles,
     opacity: [0, 1],
@@ -165,7 +206,9 @@ function initializeParticleNetwork() {
   });
 }
 
-// === Animation du titre principal ===
+// ================================================================
+// Autres animations (inchangées)
+// ================================================================
 function animateMainTitle() {
   const mainTitle = document.querySelector(".main-title");
   if (!mainTitle) return;
@@ -183,7 +226,6 @@ function animateMainTitle() {
   });
 }
 
-// === Header ===
 function animateHeader() {
   return anime({
     targets: "header nav > *",
@@ -195,7 +237,6 @@ function animateHeader() {
   });
 }
 
-// === Apparition fluide des sections ===
 function setupIntersectionObserver() {
   const sections = document.querySelectorAll(".animate-section");
   if (sections.length === 0) return;
@@ -223,7 +264,6 @@ function setupIntersectionObserver() {
   sections.forEach((s) => observer.observe(s));
 }
 
-// === Titres de sections ===
 function animateSectionTitles() {
   const titles = document.querySelectorAll("section h2");
   if (titles.length === 0) return;
@@ -237,7 +277,6 @@ function animateSectionTitles() {
   });
 }
 
-// === Hover sur liens du footer ===
 function setupQuickLinkHovers() {
   const links = document.querySelectorAll(".quick-link");
   links.forEach((link) => {
@@ -257,7 +296,6 @@ function setupQuickLinkHovers() {
   });
 }
 
-// === Hover sur boutons/cartes ===
 function setupHoverAnimations() {
   const hoverables = document.querySelectorAll(".btn, .article-card, .group.block");
   hoverables.forEach((el) => {
@@ -270,7 +308,6 @@ function setupHoverAnimations() {
   });
 }
 
-// === Logo hover ===
 function setupLogoHoverAnimation() {
   const logos = document.querySelectorAll(".logo-container");
   logos.forEach((logo) => {
@@ -285,7 +322,6 @@ function setupLogoHoverAnimation() {
   });
 }
 
-// === Thème clair/sombre ===
 function setupThemeSwitcher() {
   const buttons = document.querySelectorAll("#theme-toggle, #theme-toggle-mobile");
   const html = document.documentElement;
@@ -310,7 +346,9 @@ function setupThemeSwitcher() {
   });
 }
 
-// === Initialisation ===
+// ================================================================
+// 🚀 Initialisation
+// ================================================================
 document.addEventListener("DOMContentLoaded", () => {
   setupThemeSwitcher();
   setupLanguageSwitcher();
