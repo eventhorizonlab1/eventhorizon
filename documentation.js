@@ -1,28 +1,11 @@
 /**
- * @file Centralise toutes les fonctions d'interactivité et d'animation
- * du site Event Horizon. Inclut la gestion du thème, des langues, et des
- * effets visuels propulsés par Anime.js.
- *
- * @author Jules
- * @see https://animejs.com/
+ * Event Horizon - Interactive Script
+ * Nouvelle version : effet réseau de particules connectées
+ * Remplace l'ancien "dot grid" par un effet dynamique connecté
  */
 
-// =================================================================================================
-// 🌍 Internationalisation (i18n)
-// =================================================================================================
-
-/**
- * An object to store the translations.
- * @type {Object}
- */
 let translations = {};
 
-/**
- * Loads the translation file for the specified language.
- *
- * @param {string} lang - The language to load (e.g., 'en', 'fr').
- * @returns {Promise<void>} A promise that resolves when the translations are loaded.
- */
 async function loadTranslations(lang) {
   try {
     const response = await fetch(`locales/${lang}.json`);
@@ -33,9 +16,6 @@ async function loadTranslations(lang) {
   }
 }
 
-/**
- * Applies the loaded translations to all elements with the 'data-i18n-key' attribute.
- */
 function applyTranslations() {
   document.querySelectorAll("[data-i18n-key]").forEach((el) => {
     const key = el.getAttribute("data-i18n-key");
@@ -48,23 +28,12 @@ function applyTranslations() {
   });
 }
 
-/**
- * Sets the language of the website.
- *
- * @param {string} lang - The language to set (e.g., 'en', 'fr').
- * @returns {Promise<void>} A promise that resolves when the language is set.
- */
 async function setLanguage(lang) {
   await loadTranslations(lang);
   applyTranslations();
   updateLanguageSwitcherUI(lang);
 }
 
-/**
- * Updates the UI of the language switcher to reflect the active language.
- *
- * @param {string} activeLang - The currently active language.
- */
 function updateLanguageSwitcherUI(activeLang) {
   document.querySelectorAll("[data-lang]").forEach((link) => {
     const linkLang = link.getAttribute("data-lang");
@@ -76,9 +45,6 @@ function updateLanguageSwitcherUI(activeLang) {
   });
 }
 
-/**
- * Sets up the language switcher to handle clicks on the language links.
- */
 function setupLanguageSwitcher() {
   const switcher = document.querySelector(".language-switcher");
   if (!switcher) return;
@@ -92,54 +58,114 @@ function setupLanguageSwitcher() {
 }
 
 // =================================================================================================
-// ✨ Animations & Interactivité
+// ✨ ANIMATIONS & INTERACTIVITÉ
 // =================================================================================================
 
-/**
- * Initializes all website interactivity, including animations and event listeners.
- */
 function initializeWebsiteInteractivity() {
-  const timeline = anime.timeline({
-    easing: "easeOutExpo",
-    duration: 1000,
-  });
-
-  timeline.add(animateHeader()).add(animateMainTitle(), "-=500");
+  anime.timeline({ easing: "easeOutExpo", duration: 1000 })
+    .add(animateHeader())
+    .add(animateMainTitle(), "-=500");
 
   setupIntersectionObserver();
   setupQuickLinkHovers();
   setupLogoHoverAnimation();
-  initializeDotsGrid();
-  setupHoverAnimations(); // 🔹 nouveau
-  animateSectionTitles(); // 🔹 nouveau
+  setupHoverAnimations();
+  animateSectionTitles();
+
+  // ⚡ Nouveau fond animé
+  initializeParticleNetwork();
 }
 
-/**
- * Initializes the animated dots grid in the background.
- */
-function initializeDotsGrid() {
-  const container = document.querySelector(".dots-grid");
+// === Nouveau fond "réseau de particules connectées" ===
+function initializeParticleNetwork() {
+  const container = document.getElementById("particle-container");
   if (!container) return;
 
-  const gridSize = 20;
-  for (let i = 0; i < gridSize * gridSize; i++) {
-    const dot = document.createElement("div");
-    dot.className = "dot";
-    container.appendChild(dot);
+  const canvas = document.createElement("canvas");
+  canvas.id = "particle-network";
+  canvas.style.position = "absolute";
+  canvas.style.inset = "0";
+  canvas.style.zIndex = "-1";
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  container.innerHTML = ""; // supprime les anciens dots
+  container.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  let particles = [];
+  const numParticles = 70;
+  const maxDist = 150;
+
+  function resizeCanvas() {
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  // Crée les particules
+  for (let i = 0; i < numParticles; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      radius: Math.random() * 2 + 1,
+    });
   }
 
-  anime.timeline({ easing: "easeInOutQuad", loop: true }).add({
-    targets: ".dot",
-    scale: [{ value: 0.5, duration: 0 }, { value: [0.5, 1.5, 0.5], duration: 2000 }],
-    opacity: [{ value: 0.3, duration: 0 }, { value: [0.3, 1, 0.3], duration: 2000 }],
-    delay: anime.stagger(30, { grid: [gridSize, gridSize], from: "center" }),
+  function drawNetwork() {
+    const isDark = document.documentElement.classList.contains("dark");
+    const dotColor = isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)";
+    const lineColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = dotColor;
+      ctx.fill();
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < maxDist) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = lineColor;
+          ctx.lineWidth = 1 - dist / maxDist;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(drawNetwork);
+  }
+
+  // Démarre avec une légère animation d’apparition
+  anime({
+    targets: particles,
+    opacity: [0, 1],
+    easing: "easeOutSine",
+    duration: 1000,
+    complete: drawNetwork,
   });
 }
 
-/**
- * Animates the main title of the page.
- * @returns {anime.AnimeInstance} The anime.js animation instance.
- */
+// === Animation du titre principal ===
 function animateMainTitle() {
   const mainTitle = document.querySelector(".main-title");
   if (!mainTitle) return;
@@ -157,10 +183,7 @@ function animateMainTitle() {
   });
 }
 
-/**
- * Animates the header of the page.
- * @returns {anime.AnimeInstance} The anime.js animation instance.
- */
+// === Header ===
 function animateHeader() {
   return anime({
     targets: "header nav > *",
@@ -172,9 +195,7 @@ function animateHeader() {
   });
 }
 
-/**
- * Sets up an intersection observer to animate sections as they scroll into view.
- */
+// === Apparition fluide des sections ===
 function setupIntersectionObserver() {
   const sections = document.querySelectorAll(".animate-section");
   if (sections.length === 0) return;
@@ -185,7 +206,6 @@ function setupIntersectionObserver() {
         if (entry.isIntersecting) {
           const cards = entry.target.querySelectorAll(".animate-card");
           const targets = cards.length ? cards : [entry.target];
-
           anime({
             targets,
             opacity: [0, 1],
@@ -194,24 +214,19 @@ function setupIntersectionObserver() {
             delay: anime.stagger(150),
             easing: "easeOutExpo",
           });
-
           observer.unobserve(entry.target);
         }
       });
     },
     { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
   );
-
-  sections.forEach((section) => observer.observe(section));
+  sections.forEach((s) => observer.observe(s));
 }
 
-/**
- * Animates the titles of the sections.
- */
+// === Titres de sections ===
 function animateSectionTitles() {
   const titles = document.querySelectorAll("section h2");
   if (titles.length === 0) return;
-
   anime({
     targets: titles,
     opacity: [0, 1],
@@ -222,9 +237,7 @@ function animateSectionTitles() {
   });
 }
 
-/**
- * Sets up the hover animation for the quick links in the footer.
- */
+// === Hover sur liens du footer ===
 function setupQuickLinkHovers() {
   const links = document.querySelectorAll(".quick-link");
   links.forEach((link) => {
@@ -244,9 +257,7 @@ function setupQuickLinkHovers() {
   });
 }
 
-/**
- * Sets up the hover animation for cards and buttons.
- */
+// === Hover sur boutons/cartes ===
 function setupHoverAnimations() {
   const hoverables = document.querySelectorAll(".btn, .article-card, .group.block");
   hoverables.forEach((el) => {
@@ -259,9 +270,7 @@ function setupHoverAnimations() {
   });
 }
 
-/**
- * Sets up the hover animation for the logo.
- */
+// === Logo hover ===
 function setupLogoHoverAnimation() {
   const logos = document.querySelectorAll(".logo-container");
   logos.forEach((logo) => {
@@ -276,9 +285,7 @@ function setupLogoHoverAnimation() {
   });
 }
 
-/**
- * Sets up the theme switcher to handle clicks on the theme toggle buttons.
- */
+// === Thème clair/sombre ===
 function setupThemeSwitcher() {
   const buttons = document.querySelectorAll("#theme-toggle, #theme-toggle-mobile");
   const html = document.documentElement;
@@ -303,10 +310,7 @@ function setupThemeSwitcher() {
   });
 }
 
-// =================================================================================================
-// 🚀 Initialisation globale
-// =================================================================================================
-
+// === Initialisation ===
 document.addEventListener("DOMContentLoaded", () => {
   setupThemeSwitcher();
   setupLanguageSwitcher();
