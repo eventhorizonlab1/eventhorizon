@@ -11,8 +11,18 @@
 // 🌍 Internationalisation (i18n)
 // =================================================================================================
 
+/**
+ * An object to store the translations.
+ * @type {Object}
+ */
 let translations = {};
 
+/**
+ * Loads the translation file for the specified language.
+ *
+ * @param {string} lang - The language to load (e.g., 'en', 'fr').
+ * @returns {Promise<void>} A promise that resolves when the translations are loaded.
+ */
 async function loadTranslations(lang) {
   try {
     const response = await fetch(`locales/${lang}.json`);
@@ -23,6 +33,9 @@ async function loadTranslations(lang) {
   }
 }
 
+/**
+ * Applies the loaded translations to all elements with the 'data-i18n-key' attribute.
+ */
 function applyTranslations() {
   document.querySelectorAll("[data-i18n-key]").forEach((el) => {
     const key = el.getAttribute("data-i18n-key");
@@ -35,12 +48,23 @@ function applyTranslations() {
   });
 }
 
+/**
+ * Sets the language of the website.
+ *
+ * @param {string} lang - The language to set (e.g., 'en', 'fr').
+ * @returns {Promise<void>} A promise that resolves when the language is set.
+ */
 async function setLanguage(lang) {
   await loadTranslations(lang);
   applyTranslations();
   updateLanguageSwitcherUI(lang);
 }
 
+/**
+ * Updates the UI of the language switcher to reflect the active language.
+ *
+ * @param {string} activeLang - The currently active language.
+ */
 function updateLanguageSwitcherUI(activeLang) {
   document.querySelectorAll("[data-lang]").forEach((link) => {
     const linkLang = link.getAttribute("data-lang");
@@ -52,6 +76,9 @@ function updateLanguageSwitcherUI(activeLang) {
   });
 }
 
+/**
+ * Sets up the language switcher to handle clicks on the language links.
+ */
 function setupLanguageSwitcher() {
   const switcher = document.querySelector(".language-switcher");
   if (!switcher) return;
@@ -68,6 +95,9 @@ function setupLanguageSwitcher() {
 // ✨ Animations & Interactivité
 // =================================================================================================
 
+/**
+ * Initializes all website interactivity, including animations and event listeners.
+ */
 function initializeWebsiteInteractivity() {
   const timeline = anime.timeline({
     easing: "easeOutExpo",
@@ -84,7 +114,9 @@ function initializeWebsiteInteractivity() {
   animateSectionTitles(); // 🔹 nouveau
 }
 
-// === Animation de la grille de points d’arrière-plan ===
+/**
+ * Initializes the animated dots grid in the background.
+ */
 function initializeDotsGrid() {
   const container = document.querySelector(".dots-grid");
   if (!container) return;
@@ -104,7 +136,10 @@ function initializeDotsGrid() {
   });
 }
 
-// === Animation du titre principal ===
+/**
+ * Animates the main title of the page.
+ * @returns {anime.AnimeInstance} The anime.js animation instance.
+ */
 function animateMainTitle() {
   const mainTitle = document.querySelector(".main-title");
   if (!mainTitle) return;
@@ -122,7 +157,10 @@ function animateMainTitle() {
   });
 }
 
-// === Animation du header ===
+/**
+ * Animates the header of the page.
+ * @returns {anime.AnimeInstance} The anime.js animation instance.
+ */
 function animateHeader() {
   return anime({
     targets: "header nav > *",
@@ -134,7 +172,9 @@ function animateHeader() {
   });
 }
 
-// === Apparition fluide des sections au scroll ===
+/**
+ * Sets up an intersection observer to animate sections as they scroll into view.
+ */
 function setupIntersectionObserver() {
   const sections = document.querySelectorAll(".animate-section");
   if (sections.length === 0) return;
@@ -165,7 +205,9 @@ function setupIntersectionObserver() {
   sections.forEach((section) => observer.observe(section));
 }
 
-// === Animation des titres de section ===
+/**
+ * Animates the titles of the sections.
+ */
 function animateSectionTitles() {
   const titles = document.querySelectorAll("section h2");
   if (titles.length === 0) return;
@@ -180,7 +222,9 @@ function animateSectionTitles() {
   });
 }
 
-// === Hover sur les liens du footer ===
+/**
+ * Sets up the hover animation for the quick links in the footer.
+ */
 function setupQuickLinkHovers() {
   const links = document.querySelectorAll(".quick-link");
   links.forEach((link) => {
@@ -200,7 +244,9 @@ function setupQuickLinkHovers() {
   });
 }
 
-// === Hover animé sur les cartes et boutons ===
+/**
+ * Sets up the hover animation for cards and buttons.
+ */
 function setupHoverAnimations() {
   const hoverables = document.querySelectorAll(".btn, .article-card, .group.block");
   hoverables.forEach((el) => {
@@ -213,7 +259,9 @@ function setupHoverAnimations() {
   });
 }
 
-// === Animation du logo au survol ===
+/**
+ * Sets up the hover animation for the logo.
+ */
 function setupLogoHoverAnimation() {
   const logos = document.querySelectorAll(".logo-container");
   logos.forEach((logo) => {
@@ -228,7 +276,9 @@ function setupLogoHoverAnimation() {
   });
 }
 
-// === Thème clair/sombre ===
+/**
+ * Sets up the theme switcher to handle clicks on the theme toggle buttons.
+ */
 function setupThemeSwitcher() {
   const buttons = document.querySelectorAll("#theme-toggle, #theme-toggle-mobile");
   const html = document.documentElement;

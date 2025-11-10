@@ -39,14 +39,8 @@ All external libraries are loaded via CDN links in the HTML files, eliminating t
 The repository is organized as follows:
 
 -   `index.html`: The main landing page, featuring the latest videos and articles.
--   `videos.html`: A gallery of all video content.
--   `articles.html`: A collection of all written articles.
--   `ecosysteme.html`: Information about the European space ecosystem.
--   `a-propos.html`: The "About" page, with information about the project and its creator.
--   `contact.html`: A contact page with a form for user inquiries.
 -   `locales/`: This directory contains the JSON files for internationalization. `fr.json` and `en.json` hold the translations for French and English, respectively.
 -   `documentation.js`: This file contains all JavaScript code for the website, including animations, theme switching, and other interactive features. It is fully documented with JSDoc.
--   `*.html`: The HTML files are also documented with comments to explain the purpose and structure of each major section of the page.
 -   `test_*.py`: A suite of Python-based tests to ensure the consistency and correctness of the website.
 -   `README.md`: This file, providing a comprehensive overview of the project.
 
@@ -62,7 +56,7 @@ No complex setup is required to run this project. The website is static and can 
     ```bash
     cd event-horizon
     ```
-3.  **Open any `.html` file in your web browser:**
+3.  **Open `index.html` in your web browser:**
     ```
     # On macOS
     open index.html
@@ -73,6 +67,20 @@ No complex setup is required to run this project. The website is static and can 
     # On Linux
     xdg-open index.html
     ```
+
+### Installation for Testing
+
+To run the tests, you need to install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+You also need to install the Playwright browsers:
+
+```bash
+playwright install --with-deps
+```
 
 ## Testing
 
@@ -99,23 +107,15 @@ python3 -m unittest discover -p "test_*.py"
 
 You can also run each test file individually:
 
--   `test.py`: Verifies the consistency of shared elements across all HTML pages, such as CDN links, headers, footers, and navigation links.
--   `test_animations.py`: Tests the animation logic in `documentation.js` to ensure that animations are correctly implemented and behave as expected.
--   `test_apropos.py`: Contains tests specifically for the 'À propos' and 'About' pages, checking for correct links and content.
--   `test_content.py`: Validates the presence and structure of key content elements, such as animation targets and contact forms, across the relevant pages.
--   `test_dark_mode.py`: Includes tests for the dark mode functionality, ensuring that theme-dependent features are correctly implemented.
--   `test_lazy_loading.py`: Contains tests for the lazy loading of images, verifying that the correct attributes and classes are present.
--   `test_links.py`: Verifies the integrity of all internal links to prevent broken navigation.
--   `test_browser_animations.py`: Uses Playwright to simulate user interactions and verify that the JavaScript-based animations behave as expected in a live browser environment.
--   `test_browser_documentation.py`: Uses Playwright to simulate user interactions and verify that the JavaScript functions in `documentation.js` are behaving as expected.
--   `test_hardcoded_hover_color.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
--   `test_link_checker_logic.py`: Verifies that there is no redundant link check logic in `test_links.py`, ensuring that the test logic is clean and maintainable.
--   `test_quick_link_theme_change.py`: Verifies that the quick link hover animation does not use a hardcoded color, which would cause issues when the theme is changed.
--   `test_footer_links.py`: Verifies that the footer links are correct and that there are no broken links.
--   `test_i18n.py`: Verifies that the internationalization (i18n) and language switching functionality works as expected. **Note:** This test requires a local web server to be running.
+-   `test.py`: Verifies the consistency of shared elements across all HTML pages.
+-   `test_animations.py`: Tests the animation logic in `documentation.js`.
+-   `test_browser_animations.py`: Uses Playwright to test animations and interactions in a real browser.
+-   `test_browser_documentation.py`: Uses Playwright to verify that the JavaScript functions in `documentation.js` are behaving as expected.
+-   `test_footer_links.py`: Verifies that the footer links are correct.
+-   `test_hardcoded_quick_link_color.py`: Verifies that the quick link hover animation does not use a hardcoded color.
+-   `test_i18n.py`: Verifies that the internationalization (i18n) and language switching functionality works as expected.
 -   `test_newsletter_form.py`: Verifies that the newsletter form is correctly structured.
 -   `test_undefined_functions.py`: Verifies that there are no calls to undefined functions in the JavaScript code.
-
 
 Each test script is self-contained and can be run with `python3 <filename>`. All tests are fully documented with Google Style Python Docstrings.
 
@@ -146,7 +146,7 @@ Contributions are welcome! If you would like to contribute to this project, plea
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License.
 
 ## Project Analysis
 
@@ -174,10 +174,10 @@ the need for a complex build process.
 
 *   `index.html`: The main landing page.
 *   `locales/`: Contains JSON files for internationalization.
-*   `documentation.js`: The central repository for all JavaScript code.
-*   `test_*.py`: A suite of Python-based tests.
-*   `README.md`: A high-level overview of the project.
-*   `ANALYSIS.md`: This file, providing a deep dive into the project's
+-   `documentation.js`: The central repository for all JavaScript code.
+-   `test_*.py`: A suite of Python-based tests.
+-   `README.md`: A high-level overview of the project.
+-   `ANALYSIS.md`: This file, providing a deep dive into the project's
     architecture and testing strategy.
 
 ### Testing Strategy
@@ -192,14 +192,14 @@ These tests check the code for correctness without running it in a browser.
 They are used to verify things like the presence of required HTML elements, the
 correctness of links, and the absence of calls to undefined functions.
 
-*   `test.py`: Verifies the consistency of shared elements.
-*   `test_animations.py`: Tests the animation logic in `documentation.js`.
-*   `test_footer_links.py`: Verifies that the footer links are correct.
-*   `test_hardcoded_quick_link_color.py`: Verifies that the quick link hover
+-   `test.py`: Verifies the consistency of shared elements.
+-   `test_animations.py`: Tests the animation logic in `documentation.js`.
+-   `test_footer_links.py`: Verifies that the footer links are correct.
+-   `test_hardcoded_quick_link_color.py`: Verifies that the quick link hover
     animation does not use a hardcoded color.
-*   `test_newsletter_form.py`: Verifies that the newsletter form is correctly
+-   `test_newsletter_form.py`: Verifies that the newsletter form is correctly
     structured.
-*   `test_undefined_functions.py`: Verifies that there are no calls to
+-   `test_undefined_functions.py`: Verifies that there are no calls to
     undefined functions in the JavaScript code.
 
 #### Browser-based Tests
@@ -208,11 +208,11 @@ These tests use a real browser to simulate user interactions and verify that
 the website behaves as expected. They are used to test things like animations,
 language switching, and other interactive features.
 
-*   `test_browser_animations.py`: Verifies that browser animations and
+-   `test_browser_animations.py`: Verifies that browser animations and
     interactions work as expected.
-*   `test_browser_documentation.py`: Verifies that the website's JavaScript
+-   `test_browser_documentation.py`: Verifies that the website's JavaScript
     functions are working correctly.
-*   `test_i18n.py`: Verifies that the internationalization (i18n) and language
+-   `test_i18n.py`: Verifies that the internationalization (i18n) and language
     switching functionality works as expected.
 
 This combination of static analysis and browser-based tests provides a high

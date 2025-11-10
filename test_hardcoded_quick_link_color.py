@@ -37,12 +37,25 @@ class TestQuickLinkHoverAnimation(unittest.TestCase):
 
         function_code = match.group(0)
 
-        # Check for hardcoded color in the mouseleave event listener
-        self.assertNotIn(
-            'color:',
+        # Isolate the mouseleave event listener
+        mouseleave_match = re.search(
+            r'link\.addEventListener\("mouseleave", \(\) => \{.*?\}\);',
             function_code,
-            "The quick link hover animation should not use a hardcoded color."
+            re.DOTALL
         )
+        self.assertIsNotNone(mouseleave_match, "The mouseleave event listener was not found.")
+
+        mouseleave_code = mouseleave_match.group(0)
+
+        # Check that if color is used, it's dependent on the theme
+        color_line_match = re.search(r'.*color:.*', mouseleave_code)
+        if color_line_match:
+            color_line = color_line_match.group(0)
+            self.assertIn(
+                'isDark',
+                color_line,
+                "The color property should be dependent on the theme (isDark variable)."
+            )
 
 if __name__ == '__main__':
     unittest.main()
