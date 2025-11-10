@@ -45,6 +45,7 @@ The repository is organized as follows:
 -   `contact.html`: A contact page with a form for user inquiries.
 -   `locales/`: This directory contains the JSON files for internationalization. `fr.json` and `en.json` hold the translations for French and English, respectively.
 -   `documentation.js`: This file contains all JavaScript code for the website, including animations, theme switching, and other interactive features. It is fully documented with JSDoc.
+-   `*.html`: The HTML files are also documented with comments to explain the purpose and structure of each major section of the page.
 -   `test_*.py`: A suite of Python-based tests to ensure the consistency and correctness of the website.
 -   `README.md`: This file, providing a comprehensive overview of the project.
 
