@@ -11,16 +11,17 @@ ALL_HTML_FILES = ["index.html"]
 """A list of all HTML files in the current directory to be tested."""
 
 class TestFooterLinks(unittest.TestCase):
-    """Test suite for footer links.
+    """Test suite for the footer links.
 
-    This class contains tests to ensure that the footer links are correctly
-    implemented and behave as expected.
+    This class contains a static analysis test to ensure that the footer links
+    are correctly implemented.
     """
     def test_footer_links(self):
         """Ensures that the footer links are correct.
 
         This test verifies that the footer does not contain any broken links
-        and that the contact email link is present.
+        and that the contact email link is present. A functional footer is
+        important for user navigation and contact.
         """
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
