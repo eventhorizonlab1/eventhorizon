@@ -14,9 +14,9 @@ This repository serves as a showcase of a modern, static website that is fully d
 
 ## Table of Contents
 
+- [Getting Started](#getting-started)
 - [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
-- [Setup and Usage](#setup-and-usage)
 - [Testing](#testing)
 - [JavaScript Documentation](#javascript-documentation)
 - [Contributing](#contributing)
@@ -44,9 +44,15 @@ The repository is organized as follows:
 -   `test_*.py`: A suite of Python-based tests to ensure the consistency and correctness of the website.
 -   `README.md`: This file, providing a comprehensive overview of the project.
 
-## Setup and Usage
+## Getting Started
 
-No complex setup is required to run this project. The website is static and can be run by following these steps:
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+You will need to have Python and pip installed to run the tests.
+
+### Installation & Usage
 
 1.  **Clone the repository:**
     ```bash
@@ -56,7 +62,7 @@ No complex setup is required to run this project. The website is static and can 
     ```bash
     cd event-horizon
     ```
-3.  **Open `index.html` in your web browser:**
+3.  **Open `index.html` in your web browser to view the site:**
     ```
     # On macOS
     open index.html
@@ -68,7 +74,7 @@ No complex setup is required to run this project. The website is static and can 
     xdg-open index.html
     ```
 
-### Installation for Testing
+### Running the Tests
 
 To run the tests, you need to install the required Python packages:
 
