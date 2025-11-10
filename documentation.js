@@ -224,35 +224,44 @@ function setupIntersectionObserver() {
  * @returns {void} This function does not return a value.
  */
 function initializeShootingStars() {
-    const container = document.getElementById('particle-container');
-    if (!container) return;
+  const container = document.getElementById('particle-container');
+  if (!container) {
+    console.log('❌ Particle container not found!');
+    return;
+  }
 
-    function createShootingStar() {
-        const star = document.createElement('div');
-        star.className = 'shooting-star';
+  console.log('✅ Shooting stars initialized!');
 
-        const startX = Math.random() * 100;
-        const startY = Math.random() * 50;
+  function createShootingStar() {
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
 
-        star.style.left = `${startX}%`;
-        star.style.top = `${startY}%`;
+    const startX = Math.random() * 100;
+    const startY = Math.random() * 50;
 
-        container.appendChild(star);
+    star.style.left = `${startX}%`;
+    star.style.top = `${startY}%`;
 
-        anime({
-            targets: star,
-            translateX: [0, -300],
-            translateY: [0, 300],
-            opacity: [0, 1, 0],
-            duration: 2000,
-            easing: 'easeInQuad',
-            complete: () => star.remove()
-        });
-    }
+    container.appendChild(star);
 
-    setInterval(() => {
-        if (Math.random() > 0.5) createShootingStar();
-    }, 3000);
+    anime({
+      targets: star,
+      translateX: [0, -300],
+      translateY: [0, 300],
+      opacity: [0.3, 1, 0.3],
+      duration: 2000,
+      easing: 'easeInQuad',
+      complete: () => star.remove()
+    });
+  }
+
+  // Create first star immediately
+  createShootingStar();
+
+  // Create a star every 1.5 seconds (removed the random check)
+  setInterval(() => {
+    createShootingStar();
+  }, 1500);
 }
 
 /**
