@@ -143,6 +143,40 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupLogoHoverAnimation();
+    initializeDotsGrid();
+}
+
+function initializeDotsGrid() {
+  const container = document.querySelector('.dots-grid');
+  if (!container) {
+    console.log('❌ Dots grid container not found');
+    return;
+  }
+  console.log('✅ Dots grid initialized');
+  // Create 20x20 grid of dots
+  const gridSize = 20;
+  for (let i = 0; i < gridSize * gridSize; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    container.appendChild(dot);
+  }
+  // Continuous wave animation
+  const timeline = anime.timeline({
+    easing: 'easeInOutQuad',
+    loop: true
+  });
+  timeline.add({
+    targets: '.dot',
+    scale: [
+      { value: 0.5, duration: 0 },
+      { value: [0.5, 1.5, 0.5], duration: 2000 }
+    ],
+    opacity: [
+      { value: 0.3, duration: 0 },
+      { value: [0.3, 1, 0.3], duration: 2000 }
+    ],
+    delay: anime.stagger(30, { grid: [gridSize, gridSize], from: 'center', direction: 'normal' })
+  });
 }
 
 /**
