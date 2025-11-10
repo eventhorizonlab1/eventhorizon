@@ -66,7 +66,10 @@ class TestBrowserAnimations(unittest.TestCase):
         document. The page title is important for SEO and user experience.
         """
         async def run_test():
-            """Runs the page title test steps."""
+            """Runs the page title test steps.
+
+            Navigates to the index page and asserts that the title is correct.
+            """
             await self.page.goto('file://'
                                  + os.path.abspath('index.html'))
             self.assertEqual(await self.page.title(), "Event Horizon - Dans les coulisses de l'industrie spatiale européenne")
@@ -80,7 +83,11 @@ class TestBrowserAnimations(unittest.TestCase):
         user-facing functionality.
         """
         async def run_test():
-            """Runs the navigation scroll test steps."""
+            """Runs the navigation scroll test steps.
+
+            Navigates to the index page and simulates clicks on the navigation
+            links, verifying that the page scrolls to the correct sections.
+            """
             await self.page.goto('file://'
                                  + os.path.abspath('index.html'))
             await self.page.click('a[href="#videos"]')

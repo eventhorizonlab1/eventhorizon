@@ -67,7 +67,11 @@ class TestBrowserDocumentation(unittest.TestCase):
         the site's animations would fail to run.
         """
         async def run_test():
-            """Runs the anime.js definition test steps."""
+            """Runs the anime.js definition test steps.
+
+            Navigates to the index page and checks if the anime.js library
+            has been successfully loaded and is available in the global scope.
+            """
             await self.page.goto('file://' + os.path.abspath('index.html'))
             anime_defined = await self.page.evaluate('typeof anime')
             self.assertEqual(anime_defined, 'function')
