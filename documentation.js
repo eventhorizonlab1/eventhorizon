@@ -127,7 +127,7 @@ function initializeWebsiteInteractivity() {
     setupIntersectionObserver();
     setupQuickLinkHovers();
     setupLogoHoverAnimation();
-    initializeParticleSystem();
+    initializeShootingStars();
 }
 
 /**
@@ -223,39 +223,36 @@ function setupIntersectionObserver() {
  *
  * @returns {void} This function does not return a value.
  */
-function initializeParticleSystem() {
+function initializeShootingStars() {
     const container = document.getElementById('particle-container');
-    if (!container) {
-        console.error('Particle container not found!');
-        return;
+    if (!container) return;
+
+    function createShootingStar() {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+
+        const startX = Math.random() * 100;
+        const startY = Math.random() * 50;
+
+        star.style.left = `${startX}%`;
+        star.style.top = `${startY}%`;
+
+        container.appendChild(star);
+
+        anime({
+            targets: star,
+            translateX: [0, -300],
+            translateY: [0, 300],
+            opacity: [0, 1, 0],
+            duration: 2000,
+            easing: 'easeInQuad',
+            complete: () => star.remove()
+        });
     }
-    console.log('Particles initialized: creating 50 particles');
 
-    const numParticles = 50;
-
-    for (let i = 0; i < numParticles; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-
-        container.appendChild(particle);
-    }
-
-    anime({
-        targets: '.particle',
-        translateX: () => anime.random(-150, 150),
-        translateY: () => anime.random(-150, 150),
-        opacity: [
-            { value: () => anime.random(0.4, 0.8), duration: () => anime.random(1000, 3000) },
-            { value: 0, duration: () => anime.random(1000, 3000), delay: () => anime.random(15000, 25000) }
-        ],
-        easing: 'linear',
-        duration: () => anime.random(30000, 50000),
-        loop: true,
-        delay: () => anime.random(0, 2000)
-    });
+    setInterval(() => {
+        if (Math.random() > 0.5) createShootingStar();
+    }, 3000);
 }
 
 /**
