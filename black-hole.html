@@ -73,6 +73,26 @@
     html:not(.dark) .dot {
       background: rgba(99, 102, 241, 0.4);
     }
+
+    #black-hole-container #info {
+        position: absolute; top: 20px; left: 20px; color: #fff;
+        text-shadow: 0 0 10px rgba(255,255,255,0.8); font-size: 14px;
+        z-index: 100; background: rgba(0,0,0,0.6); padding: 15px;
+        border-radius: 8px; backdrop-filter: blur(10px);
+    }
+    #black-hole-container #info h1 {
+        font-size: 24px; margin-bottom: 10px; color: #ff8800;
+        text-shadow: 0 0 20px #ff8800;
+    }
+    #black-hole-container #info .badge {
+        display: inline-block;
+        background: rgba(0,255,0,0.2);
+        color: #0f0;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        margin-top: 5px;
+    }
   </style>
 </head>
 
@@ -82,246 +102,428 @@
   <script src="documentation.js" defer></script>
 
   <script type="importmap">
-  {
-      "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
-      }
-  }
-  </script>
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+        }
+    }
+    </script>
 
-  <script type="module">
-      // --- Imports ---
-      import * as THREE from 'three';
-      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-      import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-      import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-      import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-      import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
-      // --- Variables Globales ---
-      let scene, camera, renderer, clock;
-      let composer;
-      let eventHorizon, accretionDisk, particles;
-      const PARTICLE_COUNT = 8000;
-      const container = document.getElementById('black-hole-container');
+        let scene, camera, renderer, clock, composer;
+        let eventHorizon, accretionDisk, particles, gasParticles;
+        const PARTICLE_COUNT = 10000;
+        const GAS_PARTICLE_COUNT = 3000;
+        const HORIZON_RADIUS = 2.8;
+        const container = document.getElementById('black-hole-container');
 
-      // --- Shaders pour le Disque d'Accrétion ---
-      const diskVertexShader = `
-          varying vec2 vUv;
-          void main() {
-              vUv = uv;
-              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-      `;
+        // === ACCRETION DISK SHADERS ===
+        const diskVertexShader = `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
 
-      const diskFragmentShader = `
-          uniform float uTime;
-          varying vec2 vUv;
+        const diskFragmentShader = `
+            uniform float uTime;
+            varying vec2 vUv;
 
-          float random(vec2 st) {
-              return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
-          }
+            float random(vec2 st) {
+                return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+            }
 
-          float noise(vec2 st) {
-              vec2 i = floor(st);
-              vec2 f = fract(st);
-              float a = random(i);
-              float b = random(i + vec2(1.0, 0.0));
-              float c = random(i + vec2(0.0, 1.0));
-              float d = random(i + vec2(1.0, 1.0));
-              vec2 u = f * f * (3.0 - 2.0 * f);
-              return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.y * u.x;
-          }
+            float noise(vec2 st) {
+                vec2 i = floor(st);
+                vec2 f = fract(st);
+                float a = random(i);
+                float b = random(i + vec2(1.0, 0.0));
+                float c = random(i + vec2(0.0, 1.0));
+                float d = random(i + vec2(1.0, 1.0));
+                vec2 u = f * f * (3.0 - 2.0 * f);
+                return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.y * u.x;
+            }
 
-          float fbm(vec2 st) {
-              float value = 0.0;
-              float amplitude = 0.5;
-              for (int i = 0; i < 5; i++) {
-                  value += amplitude * noise(st);
-                  st *= 2.0;
-                  amplitude *= 0.5;
-              }
-              return value;
-          }
+            float fbm(vec2 st) {
+                float value = 0.0;
+                float amplitude = 0.5;
+                for (int i = 0; i < 6; i++) {
+                    value += amplitude * noise(st);
+                    st *= 2.0;
+                    amplitude *= 0.5;
+                }
+                return value;
+            }
 
-          void main() {
-              vec2 centeredUv = vUv - 0.5;
-              float radius = length(centeredUv) * 2.0;
-              float innerRadius = 0.35;
-              float outerRadius = 1.0;
-              float twist = 8.0 / (radius + 0.2);
-              float angle = atan(centeredUv.y, centeredUv.x) + twist * uTime * 0.03;
-              vec2 noiseUv = vec2(cos(angle) * radius, sin(angle) * radius) * 1.5;
-              float noiseValue = fbm(noiseUv + uTime * 0.05);
-              noiseValue = (noiseValue - 0.2) * 2.0;
-              vec3 color = vec3(0.0);
-              vec3 colorHot = vec3(1.0, 0.6, 0.1);
-              vec3 colorWarm = vec3(0.8, 0.1, 0.0);
-              vec3 colorBright = vec3(1.0, 0.9, 0.7);
-              color = mix(colorWarm, colorHot, smoothstep(0.0, 0.4, noiseValue));
-              color = mix(color, colorBright, smoothstep(0.6, 0.8, noiseValue));
-              color *= smoothstep(innerRadius, innerRadius + 0.3, radius);
-              float mask = smoothstep(innerRadius, innerRadius + 0.05, radius) * (1.0 - smoothstep(outerRadius - 0.05, outerRadius, radius));
-              if (mask < 0.01) discard;
-              gl_FragColor = vec4(color * 1.5, mask);
-          }
-      `;
+            void main() {
+                vec2 centeredUv = vUv - 0.5;
+                float radius = length(centeredUv) * 2.0;
+                float innerRadius = 0.30;
+                float outerRadius = 1.0;
 
-      function init() {
-          clock = new THREE.Clock();
-          scene = new THREE.Scene();
+                // Spiral twist
+                float twist = 10.0 / (radius + 0.15);
+                float angle = atan(centeredUv.y, centeredUv.x) + twist * uTime * 0.04;
 
-          const containerRect = container.getBoundingClientRect();
-          camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 1000);
-          camera.position.set(10, 8, 10);
+                vec2 noiseUv = vec2(cos(angle) * radius, sin(angle) * radius) * 2.0;
+                float noiseValue = fbm(noiseUv + uTime * 0.08);
+                noiseValue = (noiseValue - 0.25) * 2.5;
 
-          renderer = new THREE.WebGLRenderer({
-              antialias: true,
-              powerPreference: "high-performance"
-          });
-          renderer.setSize(containerRect.width, containerRect.height);
-          renderer.setPixelRatio(window.devicePixelRatio);
-          container.appendChild(renderer.domElement);
+                // Color palette
+                vec3 colorCore = vec3(1.0, 0.95, 0.85);
+                vec3 colorHot = vec3(1.0, 0.7, 0.2);
+                vec3 colorWarm = vec3(1.0, 0.3, 0.05);
+                vec3 colorCool = vec3(0.8, 0.15, 0.3);
+                vec3 colorEdge = vec3(0.4, 0.1, 0.6);
 
-          const controls = new OrbitControls(camera, renderer.domElement);
-          controls.enableDamping = true;
-          controls.dampingFactor = 0.05;
-          controls.target.set(0, 0, 0);
-          controls.update();
+                vec3 color = vec3(0.0);
+                float radiusNorm = (radius - innerRadius) / (outerRadius - innerRadius);
 
-          createEventHorizon();
-          createAccretionDisk();
-          createParticles();
-          setupPostProcessing();
+                if (radiusNorm < 0.3) {
+                    color = mix(colorCore, colorHot, radiusNorm / 0.3);
+                }
+                else if (radiusNorm < 0.6) {
+                    color = mix(colorHot, colorWarm, (radiusNorm - 0.3) / 0.3);
+                }
+                else if (radiusNorm < 0.85) {
+                    color = mix(colorWarm, colorCool, (radiusNorm - 0.6) / 0.25);
+                }
+                else {
+                    color = mix(colorCool, colorEdge, (radiusNorm - 0.85) / 0.15);
+                }
 
-          window.addEventListener('resize', onWindowResize);
-          animate();
-      }
+                color = mix(color, colorCore, smoothstep(0.65, 0.85, noiseValue) * 0.7);
+                color = mix(color, colorEdge * 0.5, smoothstep(-0.3, 0.0, noiseValue) * 0.3);
+                color *= 1.0 + smoothstep(innerRadius + 0.4, innerRadius, radius) * 1.5;
+                color *= smoothstep(innerRadius - 0.02, innerRadius + 0.08, radius);
 
-      function createEventHorizon() {
-          const geometry = new THREE.SphereGeometry(2.5, 64, 64);
-          const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-          eventHorizon = new THREE.Mesh(geometry, material);
-          scene.add(eventHorizon);
-      }
+                float mask = smoothstep(innerRadius, innerRadius + 0.04, radius) *
+                             (1.0 - smoothstep(outerRadius - 0.1, outerRadius, radius));
+                mask *= 0.7 + 0.3 * smoothstep(0.3, 0.6, noiseValue);
 
-      function createAccretionDisk() {
-          const geometry = new THREE.PlaneGeometry(20, 20, 64, 64);
-          const material = new THREE.ShaderMaterial({
-              uniforms: { uTime: { value: 0.0 } },
-              vertexShader: diskVertexShader,
-              fragmentShader: diskFragmentShader,
-              transparent: true,
-              side: THREE.DoubleSide,
-              blending: THREE.AdditiveBlending,
-              depthWrite: false
-          });
-          accretionDisk = new THREE.Mesh(geometry, material);
-          accretionDisk.rotation.x = -Math.PI / 2;
-          scene.add(accretionDisk);
-      }
+                if (mask < 0.02) discard;
 
-      function createParticles() {
-          const positions = new Float32Array(PARTICLE_COUNT * 3);
-          const customData = new Float32Array(PARTICLE_COUNT * 3);
-          const colors = new Float32Array(PARTICLE_COUNT * 3);
-          const color = new THREE.Color();
-          const horizonRadius = 2.5;
+                gl_FragColor = vec4(color * 2.0, mask * 0.9);
+            }
+        `;
 
-          for (let i = 0; i < PARTICLE_COUNT; i++) {
-              const i3 = i * 3;
-              const radius = 5 + Math.random() * 25;
-              const angle = Math.random() * Math.PI * 2;
-              const y = (Math.random() - 0.5) * 4.0;
-              positions[i3] = radius * Math.cos(angle);
-              positions[i3 + 1] = y;
-              positions[i3 + 2] = radius * Math.sin(angle);
-              customData[i3] = radius;
-              customData[i3 + 1] = angle;
-              customData[i3 + 2] = (0.01 + Math.random() * 0.02) / (radius * 0.1 + 0.1);
-              color.setHSL(0.5 + Math.random() * 0.2, 0.8, 0.8 + Math.random() * 0.2);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-          }
+        // === GPU-DRIVEN PARTICLE SHADERS ===
+        const particleVertexShader = `
+            uniform float uTime;
+            uniform float uHorizonRadius;
 
-          const geometry = new THREE.BufferGeometry();
-          geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-          geometry.setAttribute('customData', new THREE.BufferAttribute(customData, 3));
-          geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            attribute vec3 customData; // x: initialRadius, y: initialAngle, z: speed
+            attribute float size;
 
-          const material = new THREE.PointsMaterial({
-              size: 0.1,
-              vertexColors: true,
-              blending: THREE.AdditiveBlending,
-              transparent: true,
-              sizeAttenuation: true,
-              depthWrite: false
-          });
-          particles = new THREE.Points(geometry, material);
-          scene.add(particles);
-      }
+            varying vec3 vColor;
+            varying float vOpacity;
 
-      function setupPostProcessing() {
-          composer = new EffectComposer(renderer);
-          const renderPass = new RenderPass(scene, camera);
-          composer.addPass(renderPass);
-          const bloomPass = new UnrealBloomPass(new THREE.Vector2(container.clientWidth, container.clientHeight), 1.8, 0.3, 0.1);
-          composer.addPass(bloomPass);
-          const outputPass = new OutputPass();
-          composer.addPass(outputPass);
-      }
+            void main() {
+                vColor = color;
 
-      function animate() {
-          requestAnimationFrame(animate);
-          const delta = clock.getDelta();
-          const elapsedTime = clock.getElapsedTime();
-          if (accretionDisk) {
-              accretionDisk.material.uniforms.uTime.value = elapsedTime;
-          }
-          if (particles) {
-              const positions = particles.geometry.attributes.position.array;
-              const customData = particles.geometry.attributes.customData.array;
-              const horizonRadius = 2.5;
-              for (let i = 0; i < PARTICLE_COUNT; i++) {
-                  const i3 = i * 3;
-                  let radius = customData[i3];
-                  let angle = customData[i3 + 1];
-                  let speed = customData[i3 + 2];
-                  angle += delta * speed * 5.0;
-                  let fallSpeed = (0.5 / (radius + 0.1)) * delta;
-                  radius -= fallSpeed;
-                  let y = positions[i3 + 1];
-                  y -= y * fallSpeed * 0.5;
-                  if (radius < horizonRadius) {
-                      radius = 15 + Math.random() * 20;
-                      angle = Math.random() * Math.PI * 2;
-                      y = (Math.random() - 0.5) * 4.0;
-                      speed = (0.01 + Math.random() * 0.02) / (radius * 0.1 + 0.1);
-                  }
-                  positions[i3] = radius * Math.cos(angle);
-                  positions[i3 + 1] = y;
-                  positions[i3 + 2] = radius * Math.sin(angle);
-                  customData[i3] = radius;
-                  customData[i3 + 1] = angle;
-                  customData[i3 + 2] = speed;
-              }
-              particles.geometry.attributes.position.needsUpdate = true;
-              particles.geometry.attributes.customData.needsUpdate = true;
-          }
-          composer.render(delta);
-      }
+                // Particle lifecycle
+                float initialRadius = customData.x;
+                float initialAngle = customData.y;
+                float speed = customData.z;
 
-      function onWindowResize() {
-          const containerRect = container.getBoundingClientRect();
-          camera.aspect = containerRect.width / containerRect.height;
-          camera.updateProjectionMatrix();
-          renderer.setSize(containerRect.width, containerRect.height);
-          composer.setSize(containerRect.width, containerRect.height);
-      }
-      init();
-  </script>
+                // Calculate lifetime based on distance to fall
+                float fallTime = (initialRadius - uHorizonRadius) / (speed * 25.0) + 1.0;
+                float life = mod(uTime * 0.2, fallTime);
+
+                // Current radius decreases over time
+                float currentRadius = initialRadius - (life * (speed * 25.0));
+                float newAngle = initialAngle + uTime * speed * 4.0;
+
+                // Position calculation with Y compression
+                float y = position.y * (currentRadius / initialRadius);
+                vec3 newPos = vec3(
+                    currentRadius * cos(newAngle),
+                    y,
+                    currentRadius * sin(newAngle)
+                );
+
+                // Fade out near horizon
+                vOpacity = smoothstep(uHorizonRadius, uHorizonRadius + 2.0, currentRadius);
+
+                vec4 mvPosition = modelViewMatrix * vec4(newPos, 1.0);
+                gl_Position = projectionMatrix * mvPosition;
+
+                // Size attenuation
+                if (size > 0.0) {
+                    gl_PointSize = size * (20.0 / -mvPosition.z);
+                } else {
+                    gl_PointSize = 0.12 * (20.0 / -mvPosition.z);
+                }
+            }
+        `;
+
+        const particleFragmentShader = `
+            varying vec3 vColor;
+            varying float vOpacity;
+
+            void main() {
+                float dist = length(gl_PointCoord - vec2(0.5));
+                if (dist > 0.5) discard;
+
+                gl_FragColor = vec4(vColor, vOpacity * (1.0 - dist * 2.0));
+            }
+        `;
+
+        function init() {
+            clock = new THREE.Clock();
+            scene = new THREE.Scene();
+
+            const containerRect = container.getBoundingClientRect();
+            camera = new THREE.PerspectiveCamera(60, containerRect.width / containerRect.height, 0.1, 1000);
+            camera.position.set(12, 10, 12);
+
+            // Optimized renderer settings
+            renderer = new THREE.WebGLRenderer({
+                antialias: false, // Bloom makes native AA unnecessary
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(containerRect.width, containerRect.height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.target.set(0, 0, 0);
+            controls.minDistance = 8;
+            controls.maxDistance = 50;
+            controls.update();
+
+            createStarfield();
+            createEventHorizon();
+            createAccretionDisk();
+            createParticles();
+            createGasParticles();
+
+            setupPostProcessing();
+
+            window.addEventListener('resize', onWindowResize);
+            animate();
+        }
+
+        function createStarfield() {
+            const starGeometry = new THREE.BufferGeometry();
+            const starVertices = [];
+            for(let i = 0; i < 5000; i++) {
+                starVertices.push(
+                    (Math.random() - 0.5) * 500,
+                    (Math.random() - 0.5) * 500,
+                    (Math.random() - 0.5) * 500
+                );
+            }
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const starMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.4,
+                transparent: true,
+                opacity: 0.9
+            });
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+        }
+
+        function createEventHorizon() {
+            // Reduced geometry: 64x64 → 32x32 (black sphere doesn't need detail)
+            const geometry = new THREE.SphereGeometry(HORIZON_RADIUS, 32, 32);
+            const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+            eventHorizon = new THREE.Mesh(geometry, material);
+
+            const glowGeometry = new THREE.SphereGeometry(HORIZON_RADIUS + 0.2, 32, 32);
+            const glowMaterial = new THREE.MeshBasicMaterial({
+                color: 0x001144,
+                transparent: true,
+                opacity: 0.3,
+                side: THREE.BackSide
+            });
+            eventHorizon.add(new THREE.Mesh(glowGeometry, glowMaterial));
+            scene.add(eventHorizon);
+        }
+
+        function createAccretionDisk() {
+            // Reduced geometry: 128x128 → 32x32 (shader does the visual work)
+            const geometry = new THREE.PlaneGeometry(24, 24, 32, 32);
+            const material = new THREE.ShaderMaterial({
+                uniforms: { uTime: { value: 0.0 } },
+                vertexShader: diskVertexShader,
+                fragmentShader: diskFragmentShader,
+                transparent: true,
+                side: THREE.DoubleSide,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            accretionDisk = new THREE.Mesh(geometry, material);
+            accretionDisk.rotation.x = -Math.PI / 2;
+            scene.add(accretionDisk);
+        }
+
+        function createParticles() {
+            const positions = new Float32Array(PARTICLE_COUNT * 3);
+            const customData = new Float32Array(PARTICLE_COUNT * 3);
+            const colors = new Float32Array(PARTICLE_COUNT * 3);
+            const sizes = new Float32Array(PARTICLE_COUNT);
+            const color = new THREE.Color();
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const i3 = i * 3;
+                const radius = 5 + Math.random() * 30;
+                const angle = Math.random() * Math.PI * 2;
+                const y = (Math.random() - 0.5) * 6.0;
+
+                positions[i3] = radius * Math.cos(angle);
+                positions[i3 + 1] = y;
+                positions[i3 + 2] = radius * Math.sin(angle);
+
+                // Store initial data for GPU shader
+                customData[i3] = radius;
+                customData[i3 + 1] = angle;
+                customData[i3 + 2] = (0.015 + Math.random() * 0.025) / (radius * 0.08 + 0.1);
+
+                const hue = 0.05 + Math.random() * 0.15;
+                color.setHSL(hue, 0.9, 0.7 + Math.random() * 0.3);
+                colors[i3] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                sizes[i] = 0.0; // 0.0 = use default size in shader
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('customData', new THREE.BufferAttribute(customData, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0.0 },
+                    uHorizonRadius: { value: HORIZON_RADIUS }
+                },
+                vertexShader: particleVertexShader,
+                fragmentShader: particleFragmentShader,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                depthWrite: false
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
+
+        function createGasParticles() {
+            const positions = new Float32Array(GAS_PARTICLE_COUNT * 3);
+            const customData = new Float32Array(GAS_PARTICLE_COUNT * 3);
+            const colors = new Float32Array(GAS_PARTICLE_COUNT * 3);
+            const sizes = new Float32Array(GAS_PARTICLE_COUNT);
+            const color = new THREE.Color(0xff6633);
+
+            for (let i = 0; i < GAS_PARTICLE_COUNT; i++) {
+                const i3 = i * 3;
+                const radius = 6 + Math.random() * 20;
+                const angle = Math.random() * Math.PI * 2;
+                const y = (Math.random() - 0.5) * 4.0;
+
+                positions[i3] = radius * Math.cos(angle);
+                positions[i3 + 1] = y;
+                positions[i3 + 2] = radius * Math.sin(angle);
+
+                customData[i3] = radius;
+                customData[i3 + 1] = angle;
+                customData[i3 + 2] = (0.01 + Math.random() * 0.02) / (radius * 0.1 + 0.1);
+
+                colors[i3] = color.r * (0.8 + Math.random() * 0.4);
+                colors[i3 + 1] = color.g * (0.8 + Math.random() * 0.4);
+                colors[i3 + 2] = color.b * (0.8 + Math.random() * 0.4);
+
+                sizes[i] = 1.5 + Math.random() * 2.5;
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('customData', new THREE.BufferAttribute(customData, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0.0 },
+                    uHorizonRadius: { value: HORIZON_RADIUS }
+                },
+                vertexShader: particleVertexShader,
+                fragmentShader: particleFragmentShader,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                depthWrite: false
+            });
+
+            gasParticles = new THREE.Points(geometry, material);
+            scene.add(gasParticles);
+        }
+
+        function setupPostProcessing() {
+            composer = new EffectComposer(renderer);
+            composer.addPass(new RenderPass(scene, camera));
+
+            // Optimized bloom settings
+            const bloomPass = new UnrealBloomPass(
+                new THREE.Vector2(container.clientWidth, container.clientHeight),
+                1.8,  // strength
+                0.35, // radius
+                0.15  // threshold (higher = less pixels glow = better performance)
+            );
+            composer.addPass(bloomPass);
+            composer.addPass(new OutputPass());
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = clock.getDelta();
+            const elapsedTime = clock.getElapsedTime();
+
+            // Update disk time
+            if (accretionDisk) {
+                accretionDisk.material.uniforms.uTime.value = elapsedTime;
+            }
+
+            // GPU-driven particle animation: Only update time uniform!
+            // No CPU loops needed - GPU handles all 13,000 particles
+            if (particles) {
+                particles.material.uniforms.uTime.value = elapsedTime;
+            }
+            if (gasParticles) {
+                gasParticles.material.uniforms.uTime.value = elapsedTime;
+            }
+
+            composer.render(delta);
+        }
+
+        function onWindowResize() {
+            const containerRect = container.getBoundingClientRect();
+            camera.aspect = containerRect.width / containerRect.height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(containerRect.width, containerRect.height);
+            composer.setSize(containerRect.width, containerRect.height);
+        }
+
+        init();
+    </script>
 
   <div class="min-h-screen w-full">
     <div class="relative z-10 mx-auto max-w-7xl px-8 py-6 md:px-12 md:py-8">
@@ -395,6 +597,12 @@
             </p>
         </section>
         <div id="black-hole-container" class="relative" style="height: calc(100vh - 300px);">
+            <div id="info">
+                <h1>Black Hole Visualization</h1>
+                <p>Event Horizon • Accretion Disk • Gravitational Pull</p>
+                <p style="font-size: 12px; margin-top: 8px; opacity: 0.8;">Drag to rotate • Scroll to zoom</p>
+                <span class="badge">⚡ GPU-ACCELERATED</span>
+            </div>
             <!-- La visualisation du trou noir sera injectée ici -->
         </div>
       </main>
