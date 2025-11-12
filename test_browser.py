@@ -165,3 +165,22 @@ class TestBrowser(unittest.TestCase):
             reverted_title = await main_title_element.inner_text()
             self.assertEqual(reverted_title.strip(), french_title)
         self.loop.run_until_complete(run_test(self))
+
+    def test_translation_error_handling(self):
+        """Verifies that a failed translation file request is handled gracefully."""
+        async def run_test(self):
+            error_message = ""
+            def handle_console_message(msg):
+                nonlocal error_message
+                if msg.type == 'error':
+                    error_message = msg.text
+
+            self.page.on('console', handle_console_message)
+
+            await self.page.route("**/locales/*.json", lambda route: route.abort())
+            await self.page.goto('http://localhost:8000/index.html')
+
+            await self.page.wait_for_timeout(1000)
+
+            self.assertIn("Failed to load translations", error_message)
+        self.loop.run_until_complete(run_test(self))
