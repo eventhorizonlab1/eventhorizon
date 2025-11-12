@@ -515,5 +515,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setupThemeSwitcher();
   setupLanguageSwitcher();
   setLanguage("fr");
-  initializeWebsiteInteractivity();
+
+  // Only run the main page animations if we're on a page that has the particle container
+  if (document.getElementById("particle-container")) {
+    initializeWebsiteInteractivity();
+  }
 });
