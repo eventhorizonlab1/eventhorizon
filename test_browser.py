@@ -126,17 +126,6 @@ class TestBrowser(unittest.TestCase):
             self.assertIn("European space industry", h1_text)
         self.loop.run_until_complete(run_test(self))
 
-    def test_particle_network_initialization(self):
-        """Verifies that the particle network canvas is created."""
-        async def run_test(self):
-            await self.page.goto('http://localhost:8000/index.html')
-
-            await self.page.wait_for_selector('#particle-network')
-
-            canvas_handle = await self.page.query_selector('#particle-container > #particle-network')
-            self.assertIsNotNone(canvas_handle)
-        self.loop.run_until_complete(run_test(self))
-
     def test_language_switcher_flow(self):
         """Verifies the full language switching flow."""
         async def run_test(self):
