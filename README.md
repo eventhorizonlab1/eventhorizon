@@ -39,6 +39,7 @@ All external libraries are loaded via CDN links in the HTML files, eliminating t
 The repository is organized as follows:
 
 -   `index.html`: The main landing page, featuring the latest videos and articles.
+-   `black_hole.html`: A page featuring an interactive 3D black hole simulation.
 -   `locales/`: This directory contains the JSON files for internationalization. `fr.json` and `en.json` hold the translations for French and English, respectively.
 -   `documentation.js`: This file contains all JavaScript code for the website, including animations, theme switching, and other interactive features. It is fully documented with JSDoc.
 -   `test_*.py`: A suite of Python-based tests to ensure the consistency and correctness of the website.

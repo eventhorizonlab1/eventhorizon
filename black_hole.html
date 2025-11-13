@@ -244,61 +244,253 @@
 
   </div>
   <script type="module">
+    // =================================================================
+    // 🚀 THREE.JS BLACK HOLE SIMULATION
+    // =================================================================
+    // @author: Your Name
+    // @version: 1.0.0
+    // @description: An interactive, real-time black hole simulation
+    // using Three.js, with custom shaders for gravitational lensing
+    // and an accretion disk.
+    // =================================================================
+
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
     import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
     import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
     import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-    // ----------------------------------------------------------------- // PROCEDURAL SMOKE TEXTURE GENERATOR // -----------------------------------------------------------------
+
+    // -----------------------------------------------------------------
+    // 🎨 PROCEDURAL TEXTURE GENERATOR
+    // -----------------------------------------------------------------
+    /**
+     * Generates a procedural radial gradient texture for smoke/gas particles.
+     * @returns {THREE.CanvasTexture} A Three.js texture object.
+     */
     function generateSmokeTexture() {
       const size = 256;
       const canvas = document.createElement('canvas');
       canvas.width = size;
       canvas.height = size;
       const ctx = canvas.getContext('2d');
+
       const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
       gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
       gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.3)');
       gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, size, size);
       return new THREE.CanvasTexture(canvas);
     }
     const SMOKE_TEXTURE = generateSmokeTexture();
-    // ----------------------------------------------------------------- // EMBEDDED GLSL SHADERS // -----------------------------------------------------------------
-    const DebrisVertexShader = ` uniform float u_time; attribute float a_scale; attribute vec3 a_color; attribute float a_angular_velocity; attribute float a_inward_velocity; attribute float a_start_radius; varying vec3 v_color; varying float v_alpha; void main() { v_color = a_color; float angle = u_time * a_angular_velocity; float radius = a_start_radius - u_time * a_inward_velocity; if (radius < 15.0) { v_alpha = max(0.0, (radius - 10.0) / 5.0); radius = 15.0; } else { v_alpha = 1.0; } vec3 new_pos; new_pos.x = radius * cos(angle + position.x); new_pos.y = position.y; new_pos.z = radius * sin(angle + position.x); vec4 mv_position = modelViewMatrix * vec4(new_pos, 1.0); gl_Position = projectionMatrix * mv_position; float size = a_scale * (150.0 / -mv_position.z); gl_PointSize = max(1.0, size); } `;
-    const DebrisFragmentShader = ` varying vec3 v_color; varying float v_alpha; void main() { float dist = length(gl_PointCoord - vec2(0.5)); if (dist > 0.5) { discard; } gl_FragColor = vec4(v_color, v_alpha * (1.0 - dist * 2.0)); } `;
-    const AccretionDiskVertexShader = ` varying vec2 v_uv; void main() { v_uv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); } `;
-    const AccretionDiskFragmentShader = ` uniform float u_time; uniform float u_brightness; varying vec2 v_uv; float random(vec2 st) { return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123); } float fbm(vec2 st) { float value = 0.0; float amplitude = 0.5; for (int i = 0; i < 6; i++) { value += amplitude * random(st); st *= 2.0; amplitude *= 0.5; } return value; } void main() { vec2 to_center = vec2(0.5) - v_uv; float radius = length(to_center) * 2.0; float angle = atan(to_center.y, to_center.x); if (radius > 1.0 || radius < 0.01) { discard; } float noise = fbm(vec2(angle * 3.0, radius * 1.0 - u_time * 0.1)); float rotation = u_time * (1.0 / (radius + 0.1)) * 0.2; float turbulent_angle = angle + rotation + noise * 0.5; float strands = pow(sin(turbulent_angle * 12.0), 10.0); vec3 color = mix(vec3(1.0, 0.5, 0.0), vec3(1.0, 0.9, 0.0), noise); color += strands * 0.5 + noise * 0.3; float edge_fade = smoothstep(0.0, 0.2, radius) * (1.0 - smoothstep(0.8, 1.0, radius)); color *= edge_fade; gl_FragColor = vec4(color * u_brightness, 1.0); } `;
-    const LensingVertexShader = ` varying vec2 v_uv; void main() { v_uv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); } `;
-    const LensingFragmentShader = ` uniform sampler2D t_background; uniform vec2 u_resolution; uniform float u_lensing_strength; varying vec2 v_uv; const float SCHWARZSCHILD_RADIUS = 0.2; const float LENSING_RADIUS = 0.6; void main() { vec2 uv_center = v_uv - 0.5; uv_center.x *= u_resolution.x / u_resolution.y; float dist = length(uv_center); if (dist < SCHWARZSCHILD_RADIUS) { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); return; } float falloff = 1.0 - smoothstep(SCHWARZSCHILD_RADIUS, LENSING_RADIUS, dist); float bend = u_lensing_strength * falloff * (SCHWARZSCHILD_RADIUS / dist); vec2 bent_uv_center = uv_center + (uv_center / dist) * bend; bent_uv_center.x /= (u_resolution.x / u_resolution.y); vec2 final_uv = bent_uv_center + 0.5; vec4 background = texture2D(t_background, final_uv); if (dist > LENSING_RADIUS) { background = texture2D(t_background, v_uv); } gl_FragColor = background; } `;
-    // ----------------------------------------------------------------- // MAIN APPLICATION CLASS // -----------------------------------------------------------------
+
+    // -----------------------------------------------------------------
+    // ✨ EMBEDDED GLSL SHADERS
+    // @description Custom GLSL shaders for the visual effects.
+    // -----------------------------------------------------------------
+
+    /** Shader for the orbiting debris particles. */
+    const DebrisVertexShader = `
+      uniform float u_time;
+      attribute float a_scale;
+      attribute vec3 a_color;
+      attribute float a_angular_velocity;
+      attribute float a_inward_velocity;
+      attribute float a_start_radius;
+      varying vec3 v_color;
+      varying float v_alpha;
+
+      void main() {
+        v_color = a_color;
+        float angle = u_time * a_angular_velocity;
+        float radius = a_start_radius - u_time * a_inward_velocity;
+
+        // Fade out particles as they approach the event horizon
+        if (radius < 15.0) {
+          v_alpha = max(0.0, (radius - 10.0) / 5.0);
+          radius = 15.0; // Clamp to event horizon
+        } else {
+          v_alpha = 1.0;
+        }
+
+        vec3 new_pos;
+        new_pos.x = radius * cos(angle + position.x);
+        new_pos.y = position.y;
+        new_pos.z = radius * sin(angle + position.x);
+
+        vec4 mv_position = modelViewMatrix * vec4(new_pos, 1.0);
+        gl_Position = projectionMatrix * mv_position;
+
+        // Adjust particle size based on distance
+        float size = a_scale * (150.0 / -mv_position.z);
+        gl_PointSize = max(1.0, size);
+      }
+    `;
+    const DebrisFragmentShader = `
+      varying vec3 v_color;
+      varying float v_alpha;
+
+      void main() {
+        // Create a circular shape for each particle
+        float dist = length(gl_PointCoord - vec2(0.5));
+        if (dist > 0.5) {
+          discard;
+        }
+        gl_FragColor = vec4(v_color, v_alpha * (1.0 - dist * 2.0));
+      }
+    `;
+
+    /** Shader for the accretion disk. */
+    const AccretionDiskVertexShader = `
+      varying vec2 v_uv;
+      void main() {
+        v_uv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `;
+    const AccretionDiskFragmentShader = `
+      uniform float u_time;
+      uniform float u_brightness;
+      varying vec2 v_uv;
+
+      // 2D simplex noise for turbulence
+      float random(vec2 st) {
+        return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+      }
+      float fbm(vec2 st) {
+        float value = 0.0;
+        float amplitude = 0.5;
+        for (int i = 0; i < 6; i++) {
+          value += amplitude * random(st);
+          st *= 2.0;
+          amplitude *= 0.5;
+        }
+        return value;
+      }
+
+      void main() {
+        vec2 to_center = vec2(0.5) - v_uv;
+        float radius = length(to_center) * 2.0;
+        float angle = atan(to_center.y, to_center.x);
+
+        // Discard fragments outside the ring shape
+        if (radius > 1.0 || radius < 0.01) {
+          discard;
+        }
+
+        // Create turbulent, rotating strands of plasma
+        float noise = fbm(vec2(angle * 3.0, radius * 1.0 - u_time * 0.1));
+        float rotation = u_time * (1.0 / (radius + 0.1)) * 0.2;
+        float turbulent_angle = angle + rotation + noise * 0.5;
+        float strands = pow(sin(turbulent_angle * 12.0), 10.0);
+
+        // Color based on noise, with bright strands
+        vec3 color = mix(vec3(1.0, 0.5, 0.0), vec3(1.0, 0.9, 0.0), noise);
+        color += strands * 0.5 + noise * 0.3;
+
+        // Fade the edges of the disk
+        float edge_fade = smoothstep(0.0, 0.2, radius) * (1.0 - smoothstep(0.8, 1.0, radius));
+        color *= edge_fade;
+
+        gl_FragColor = vec4(color * u_brightness, 1.0);
+      }
+    `;
+
+    /** Shader for the gravitational lensing effect. */
+    const LensingVertexShader = `
+      varying vec2 v_uv;
+      void main() {
+        v_uv = uv;
+        gl_Position = vec4(position.xy, 0.0, 1.0);
+      }
+    `;
+    const LensingFragmentShader = `
+      uniform sampler2D t_background;
+      uniform vec2 u_resolution;
+      uniform float u_lensing_strength;
+      varying vec2 v_uv;
+
+      const float SCHWARZSCHILD_RADIUS = 0.2;
+      const float LENSING_RADIUS = 0.6;
+
+      void main() {
+        vec2 uv_center = v_uv - 0.5;
+        uv_center.x *= u_resolution.x / u_resolution.y;
+        float dist = length(uv_center);
+
+        // The black hole itself
+        if (dist < SCHWARZSCHILD_RADIUS) {
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+          return;
+        }
+
+        // Calculate the light bending based on distance
+        float falloff = 1.0 - smoothstep(SCHWARZSCHILD_RADIUS, LENSING_RADIUS, dist);
+        float bend = u_lensing_strength * falloff * (SCHWARZSCHILD_RADIUS / dist);
+
+        // Distort the texture coordinates
+        vec2 bent_uv_center = uv_center + (uv_center / dist) * bend;
+        bent_uv_center.x /= (u_resolution.x / u_resolution.y);
+        vec2 final_uv = bent_uv_center + 0.5;
+
+        // Sample the background texture with the distorted coordinates
+        vec4 background = texture2D(t_background, final_uv);
+
+        // No distortion beyond the lensing radius
+        if (dist > LENSING_RADIUS) {
+          background = texture2D(t_background, v_uv);
+        }
+
+        gl_FragColor = background;
+      }
+    `;
+
+    // -----------------------------------------------------------------
+    // 🌌 MAIN APPLICATION CLASS
+    // -----------------------------------------------------------------
+    /**
+     * Manages the entire Three.js simulation, including scenes,
+     * camera, renderer, and all visual components.
+     */
     class BlackHoleSimulation {
-      constructor() { // Scènes séparées pour un meilleur contrôle du pipeline
+      constructor() {
         const container = document.querySelector('main');
-        this.backgroundScene = new THREE.Scene(); // Débris (pour lensing)
-        this.scene = new THREE.Scene(); // Disque + gaz
-        this.lensingScene = new THREE.Scene(); // Quad de lensing
+
+        // Use separate scenes for an optimized multi-pass rendering pipeline
+        this.backgroundScene = new THREE.Scene(); // Holds debris field for lensing
+        this.scene = new THREE.Scene();           // Holds accretion disk and gas clouds
+        this.lensingScene = new THREE.Scene();    // Holds a screen-space quad for the lensing shader
+
         this.camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
         this.camera.position.set(0, 30, 60);
         this.camera.lookAt(0, 0, 0);
-        this.renderer = new THREE.WebGLRenderer({
-          antialias: true
-        });
+
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(container.clientWidth, container.clientHeight);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1.0;
         container.appendChild(this.renderer.domElement);
+
         this.clock = new THREE.Clock();
-        this.rotationSpeedMultiplier = 1.0; // FPS counter
+        this.rotationSpeedMultiplier = 1.0;
+
+        // FPS counter variables
         this.frameCount = 0;
-        this.lastFPSUpdate = 0; // Render target pour le fond (débris)
-        this.backgroundRenderTarget = new THREE.WebGLRenderTarget(container.clientWidth * window.devicePixelRatio, container.clientHeight * window.devicePixelRatio, {
-          type: THREE.HalfFloatType
-        });
+        this.lastFPSUpdate = 0;
+
+        // Render target to hold the pre-rendered debris field for the lensing shader
+        this.backgroundRenderTarget = new THREE.WebGLRenderTarget(
+          container.clientWidth * window.devicePixelRatio,
+          container.clientHeight * window.devicePixelRatio,
+          { type: THREE.HalfFloatType }
+        );
+
         this.container = container;
+
+        // Initialize all components
         this.setupControls();
         this.setupLensing();
         this.setupAccretionDisk();
@@ -306,9 +498,12 @@
         this.setupGasClouds();
         this.setupPostProcessing();
         this.setupUI();
+
         window.addEventListener('resize', this.onWindowResize.bind(this));
         this.animate();
       }
+
+      /** Sets up camera controls. */
       setupControls() {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
@@ -316,35 +511,29 @@
         this.controls.minDistance = 20;
         this.controls.maxDistance = 200;
       }
+
+      /** Sets up the gravitational lensing effect. */
       setupLensing() {
         this.lensingMaterial = new THREE.ShaderMaterial({
           uniforms: {
-            t_background: {
-              value: this.backgroundRenderTarget.texture
-            },
-            u_resolution: {
-              value: new THREE.Vector2(window.innerWidth, window.innerHeight)
-            },
-            u_lensing_strength: {
-              value: 0.8
-            }
+            t_background: { value: this.backgroundRenderTarget.texture },
+            u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+            u_lensing_strength: { value: 0.8 }
           },
           vertexShader: LensingVertexShader,
           fragmentShader: LensingFragmentShader
         });
-        this.lensingQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), this.lensingMaterial);
-        this.lensingScene.add(this.lensingQuad);
+        const lensingQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), this.lensingMaterial);
+        this.lensingScene.add(lensingQuad);
       }
+
+      /** Sets up the accretion disk. */
       setupAccretionDisk() {
         const diskGeometry = new THREE.RingGeometry(15.1, 35, 128);
         this.accretionDiskMaterial = new THREE.ShaderMaterial({
           uniforms: {
-            u_time: {
-              value: 0.0
-            },
-            u_brightness: {
-              value: 15.0
-            }
+            u_time: { value: 0.0 },
+            u_brightness: { value: 15.0 }
           },
           vertexShader: AccretionDiskVertexShader,
           fragmentShader: AccretionDiskFragmentShader,
@@ -357,27 +546,28 @@
         this.accretionDisk.rotation.x = Math.PI / 2;
         this.scene.add(this.accretionDisk);
       }
+
+      /** Sets up the orbiting debris field. */
       setupDebrisField() {
         const PARTICLE_COUNT = 100000;
-        const positions = [];
-        const scales = [];
-        const colors = [];
-        const angularVelocities = [];
-        const inwardVelocities = [];
-        const startRadii = [];
+        const positions = [], scales = [], colors = [], angularVelocities = [], inwardVelocities = [], startRadii = [];
+
         for (let i = 0; i < PARTICLE_COUNT; i++) {
           const radius = THREE.MathUtils.randFloat(10, 500);
           const angle = THREE.MathUtils.randFloat(0, Math.PI * 2);
           positions.push(radius * Math.cos(angle), THREE.MathUtils.randFloatSpread(10), radius * Math.sin(angle));
           scales.push(THREE.MathUtils.randFloat(0.5, 1.5));
+
           const color = new THREE.Color();
           const warmth = 1.0 - Math.min(radius / 300, 1.0);
           color.setRGB(1.0, 0.8 + warmth * 0.2, 0.8 + warmth * 0.2);
           colors.push(color.r, color.g, color.b);
+
           startRadii.push(radius);
           angularVelocities.push(THREE.MathUtils.randFloat(0.01, 0.05) / (radius * 0.1));
           inwardVelocities.push(Math.random() > 0.95 ? THREE.MathUtils.randFloat(0.5, 2.0) : 0.0);
         }
+
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
         geometry.setAttribute('a_scale', new THREE.Float32BufferAttribute(scales, 1));
@@ -385,29 +575,31 @@
         geometry.setAttribute('a_start_radius', new THREE.Float32BufferAttribute(startRadii, 1));
         geometry.setAttribute('a_angular_velocity', new THREE.Float32BufferAttribute(angularVelocities, 1));
         geometry.setAttribute('a_inward_velocity', new THREE.Float32BufferAttribute(inwardVelocities, 1));
+
         this.debrisMaterial = new THREE.ShaderMaterial({
-          uniforms: {
-            u_time: {
-              value: 0.0
-            }
-          },
+          uniforms: { u_time: { value: 0.0 } },
           vertexShader: DebrisVertexShader,
           fragmentShader: DebrisFragmentShader,
           transparent: true,
           blending: THREE.AdditiveBlending,
           depthWrite: false
         });
-        this.debrisField = new THREE.Points(geometry, this.debrisMaterial);
-        this.backgroundScene.add(this.debrisField);
+
+        const debrisField = new THREE.Points(geometry, this.debrisMaterial);
+        this.backgroundScene.add(debrisField);
       }
+
+      /** Sets up distant gas clouds for atmospheric effect. */
       setupGasClouds() {
         const PARTICLE_COUNT = 500;
         const positions = [];
         for (let i = 0; i < PARTICLE_COUNT; i++) {
           positions.push(THREE.MathUtils.randFloatSpread(200), THREE.MathUtils.randFloatSpread(5), THREE.MathUtils.randFloatSpread(200));
         }
+
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
         const material = new THREE.PointsMaterial({
           map: SMOKE_TEXTURE,
           size: 50,
@@ -416,26 +608,38 @@
           opacity: 0.2,
           depthWrite: false
         });
+
         this.gasClouds = new THREE.Points(geometry, material);
         this.gasCloudGroup = new THREE.Group();
         this.gasCloudGroup.add(this.gasClouds);
         this.scene.add(this.gasCloudGroup);
       }
+
+      /** Sets up the post-processing pipeline. */
       setupPostProcessing() {
-        const renderTarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {
-          type: THREE.HalfFloatType
-        });
-        this.composer = new EffectComposer(this.renderer, renderTarget); // Pipeline optimisé : // 1. Lensing pass (lit la texture de débris pré-rendue)
+        const renderTarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, { type: THREE.HalfFloatType });
+        this.composer = new EffectComposer(this.renderer, renderTarget);
+
+        // Optimized Render Pipeline:
+        // 1. Lensing pass (reads the pre-rendered debris texture)
         const lensingPass = new RenderPass(this.lensingScene, this.camera);
-        this.composer.addPass(lensingPass); // 2. Scène principale par-dessus (disque + gaz)
+        this.composer.addPass(lensingPass);
+
+        // 2. Main scene pass (renders disk and gas on top)
         const renderPass = new RenderPass(this.scene, this.camera);
-        renderPass.clear = false; // Ne pas effacer le lensing
-        this.composer.addPass(renderPass); // 3. Bloom (principalement sur le disque)
+        renderPass.clear = false; // Don't clear the result of the lensing pass
+        this.composer.addPass(renderPass);
+
+        // 3. Bloom pass (adds glow, primarily to the accretion disk)
         this.bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 1.0);
-        this.composer.addPass(this.bloomPass); // 4. Output pass (tone mapping)
+        this.composer.addPass(this.bloomPass);
+
+        // 4. Final output pass (applies tone mapping)
         const outputPass = new OutputPass();
         this.composer.addPass(outputPass);
       }
+
+      /** Sets up the UI control listeners. */
       setupUI() {
         document.getElementById('rotationSpeed').addEventListener('input', (e) => {
           this.rotationSpeedMultiplier = parseFloat(e.target.value);
@@ -459,39 +663,59 @@
           this.controls.update();
         });
       }
+
+      /** Handles window resize events. */
       onWindowResize() {
         const width = this.container.clientWidth;
         const height = this.container.clientHeight;
+
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
+
         this.renderer.setSize(width, height);
         this.composer.setSize(width, height);
         this.backgroundRenderTarget.setSize(width * window.devicePixelRatio, height * window.devicePixelRatio);
         this.lensingMaterial.uniforms.u_resolution.value.set(width, height);
       }
+
+      /** Main animation loop. */
       animate() {
         requestAnimationFrame(this.animate.bind(this));
+
         const elapsedTime = this.clock.getElapsedTime();
         const delta = this.clock.getDelta();
-        const scaledTime = elapsedTime * this.rotationSpeedMultiplier; // Update FPS counter
+        const scaledTime = elapsedTime * this.rotationSpeedMultiplier;
+
+        // Update FPS counter
         this.frameCount++;
         if (elapsedTime - this.lastFPSUpdate > 0.5) {
           const fps = Math.round(this.frameCount / (elapsedTime - this.lastFPSUpdate));
           document.getElementById('fps').textContent = `FPS: ${fps}`;
           this.frameCount = 0;
           this.lastFPSUpdate = elapsedTime;
-        } // Mettre à jour les shaders
+        }
+
+        // Update shader uniforms and object rotations
         this.debrisMaterial.uniforms.u_time.value = scaledTime * 0.1;
         this.accretionDiskMaterial.uniforms.u_time.value = scaledTime * 0.5;
         this.gasCloudGroup.rotation.y = -scaledTime * 0.02;
-        this.controls.update(); // PIPELINE DE RENDU OPTIMISÉ // 1. Rendre la scène de débris dans la texture de fond
+
+        this.controls.update();
+
+        // OPTIMIZED RENDER PIPELINE:
+        // 1. Render the debris scene into the background render target
         this.renderer.setRenderTarget(this.backgroundRenderTarget);
         this.renderer.clear();
-        this.renderer.render(this.backgroundScene, this.camera); // 2. Rendre la scène finale via le compositeur // (Le lensing lit backgroundRenderTarget, puis le disque est ajouté)
+        this.renderer.render(this.backgroundScene, this.camera);
+
+        // 2. Render the final scene using the composer
+        //    (lensing pass reads from backgroundRenderTarget, then disk/gas are added)
         this.renderer.setRenderTarget(null);
         this.composer.render(delta);
       }
     }
+
+    // Initialize the simulation
     new BlackHoleSimulation();
   </script>
 </body>

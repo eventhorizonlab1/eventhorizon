@@ -6,6 +6,7 @@ This module contains tests for the animation logic of the Event Horizon website.
 import re
 import unittest
 
+
 def read_file_content(filepath):
     """Reads and returns the content of a given file.
 
@@ -17,6 +18,7 @@ def read_file_content(filepath):
     """
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
+
 
 class TestAnimations(unittest.TestCase):
     """Test suite for the animation logic in `documentation.js`.

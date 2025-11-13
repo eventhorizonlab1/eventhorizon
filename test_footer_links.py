@@ -7,7 +7,7 @@ implemented and behave as expected.
 import os
 import unittest
 
-ALL_HTML_FILES = ["index.html"]
+ALL_HTML_FILES = ["index.html", "black_hole.html"]
 """A list of all HTML files in the current directory to be tested."""
 
 class TestFooterLinks(unittest.TestCase):

@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 
 HTML_FILES = [f for f in os.listdir('.') if f.endswith('.html')]
 
+
 def read_file_content(filepath):
     """Reads and returns the content of a given file.
 
@@ -23,6 +24,7 @@ def read_file_content(filepath):
     """
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
+
 
 class TestNewsletterForm(unittest.TestCase):
     """Test suite for the newsletter form.

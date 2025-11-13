@@ -115,7 +115,7 @@ class TestBrowser(unittest.TestCase):
             h1_text = await self.page.inner_text('h1.main-title')
             self.assertIn("l'industrie spatiale européenne", h1_text)
 
-            await self.page.click('a[data-lang="en"]')
+            await self.page.click('.language-switcher button[data-lang="en"]')
 
             await self.page.wait_for_function('''() => {
                 const el = document.querySelector('h1.main-title');
@@ -136,7 +136,7 @@ class TestBrowser(unittest.TestCase):
             initial_title = await main_title_element.inner_text()
             self.assertEqual(initial_title.strip(), french_title)
 
-            await self.page.click('a[data-lang="en"]')
+            await self.page.click('.language-switcher button[data-lang="en"]')
 
             english_title = "Event Horizon: Behind the scenes of the European space industry"
             await self.page.wait_for_function(f'''
@@ -146,7 +146,7 @@ class TestBrowser(unittest.TestCase):
             translated_title = await main_title_element.inner_text()
             self.assertEqual(translated_title.strip(), english_title)
 
-            await self.page.click('a[data-lang="fr"]')
+            await self.page.click('.language-switcher button[data-lang="fr"]')
             await self.page.wait_for_function(f'''
                 () => document.querySelector('[data-i18n-key="main_title"]').innerText.trim() === "{french_title}"
             ''')

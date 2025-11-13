@@ -126,17 +126,26 @@ function setupLanguageSwitcher() {
 // ================================================================
 
 /**
- * Detects if the user prefers reduced motion.
- * @returns {boolean}
+ * Detects if the user prefers reduced motion based on OS settings.
+ *
+ * @description This function checks the `prefers-reduced-motion` media query to determine
+ * if animations should be suppressed or simplified for accessibility.
+ *
+ * @returns {boolean} True if the user prefers reduced motion, false otherwise.
  */
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 /**
- * Returns animation config adjusted for accessibility preferences.
- * @param {Object} config - Original anime.js configuration
- * @returns {Object} Adjusted configuration
+ * Returns an animation configuration adjusted for accessibility preferences.
+ *
+ * @description If the user prefers reduced motion, this function overrides the duration
+ * and delay of an anime.js configuration to effectively disable the animation.
+ * Otherwise, it returns the original configuration.
+ *
+ * @param {object} config - The original anime.js configuration object.
+ * @returns {object} The adjusted or original animation configuration.
  */
 function getAccessibleAnimationConfig(config) {
   if (prefersReducedMotion()) {
@@ -150,8 +159,14 @@ function getAccessibleAnimationConfig(config) {
 }
 
 /**
- * Announces a message to screen readers.
- * @param {string} message - Message to announce
+ * Announces a message to screen readers using an ARIA live region.
+ *
+ * @description This function creates a temporary, visually-hidden element with ARIA
+ * attributes to make an announcement to screen reader users, then removes it
+ * after a short delay. This is useful for conveying dynamic changes.
+ *
+ * @param {string} message - The message to be announced to the screen reader.
+ * @returns {void}
  */
 function announceToScreenReader(message) {
   const announcement = document.createElement('div');
@@ -165,7 +180,14 @@ function announceToScreenReader(message) {
 }
 
 /**
- * Sets up listener for motion preference changes.
+ * Sets up a listener for changes in the user's motion preference.
+ *
+ * @description This function listens for changes to the `prefers-reduced-motion` media
+ * query. If the user enables this setting while on the page, it immediately
+ * removes all active anime.js animations and resets element styles to prevent
+ * further motion. This ensures the site adapts in real-time.
+ *
+ * @returns {void}
  */
 function setupMotionPreferenceListener() {
   const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -187,10 +209,13 @@ function setupMotionPreferenceListener() {
 // ================================================================
 
 /**
- * Creates an enhanced page load animation sequence.
- * Uses spring physics and advanced staggering.
- * 
- * @returns {anime.AnimeTimelineInstance}
+ * Creates an enhanced, multi-stage page load animation sequence.
+ *
+ * @description This function uses anime.js to create a sophisticated timeline for the
+ * initial page load, featuring spring physics and advanced staggering for a
+ * fluid and engaging introduction of header and title elements.
+ *
+ * @returns {anime.AnimeTimelineInstance} An anime.js timeline instance.
  */
 function createEnhancedPageLoadAnimation() {
   const tl = anime.timeline({
@@ -234,7 +259,14 @@ function createEnhancedPageLoadAnimation() {
 }
 
 /**
- * Sets up enhanced scroll animations with wave effect.
+ * Sets up enhanced scroll-triggered animations for sections and cards.
+ *
+ * @description This function uses the IntersectionObserver API to detect when a
+ * section with the `.animate-section` class enters the viewport. When it does,
+ * it triggers a staggered "wave" animation for all `.animate-card` elements
+ * within that section, creating a dynamic and engaging reveal effect.
+ *
+ * @returns {void}
  */
 function setupEnhancedScrollAnimations() {
   const sections = document.querySelectorAll('.animate-section');
@@ -273,7 +305,13 @@ function setupEnhancedScrollAnimations() {
 }
 
 /**
- * Adds subtle breathing animation to logo.
+ * Adds a subtle, continuous "breathing" animation to the site logo.
+ *
+ * @description This function applies a gentle, looping scaling animation to the site
+ * logo to give it a subtle sense of life and dynamism. The animation is
+ * disabled if the user prefers reduced motion.
+ *
+ * @returns {void}
  */
 function addLogoBreathingAnimation() {
   if (prefersReducedMotion()) return;
@@ -352,7 +390,15 @@ function animateSectionTitles() {
 // ================================================================
 
 /**
- * Sets up advanced hover effects for cards with parallax.
+ * Sets up advanced 3D parallax hover effects for cards.
+ *
+ * @description This function adds event listeners to all interactive cards to create
+ * a 3D parallax effect on mouseover. It calculates the mouse position relative
+ * to the card's center and uses anime.js to apply rotations and translations
+ * to the card, its image, and title, creating a sense of depth. The effect is
+ * reset on mouseleave. It is disabled if the user prefers reduced motion.
+ *
+ * @returns {void}
  */
 function setupAdvancedCardHovers() {
   if (prefersReducedMotion()) return;
@@ -440,7 +486,14 @@ function setupAdvancedCardHovers() {
 }
 
 /**
- * Sets up magnetic effect for buttons.
+ * Sets up a "magnetic" hover effect for buttons and bordered links.
+ *
+ * @description This function adds a subtle magnetic effect to interactive buttons,
+ * where the button moves slightly towards the cursor on mouseover, creating a
+ * more engaging and tactile user experience. The effect is disabled if the
+ * user prefers reduced motion.
+ *
+ * @returns {void}
  */
 function setupMagneticButtons() {
   if (prefersReducedMotion()) return;
@@ -564,8 +617,16 @@ function setupLogoHoverAnimation() {
 // ================================================================
 
 /**
- * Sets up an accessible carousel with keyboard navigation.
- * @param {string} selector - Section selector containing the carousel
+ * Sets up an accessible carousel with extensive keyboard and screen reader support.
+ *
+ * @description This function initializes a carousel within a given section. It includes
+ * functionality for previous/next buttons, pagination indicators, and full
+ * keyboard navigation (arrows, home, end). It also updates ARIA attributes
+ * dynamically and uses a screen reader announcer to provide feedback on user
+ * actions, ensuring a fully accessible experience.
+ *
+ * @param {string} selector - The CSS selector for the section containing the carousel.
+ * @returns {void}
  */
 function setupAccessibleCarousel(selector) {
   const section = document.querySelector(selector);
@@ -689,7 +750,15 @@ function setupAccessibleCarousel(selector) {
 // ================================================================
 
 /**
- * Sets up the reading progress bar.
+ * Sets up and manages a reading progress bar at the top of the page.
+ *
+ * @description This function finds the reading progress bar element and attaches a scroll
+ * event listener to the window. It calculates the scroll progress of the page
+ * and updates the width and ARIA attributes of the progress bar in a
+ * performant way using `requestAnimationFrame`. The bar's color also changes
+ * at different progress milestones.
+ *
+ * @returns {void}
  */
 function setupReadingProgress() {
   const progressBar = document.getElementById('reading-progress');
@@ -734,8 +803,14 @@ function setupReadingProgress() {
 // ================================================================
 
 /**
- * Updates ARIA attributes for theme toggle buttons.
- * @param {boolean} isDark - Whether dark mode is active
+ * Updates the ARIA attributes for the theme toggle buttons.
+ *
+ * @description This function ensures that the theme toggle buttons have the correct ARIA
+ * attributes (`aria-pressed` and `aria-label`) to reflect the current theme
+ * state, making the control accessible to screen reader users.
+ *
+ * @param {boolean} isDark - A boolean indicating if dark mode is currently active.
+ * @returns {void}
  */
 function updateThemeToggleAria(isDark) {
   const buttons = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
@@ -795,7 +870,14 @@ function setupThemeSwitcher() {
 // ================================================================
 
 /**
- * Initializes all website interactivity.
+ * Initializes all website animations and advanced interactivity.
+ *
+ * @description This function serves as the main entry point for initializing all visual
+ * and interactive elements of the website, including the page load animation,
+ * scroll-triggered effects, and various micro-interactions. It also checks
+ * for the user's motion preference and disables animations if necessary.
+ *
+ * @returns {void}
  */
 function initializeWebsiteInteractivity() {
   if (prefersReducedMotion()) {
@@ -817,17 +899,30 @@ function initializeWebsiteInteractivity() {
   animateSectionTitles();
 }
 
+/**
+ * Main initialization script that runs after the DOM is fully loaded.
+ *
+ * @description This is the primary entry point for the script. It sets up essential
+ * functionality like the theme switcher and language management first, then
+ * initializes the main animations and carousels. It ensures a logical startup
+ * sequence for all interactive features.
+ */
 document.addEventListener("DOMContentLoaded", () => {
+  // Set up core functionalities first
   setupMotionPreferenceListener();
   setupThemeSwitcher();
   setupLanguageSwitcher();
   setupReadingProgress();
+
+  // Set the default language to French
   setLanguage("fr");
 
-  if (document.getElementById("particle-container")) {
+  // Initialize animations only on the main page
+  if (document.querySelector(".main-title")) {
     initializeWebsiteInteractivity();
   }
   
+  // Set up all carousels on the page
   setupAccessibleCarousel('#articles');
   setupAccessibleCarousel('#ecosysteme');
 });
