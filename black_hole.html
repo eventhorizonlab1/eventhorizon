@@ -46,14 +46,14 @@
   </script>
 
   <!-- Tailwind + Fonts -->
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries" integrity="sha384-OLBgp1GsljhM2TJ+sbHjaiH9txEUvgdDTAzHv2P24donTt6/529l+9Ua0vFImLlb" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
   <!-- Alpine.js -->
-  <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" integrity="sha384-AcSaWxvnMR2SgnleqfU16jcKcUfvBf6wEAAggoopzTitRGiAcxwpc0rK5zCzMoVR" crossorigin="anonymous"></script>
 
   <script>
     tailwind.config = {
@@ -139,12 +139,12 @@
     };
   </script>
   <script defer data-domain="yourdomain.com"
-          src="https://plausible.io/js/script.js"></script>
+          src="https://plausible.io/js/script.js" integrity="sha384-TDBMBYT3vz715r8UIyVTB4AUTXubXmLI02DeDWgyDahvCXmPV4Vgx2m6yQvI19d/" crossorigin="anonymous"></script>
 </head>
 
 <body class="overflow-x-hidden">
   <!-- Anime.js and site script -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha384-fXdIufVbE9aU7STmdk/DWK0imNOozId9fTwzM/gi0NfPjphEIC3gq0M760UnsKVy" crossorigin="anonymous"></script>
   <script src="documentation.js" defer></script>
 
   <div class="min-h-screen w-full">
@@ -299,6 +299,14 @@
 
         </div>
 
+        <div class="rounded-lg bg-gray-800/50 p-8">
+          <h3 class="text-lg font-bold text-white">S'inscrire à la newsletter</h3>
+          <p class="mt-2 text-sm text-gray-400">Recevez les dernières nouvelles de l'industrie spatiale européenne directement dans votre boîte de réception.</p>
+          <form action="https://app.mailjet.com/widget/iframe/5zqA/L3h" method="post" target="_blank" class="mt-4 flex flex-col items-center gap-y-2 sm:flex-row">
+            <input type="email" name="EMAIL" placeholder="Votre email" required class="w-full rounded-md border-gray-700 bg-gray-900/50 text-white focus:border-indigo-500 focus:ring-indigo-500 sm:w-auto sm:flex-grow">
+            <button type="submit" class="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 sm:w-auto">S'inscrire</button>
+          </form>
+        </div>
         <div class="flex flex-col items-center justify-between gap-y-4 border-t border-gray-800 pt-8 text-center text-sm text-gray-400 md:flex-row md:text-left">
           <p data-i18n-key="footer.rights">© 2023 Event Horizon. Tous droits réservés.</p>
           <a class="transition-colors hover:text-white quick-link" href="#" data-i18n-key="footer.privacy">Politique de Confidentialité</a>

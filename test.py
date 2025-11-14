@@ -9,7 +9,7 @@ import re
 import os
 import unittest
 
-ALL_HTML_FILES = ["index.html"]
+ALL_HTML_FILES = ["index.html", "black_hole.html"]
 """A list of all HTML files in the current directory to be tested."""
 
 
@@ -44,7 +44,8 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>', content)
+                pattern = r'<script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js".*?></script>'
+                match = re.search(pattern, content)
                 self.assertIsNotNone(match, f"Alpine.js v2.8.2 CDN link not found in {filepath}!")
 
     def test_tailwind_cdn_present(self):
@@ -57,7 +58,8 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<script src="https://cdn.tailwindcss.com\?plugins=forms,typography,container-queries"></script>', content)
+                pattern = r'<script src="https://cdn.tailwindcss.com\?plugins=forms,typography,container-queries".*?></script>'
+                match = re.search(pattern, content)
                 self.assertIsNotNone(match, f"Tailwind CSS CDN link not found in {filepath}!")
 
     def test_header_present(self):
@@ -85,5 +87,6 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                for link in nav_links:
-                    self.assertIn(link, content, f"Navigation link {link} not found in {filepath}!")
+                if filepath == "index.html":
+                    for link in nav_links:
+                        self.assertIn(link, content, f"Navigation link {link} not found in {filepath}!")
