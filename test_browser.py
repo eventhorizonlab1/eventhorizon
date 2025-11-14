@@ -85,7 +85,7 @@ class TestBrowser(unittest.TestCase):
     def test_anime_is_defined(self):
         """Verifies that the anime.js library is defined on the page."""
         async def run_test(self):
-            await self.page.goto('http://localhost:8000/index.html')
+            await self.page.goto('http://localhost:8000/black_hole.html')
             anime_defined = await self.page.evaluate('typeof anime')
             self.assertEqual(anime_defined, 'function')
         self.loop.run_until_complete(run_test(self))
