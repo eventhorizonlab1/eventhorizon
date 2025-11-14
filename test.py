@@ -70,7 +70,7 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<a class="text-2xl font-bold tracking-tight text-black dark:text-white" href="#"', content, re.DOTALL)
+                match = re.search(r'<a class="text-2xl font-bold tracking-tight text-black dark:text-white" href="index.html"', content, re.DOTALL)
                 self.assertIsNotNone(match, f"Header with logo not found in {filepath}!")
 
     def test_navigation_links_present(self):
