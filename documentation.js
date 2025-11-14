@@ -182,6 +182,51 @@ function setupMotionPreferenceListener() {
   });
 }
 
+/**
+* Trap focus within modal/mobile menu for keyboard users
+*/
+function trapFocus(element) {
+const focusableElements = element.querySelectorAll(
+'a[href], button:not([disabled]), textarea, input, select'
+);
+const firstElement = focusableElements[0];
+const lastElement = focusableElements[focusableElements.length - 1];
+
+element.addEventListener('keydown', (e) => {
+if (e.key !== 'Tab') return;
+
+if (e.shiftKey && document.activeElement === firstElement) {
+e.preventDefault();
+lastElement.focus();
+} else if (!e.shiftKey && document.activeElement === lastElement) {
+e.preventDefault();
+firstElement.focus();
+}
+});
+}
+
+/**
+ * Sets up accessibility features for the mobile menu.
+ * @description This function observes the mobile menu for visibility changes.
+ * When the menu becomes visible, it applies the `trapFocus` function to keep
+ * keyboard focus within the menu, improving accessibility.
+ */
+function setupMobileMenuAccessibility() {
+const mobileMenu = document.querySelector('[x-data]');
+if (!mobileMenu) return;
+
+// Observer l'ouverture du menu
+const observer = new MutationObserver((mutations) => {
+mutations.forEach((mutation) => {
+if (mutation.target.querySelector('[x-show]')?.style.display !== 'none') {
+trapFocus(mutation.target.querySelector('.fixed.inset-y-0'));
+}
+});
+});
+
+observer.observe(mobileMenu, { childList: true, subtree: true });
+}
+
 // ================================================================
 // ✨ ENHANCED ANIMATIONS
 // ================================================================
@@ -818,6 +863,7 @@ function initializeWebsiteInteractivity() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupMobileMenuAccessibility();
   setupMotionPreferenceListener();
   setupThemeSwitcher();
   setupLanguageSwitcher();
