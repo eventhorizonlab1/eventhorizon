@@ -475,17 +475,17 @@ npx lighthouse http://localhost:8000/index.html --output html --output-path ./re
 
 **Présent** :
 - ✅ `sitemap.xml` généré
-- ✅ Structure HTML sémantique (`<header>`, `<main>`, `<footer>`, `<section>`)
+- ✅ Structure HTML sémantique
 - ✅ Titres hiérarchiques (H1 → H2)
-- ✅ URLs propres (pas de hash routing)
+- ✅ URLs propres
 - ✅ Meta descriptions
-- ✅ Open Graph tags (partage réseaux sociaux)
+- ✅ Open Graph tags
 - ✅ Twitter Cards
 - ✅ Structured Data (JSON-LD)
+- ✅ robots.txt
 
 **Manquant** :
 - ❌ Canonical URLs
-- ❌ robots.txt
 
 ### 7.2 Recommandations SEO
 

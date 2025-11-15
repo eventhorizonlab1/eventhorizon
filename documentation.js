@@ -27,10 +27,33 @@ let translations = {};
 async function loadTranslations(lang) {
   try {
     const response = await fetch(`locales/${lang}.json`);
-    if (!response.ok) throw new Error(`Network response was not ok for ${lang}.json`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
     translations = await response.json();
+
+    // Validation des données
+    if (!translations || typeof translations !== 'object') {
+      throw new Error('Invalid translation format');
+    }
+
+    announceToScreenReader(`Langue changée en ${lang === 'fr' ? 'français' : 'anglais'}`);
+
   } catch (error) {
-    console.error("Failed to load translations:", error);
+    console.error(`Failed to load translations for ${lang}:`, error);
+
+    // Fallback vers français si échec
+    if (lang !== 'fr') {
+      console.warn('Falling back to French...');
+      await loadTranslations('fr');
+    } else {
+      // Afficher message utilisateur si échec critique
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'fixed top-4 right-4 bg-red-500 text-white p-4 rounded-lg z-50';
+      alertDiv.textContent = 'Erreur de chargement des traductions';
+      document.body.appendChild(alertDiv);
+      setTimeout(() => alertDiv.remove(), 5000);
+    }
   }
 }
 
@@ -66,9 +89,19 @@ function applyTranslations() {
  * @returns {Promise<void>} A promise that resolves when the language has been fully set.
  */
 async function setLanguage(lang) {
-  await loadTranslations(lang);
-  applyTranslations();
-  updateLanguageSwitcherUI(lang);
+  // Afficher loader
+  const loader = document.createElement('div');
+  loader.className = 'fixed inset-0 bg-black/20 flex items-center justify-center z-50';
+  loader.innerHTML = '<div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>';
+  document.body.appendChild(loader);
+
+  try {
+    await loadTranslations(lang);
+    applyTranslations();
+    updateLanguageSwitcherUI(lang);
+  } finally {
+    loader.remove();
+  }
 }
 
 /**
@@ -227,19 +260,27 @@ function trapFocus(element) {
  * keyboard focus within the menu, improving accessibility.
  */
 function setupMobileMenuAccessibility() {
-const mobileMenu = document.querySelector('[x-data]');
-if (!mobileMenu) return;
+  const mobileMenuToggle = document.querySelector('[x-on\\:click="menuOpen = !menuOpen"]');
+  const mobileMenu = document.querySelector('.fixed.inset-y-0');
 
-// Observer l'ouverture du menu
-const observer = new MutationObserver((mutations) => {
-mutations.forEach((mutation) => {
-if (mutation.target.querySelector('[x-show]')?.style.display !== 'none') {
-trapFocus(mutation.target.querySelector('.fixed.inset-y-0'));
-}
-});
-});
+  if (!mobileMenuToggle || !mobileMenu) return;
 
-observer.observe(mobileMenu, { childList: true, subtree: true });
+  mobileMenuToggle.addEventListener('click', () => {
+    setTimeout(() => {
+      const isOpen = mobileMenu.offsetParent !== null;
+      if (isOpen) {
+        trapFocus(mobileMenu);
+        mobileMenu.querySelector('a, button')?.focus();
+      }
+    }, 100);
+  });
+
+  // Fermer avec Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.offsetParent !== null) {
+      mobileMenuToggle.click();
+    }
+  });
 }
 
 // ================================================================
