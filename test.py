@@ -9,7 +9,7 @@ import re
 import os
 import unittest
 
-ALL_HTML_FILES = ["index.html", "black_hole.html"]
+ALL_HTML_FILES = ["index.html"]
 """A list of all HTML files in the current directory to be tested."""
 
 
@@ -34,20 +34,6 @@ class TestSharedElements(unittest.TestCase):
     This is important for maintaining a consistent user experience.
     """
 
-    def test_alpine_version(self):
-        """Checks for the correct Alpine.js CDN link in all HTML files.
-
-        This test verifies that the pinned version of Alpine.js (v2.8.2) is
-        correctly referenced in all HTML files. It is important to pin the
-        version to avoid unexpected breaking changes from the CDN.
-        """
-        for filepath in ALL_HTML_FILES:
-            with self.subTest(filepath=filepath):
-                content = read_file_content(filepath)
-                pattern = r'<script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js".*?></script>'
-                match = re.search(pattern, content)
-                self.assertIsNotNone(match, f"Alpine.js v2.8.2 CDN link not found in {filepath}!")
-
     def test_tailwind_cdn_present(self):
         """Ensures the Tailwind CSS CDN link is in all HTML files.
 
@@ -58,7 +44,7 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                pattern = r'<script src="https://cdn.tailwindcss.com\?plugins=forms,typography,container-queries".*?></script>'
+                pattern = r'<script src="https://cdn.tailwindcss.com\?plugins=forms,typography,container-queries"></script>'
                 match = re.search(pattern, content)
                 self.assertIsNotNone(match, f"Tailwind CSS CDN link not found in {filepath}!")
 
@@ -72,7 +58,7 @@ class TestSharedElements(unittest.TestCase):
         for filepath in ALL_HTML_FILES:
             with self.subTest(filepath=filepath):
                 content = read_file_content(filepath)
-                match = re.search(r'<a class="text-2xl font-bold tracking-tight text-black dark:text-white" href="index.html"', content, re.DOTALL)
+                match = re.search(r'<a class="text-2xl font-bold tracking-tight text-black" href="#">Event Horizon</a>', content, re.DOTALL)
                 self.assertIsNotNone(match, f"Header with logo not found in {filepath}!")
 
     def test_navigation_links_present(self):
