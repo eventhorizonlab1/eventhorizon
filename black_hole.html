@@ -11,6 +11,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Event Horizon - Simulation de Trou Noir</title>
 
+  <!-- SEO -->
+  <meta name="description" content="Event Horizon : découvrez les coulisses de l'industrie spatiale européenne avec nos vidéos, articles et analyses exclusives sur Ariane 6, les satellites et l'écosystème toulousain.">
+  <meta name="keywords" content="espace, industrie spatiale, Ariane 6, ESA, satellites, Toulouse, aéronautique">
+
+  <!-- Open Graph pour les réseaux sociaux -->
+  <meta property="og:title" content="Event Horizon - L'actualité spatiale européenne">
+  <meta property="og:description" content="Dans les coulisses de l'industrie spatiale européenne">
+  <meta property="og:image" content="https://eventhorizon.space/assets/og-image-black-hole.jpg">
+  <meta property="og:url" content="https://eventhorizon.space/black_hole.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Event Horizon">
+  <meta name="twitter:description" content="L'actualité spatiale européenne">
+  <meta name="twitter:image" content="https://eventhorizon.space/assets/twitter-image-black-hole.jpg">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsMediaOrganization",
+    "name": "Event Horizon",
+    "url": "https://eventhorizon.space/black_hole.html",
+    "logo": "https://eventhorizon.space/assets/logo.png",
+    "description": "L'actualité de l'industrie spatiale européenne",
+    "sameAs": [
+      "https://youtube.com/@eventhorizon",
+      "https://linkedin.com/company/eventhorizon",
+      "https://twitter.com/eventhorizon"
+    ]
+  }
+  </script>
+
   <!-- Tailwind + Fonts -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -97,6 +131,15 @@
     button { background: #ffa500; border: none; padding: 8px 15px; border-radius: 5px; color: black; cursor: pointer; font-weight: bold; margin-top: 10px; width: 100%; }
     button:hover { background: #ff8c00; }
   </style>
+
+  <!-- Simple analytics sans cookies (RGPD-friendly) -->
+  <script>
+    window.plausible = window.plausible || function() {
+      (window.plausible.q = window.plausible.q || []).push(arguments)
+    };
+  </script>
+  <script defer data-domain="eventhorizon.space"
+          src="https://plausible.io/js/script.js"></script>
 </head>
 
 <body class="overflow-x-hidden">
@@ -111,7 +154,12 @@
       <header class="w-full" x-data="{ open: false }">
         <nav class="flex items-center justify-between text-sm">
           <div class="logo-container">
-            <a class="text-2xl font-bold tracking-tight text-black dark:text-white" href="index.html" aria-label="Event Horizon Home">Event Horizon</a>
+            <a class="flex items-center gap-x-2 text-2xl font-bold tracking-tight text-black dark:text-white" href="index.html" aria-label="Event Horizon Home">
+              <svg class="h-8 w-8" viewBox="0 0 100 100" xmlns="http://www.w.org/2000/svg">
+                <path d="M50,10 A40,40 0 1,1 50,90 A40,40 0 1,1 50,10" fill="none" stroke="currentColor" stroke-width="8"/>
+              </svg>
+              <span>Event Horizon</span>
+            </a>
           </div>
           <div class="hidden items-center gap-x-8 text-text-primary dark:text-dark-text-primary md:flex">
             <a class="transition-colors hover:text-black dark:hover:text-white" href="index.html#videos" data-i18n-key="nav.videos">Vidéos</a>
@@ -187,12 +235,33 @@
             <label>Disk Brightness <span class="value" id="diskVal">15.0</span></label>
             <input type="range" id="diskBrightness" min="5" max="30" step="1" value="15">
           </div>
+          <div class="control-group">
+            <label>Presets</label>
+            <div style="display: flex; justify-content: space-between;">
+              <button class="preset-btn" data-preset="gentle">Gentle</button>
+              <button class="preset-btn" data-preset="intense">Intense</button>
+              <button class="preset-btn" data-preset="realistic">Realistic</button>
+            </div>
+          </div>
           <button id="resetBtn">Reset Camera</button>
         </div>
         <div id="fps">FPS: 60</div>
         <div id="info">
           🖱️ Drag to rotate | 🔍 Scroll to zoom | 100,000 particles
         </div>
+
+        <div id="info-panel" class="absolute bottom-20 left-20 bg-black/80 p-6 rounded-lg max-w-md">
+          <h4 class="text-xl font-bold mb-3">Qu'est-ce qu'un trou noir ?</h4>
+          <p class="text-sm mb-4">
+            Un trou noir est une région de l'espace dont le champ gravitationnel
+            est si intense que rien ne peut s'en échapper, pas même la lumière.
+          </p>
+          <button onclick="document.getElementById('info-panel').classList.add('hidden')"
+                  class="text-orange-500 hover:text-orange-400">
+            Fermer
+          </button>
+        </div>
+
         <script type="importmap">
           {
             "imports": {
@@ -273,6 +342,13 @@
     const AccretionDiskFragmentShader = ` uniform float u_time; uniform float u_brightness; varying vec2 v_uv; float random(vec2 st) { return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123); } float fbm(vec2 st) { float value = 0.0; float amplitude = 0.5; for (int i = 0; i < 6; i++) { value += amplitude * random(st); st *= 2.0; amplitude *= 0.5; } return value; } void main() { vec2 to_center = vec2(0.5) - v_uv; float radius = length(to_center) * 2.0; float angle = atan(to_center.y, to_center.x); if (radius > 1.0 || radius < 0.01) { discard; } float noise = fbm(vec2(angle * 3.0, radius * 1.0 - u_time * 0.1)); float rotation = u_time * (1.0 / (radius + 0.1)) * 0.2; float turbulent_angle = angle + rotation + noise * 0.5; float strands = pow(sin(turbulent_angle * 12.0), 10.0); vec3 color = mix(vec3(1.0, 0.5, 0.0), vec3(1.0, 0.9, 0.0), noise); color += strands * 0.5 + noise * 0.3; float edge_fade = smoothstep(0.0, 0.2, radius) * (1.0 - smoothstep(0.8, 1.0, radius)); color *= edge_fade; gl_FragColor = vec4(color * u_brightness, 1.0); } `;
     const LensingVertexShader = ` varying vec2 v_uv; void main() { v_uv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); } `;
     const LensingFragmentShader = ` uniform sampler2D t_background; uniform vec2 u_resolution; uniform float u_lensing_strength; varying vec2 v_uv; const float SCHWARZSCHILD_RADIUS = 0.2; const float LENSING_RADIUS = 0.6; void main() { vec2 uv_center = v_uv - 0.5; uv_center.x *= u_resolution.x / u_resolution.y; float dist = length(uv_center); if (dist < SCHWARZSCHILD_RADIUS) { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); return; } float falloff = 1.0 - smoothstep(SCHWARZSCHILD_RADIUS, LENSING_RADIUS, dist); float bend = u_lensing_strength * falloff * (SCHWARZSCHILD_RADIUS / dist); vec2 bent_uv_center = uv_center + (uv_center / dist) * bend; bent_uv_center.x /= (u_resolution.x / u_resolution.y); vec2 final_uv = bent_uv_center + 0.5; vec4 background = texture2D(t_background, final_uv); if (dist > LENSING_RADIUS) { background = texture2D(t_background, v_uv); } gl_FragColor = background; } `;
+
+    const PRESETS = {
+      'gentle': { rotationSpeed: 0.5, bloomIntensity: 1.0, lensingStrength: 0.5 },
+      'intense': { rotationSpeed: 2.0, bloomIntensity: 2.5, lensingStrength: 1.5 },
+      'realistic': { rotationSpeed: 1.0, bloomIntensity: 1.5, lensingStrength: 0.8 }
+    };
+
     // ----------------------------------------------------------------- // MAIN APPLICATION CLASS // -----------------------------------------------------------------
     class BlackHoleSimulation {
       constructor() { // Scènes séparées pour un meilleur contrôle du pipeline
@@ -458,6 +534,30 @@
           this.controls.target.set(0, 0, 0);
           this.controls.update();
         });
+
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const presetName = e.target.dataset.preset;
+            const preset = PRESETS[presetName];
+            if (preset) {
+              this.applyPreset(preset);
+            }
+          });
+        });
+      }
+
+      applyPreset(preset) {
+        document.getElementById('rotationSpeed').value = preset.rotationSpeed;
+        this.rotationSpeedMultiplier = preset.rotationSpeed;
+        document.getElementById('rotSpeed').textContent = preset.rotationSpeed + 'x';
+
+        document.getElementById('bloomIntensity').value = preset.bloomIntensity;
+        this.bloomPass.strength = preset.bloomIntensity;
+        document.getElementById('bloomVal').textContent = preset.bloomIntensity;
+
+        document.getElementById('lensingStrength').value = preset.lensingStrength;
+        this.lensingMaterial.uniforms.u_lensing_strength.value = preset.lensingStrength;
+        document.getElementById('lensVal').textContent = preset.lensingStrength;
       }
       onWindowResize() {
         const width = this.container.clientWidth;

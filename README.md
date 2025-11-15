@@ -23,6 +23,23 @@ This repository serves as a showcase of a modern, static website that is fully d
 - [License](#license)
 - [Project Analysis](#project-analysis)
 
+# Guide d'Utilisation - Event Horizon
+
+## Navigation
+- **Défilement fluide** : Les liens du menu scrollent automatiquement
+- **Mode sombre** : Cliquez sur l'icône soleil/lune
+- **Langues** : FR/EN disponibles en haut à droite
+
+## Carrousels
+- **Souris** : Glissez horizontalement
+- **Clavier** : Flèches gauche/droite, Home/End
+- **Tactile** : Swipe gauche/droite
+
+## Simulation de Trou Noir
+- **Rotation** : Clic + glisser
+- **Zoom** : Molette de la souris
+- **Contrôles** : Panneau en haut à gauche
+
 ## Technology Stack
 
 The website is built with a simple and robust technology stack:

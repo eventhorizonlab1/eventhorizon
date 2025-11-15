@@ -48,5 +48,10 @@
   "ecosystem.card_6.description": "Culture scientifique",
   "footer.contact": "contact@eventhorizon.fr",
   "footer.rights": "© 2023 Event Horizon. Tous droits réservés.",
-  "footer.privacy": "Politique de Confidentialité"
+  "footer.privacy": "Politique de Confidentialité",
+
+  "key_figures.employees": "Employés à Toulouse",
+  "key_figures.companies": "Entreprises et laboratoires",
+  "key_figures.ariane_launches": "Lancements Ariane / an",
+  "key_figures.satellites": "Satellites Galileo"
 }

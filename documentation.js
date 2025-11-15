@@ -836,6 +836,101 @@ function setupThemeSwitcher() {
 }
 
 // ================================================================
+// ✨ NEW FEATURES
+// ================================================================
+
+/**
+ * Animated numbers counter for statistics
+ */
+function animateNumbers() {
+  const statElements = document.querySelectorAll('[data-stat-value]');
+
+  statElements.forEach(el => {
+    const targetValue = parseInt(el.getAttribute('data-stat-value'));
+    const obj = { value: 0 };
+
+    anime({
+      targets: obj,
+      value: targetValue,
+      duration: 2000,
+      easing: 'easeOutExpo',
+      round: 1,
+      update: () => {
+        el.textContent = obj.value.toLocaleString();
+      }
+    });
+  });
+}
+
+/**
+ * Morphing SVG logo animation on hover
+ */
+function setupLogoMorph() {
+  const logo = document.querySelector('.logo-container svg');
+  if (!logo) return;
+
+  logo.addEventListener('mouseenter', () => {
+    anime({
+      targets: '.logo-container svg path',
+      d: [
+        { value: logo.querySelector('path').getAttribute('d') },
+        { value: 'M10,10 L90,10 L90,90 L10,90 Z' } // Forme cible
+      ],
+      duration: 800,
+      easing: 'easeInOutQuad',
+      direction: 'alternate'
+    });
+  });
+}
+
+/**
+ * Sets up social sharing functionality.
+ */
+function setupSocialShare() {
+  const shareButtons = document.querySelectorAll('[data-share]');
+
+  shareButtons.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const url = window.location.href;
+      const title = document.title;
+
+      if (navigator.share) {
+        await navigator.share({ title, url });
+      } else {
+        // Fallback : copier le lien
+        await navigator.clipboard.writeText(url);
+        announceToScreenReader('Lien copié dans le presse-papier');
+      }
+    });
+  });
+}
+
+/**
+ * Sets up the search modal functionality.
+ */
+function setupSearchModal() {
+  // TODO: Implement search logic (e.g., fetching from an API).
+  // This is a placeholder for demonstration purposes. The UI is in place,
+  // but the search functionality is not yet implemented.
+  const searchToggle = document.getElementById('search-toggle');
+  const searchModal = document.getElementById('search-modal');
+  const searchInput = searchModal.querySelector('input');
+
+  if (!searchToggle || !searchModal) return;
+
+  searchToggle.addEventListener('click', () => {
+    searchModal.classList.remove('hidden');
+    searchInput.focus();
+  });
+
+  searchModal.addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      searchModal.classList.add('hidden');
+    }
+  });
+}
+
+// ================================================================
 // 🚀 INITIALIZATION
 // ================================================================
 
@@ -869,8 +964,12 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLanguageSwitcher();
   setupReadingProgress();
   setLanguage("fr");
+  setupSearchModal();
+  setupSocialShare();
+  setupLogoMorph();
+  animateNumbers();
 
-  if (document.getElementById("particle-container")) {
+  if (document.querySelector(".main-title")) {
     initializeWebsiteInteractivity();
   }
   
