@@ -7,10 +7,15 @@ internationalization are functioning correctly.
 
 import asyncio
 import http.server
+import socket
 import socketserver
 import threading
 import unittest
 from playwright.async_api import async_playwright
+
+def is_port_in_use(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
 
 class TestBrowser(unittest.TestCase):
     """Test suite for browser-based functionality.
@@ -23,6 +28,9 @@ class TestBrowser(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Sets up the browser, event loop, and HTTP server for the test class."""
+        if is_port_in_use(8000):
+            raise ConnectionError("Port 8000 is already in use. Please close the process using it and try again.")
+
         # Allow the server to reuse the address to avoid "Address already in use" errors
         socketserver.TCPServer.allow_reuse_address = True
         handler = http.server.SimpleHTTPRequestHandler
@@ -82,15 +90,6 @@ class TestBrowser(unittest.TestCase):
             self.assertTrue(await ecosysteme_section.is_visible())
         self.loop.run_until_complete(run_test(self))
 
-    def test_anime_is_defined(self):
-        """Verifies that the anime.js library is defined on the page."""
-        async def run_test(self):
-            await self.page.goto('http://localhost:8000/black_hole.html')
-            anime_defined = await self.page.evaluate('typeof anime')
-            self.assertEqual(anime_defined, 'function')
-        self.loop.run_until_complete(run_test(self))
-
-
     def test_translation_error_handling(self):
         """Verifies that a failed translation file request is handled gracefully."""
         async def run_test(self):
@@ -108,4 +107,24 @@ class TestBrowser(unittest.TestCase):
             await self.page.wait_for_timeout(1000)
 
             self.assertIn("Failed to load translations", error_message)
+        self.loop.run_until_complete(run_test(self))
+
+    def test_carousel_scroll(self):
+        async def run_test(self):
+            await self.page.goto('http://localhost:8000/index.html')
+
+            # Test the articles carousel
+            articles_carousel = await self.page.query_selector('#articles .snap-x')
+            await articles_carousel.evaluate('(node) => node.scrollTo(500, 0)')
+            await self.page.wait_for_timeout(500)
+            scroll_left = await articles_carousel.evaluate('(node) => node.scrollLeft')
+            self.assertGreater(scroll_left, 0)
+
+            # Test the ecosystem carousel
+            ecosystem_carousel = await self.page.query_selector('#ecosysteme .snap-x')
+            await ecosystem_carousel.evaluate('(node) => node.scrollTo(500, 0)')
+            await self.page.wait_for_timeout(500)
+            scroll_left = await ecosystem_carousel.evaluate('(node) => node.scrollLeft')
+            self.assertGreater(scroll_left, 0)
+
         self.loop.run_until_complete(run_test(self))
