@@ -1,26 +1,17 @@
-<!--
-  Event Horizon - Main Page
-  Version 2.0 - Enhanced with accessibility and performance improvements
--->
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-  <!-- Meta & dependencies -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- CRITICAL: Apply theme BEFORE render to prevent FOUC -->
   <script>
     (function() {
       const storedTheme = localStorage.getItem('theme');
       const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const shouldBeDark = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
-
       if (shouldBeDark) {
         document.documentElement.classList.add('dark');
       }
-
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
           document.documentElement.classList.toggle('dark', e.matches);
@@ -28,29 +19,19 @@
       });
     })();
   </script>
-
   <title data-i18n-key="head.title">Event Horizon - Dans les coulisses de l'industrie spatiale européenne</title>
-
   <link rel="preload" as="image" href="assets/images/ariane-6.webp" fetchpriority="high">
-
-  <!-- SEO -->
   <meta name="description" content="Event Horizon : découvrez les coulisses de l'industrie spatiale européenne avec nos vidéos, articles et analyses exclusives sur Ariane 6, les satellites et l'écosystème toulousain.">
   <meta name="keywords" content="espace, industrie spatiale, Ariane 6, ESA, satellites, Toulouse, aéronautique">
-
-  <!-- Open Graph pour les réseaux sociaux -->
   <meta property="og:title" content="Event Horizon - L'actualité spatiale européenne">
   <meta property="og:description" content="Dans les coulisses de l'industrie spatiale européenne">
   <meta property="og:image" content="https://eventhorizon.space/assets/og-image.jpg">
   <meta property="og:url" content="https://eventhorizon.space">
   <meta property="og:type" content="website">
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Event Horizon">
   <meta name="twitter:description" content="L'actualité spatiale européenne">
   <meta name="twitter:image" content="https://eventhorizon.space/assets/twitter-image.jpg">
-
-  <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -66,17 +47,12 @@
     ]
   }
   </script>
-
-  <!-- Tailwind + Fonts -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries" integrity="sha384-OLBgp1GsljhM2TJ+sbHjaiH9txEUvgdDTAzHv2P24donTt6/529l+9Ua0vFImLlb" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
-  <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" integrity="sha384-AcSaWxvnMR2SgnleqfU16jcKcUfvBf6wEAAggoopzTitRGiAcxwpc0rK5zCzMoVR" crossorigin="anonymous"></script>
-
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -97,291 +73,36 @@
       },
     };
   </script>
-
   <style type="text/tailwindcss">
-    @layer base {
-      html {
-        @apply scroll-smooth;
-      }
-      body {
-        @apply bg-white font-sans text-text-primary antialiased dark:bg-dark-bg dark:text-dark-text-primary;
-      }
-    }
-
-    .dots-grid {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: repeat(20, 1fr);
-      grid-template-rows: repeat(20, 1fr);
-      gap: 0;
-    }
-
-    .dot {
-      width: 4px;
-      height: 4px;
-      background: rgba(99, 102, 241, 0.6);
-      border-radius: 50%;
-      place-self: center;
-    }
-
-    html:not(.dark) .dot {
-      background: rgba(99, 102, 241, 0.4);
-    }
-
-    /* Accessibility: Screen reader only content */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
-    }
-
-    /* Skip to content link */
-    .skip-to-content {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: #000;
-      color: #fff;
-      padding: 8px 16px;
-      text-decoration: none;
-      z-index: 100;
-      border-radius: 0 0 4px 0;
-    }
-
-    .skip-to-content:focus {
-      top: 0;
-    }
-
-    /* Focus indicators for keyboard navigation */
-    a:focus-visible,
-    button:focus-visible {
-      outline: 3px solid #6366F1;
-      outline-offset: 2px;
-      border-radius: 4px;
-    }
-
-    /* Disabled button styles */
-    button:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    /* Carousel focus */
-    .flex.snap-x:focus-visible {
-      outline: 3px solid #6366F1;
-      outline-offset: -3px;
-    }
-
-    /* Image loading placeholders with shimmer effect */
-    .animate-card img,
-    .article-card img {
-      background: linear-gradient(
-        90deg,
-        #f0f0f0 0%,
-        #e0e0e0 50%,
-        #f0f0f0 100%
-      );
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-    }
-
-    html.dark .animate-card img,
-    html.dark .article-card img {
-      background: linear-gradient(
-        90deg,
-        #2a2a2a 0%,
-        #1a1a1a 50%,
-        #2a2a2a 100%
-      );
-    }
-
-    @keyframes shimmer {
-      0% {
-        background-position: 200% 0;
-      }
-      100% {
-        background-position: -200% 0;
-      }
-    }
-
-    .animate-card img[style*="opacity: 1"],
-    .article-card img[style*="opacity: 1"] {
-      animation: none;
-      background: none;
-    }
-
-    /* Enhanced card hover effects */
-    .animate-card a,
-    .article-card {
-      transform-style: preserve-3d;
-      transition: box-shadow 0.3s ease;
-    }
-
-    .animate-card a:hover,
-    .article-card:hover {
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .animate-card img {
-      transition: filter 0.3s ease;
-    }
-
-    .animate-card a:hover img {
-      filter: brightness(1.1);
-    }
-
-    .animate-card h3 {
-      transition: text-shadow 0.3s ease;
-    }
-
-    .animate-card a:hover h3 {
-      text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-    }
-
-    /* Reduced motion support */
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
+    body {
+      @apply bg-white font-sans text-text-primary antialiased dark:bg-dark-bg dark:text-dark-text-primary;
     }
   </style>
-
-  <!-- Simple analytics sans cookies (RGPD-friendly) -->
-  <script>
-    window.plausible = window.plausible || function() {
-      (window.plausible.q = window.plausible.q || []).push(arguments)
-    };
-  </script>
-  <script defer data-domain="yourdomain.com"
-          src="https://plausible.io/js/script.js" integrity="sha384-TDBMBYT3vz715r8UIyVTB4AUTXubXmLI02DeDWgyDahvCXmPV4Vgx2m6yQvI19d/" crossorigin="anonymous"></script>
+  <script src="documentation.js" defer></script>
 </head>
 
 <body class="overflow-x-hidden">
-  <!-- Skip to content for keyboard navigation -->
-  <a href="#main-content" class="skip-to-content">
-    Aller au contenu principal
-  </a>
-
-  <!-- Reading progress bar -->
-  <div id="reading-progress"
-       class="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 z-50 transition-all duration-300"
-       style="width: 0%"
-       role="progressbar"
-       aria-label="Progression de la lecture"
-       aria-valuenow="0"
-       aria-valuemin="0"
-       aria-valuemax="100">
-  </div>
-
-  <!-- Anime.js and site script -->
-  <script>
-    // Load anime.js only when needed
-    if (document.getElementById("particle-container") || document.querySelector('.animate-card')) {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js';
-      script.integrity = 'sha384-fXdIufVbE9aU7STmdk/DWK0imNOozId9fTwzM/gi0NfPjphEIC3gq0M760UnsKVy';
-      script.crossOrigin = 'anonymous';
-      script.async = true;
-      document.head.appendChild(script);
-    }
-  </script>
-  <script src="documentation.js" defer></script>
-
   <div class="min-h-screen w-full">
     <div class="relative z-10 mx-auto max-w-7xl px-8 py-6 md:px-12 md:py-8">
-
-      <!-- Header -->
-      <header class="w-full" x-data="{ open: false }">
-        <nav class="flex items-center justify-between text-sm" aria-label="Navigation principale">
-          <div class="logo-container">
-            <a class="text-2xl font-bold tracking-tight text-black dark:text-white"
-               href="index.html"
-               aria-label="Event Horizon - Retour à l'accueil">
-              Event Horizon
-            </a>
-          </div>
+      <header x-data="{ open: false }" class="w-full">
+        <nav class="flex items-center justify-between text-sm">
+          <a class="text-2xl font-bold tracking-tight text-black dark:text-white" href="index.html">
+            Event Horizon
+          </a>
           <div class="hidden items-center gap-x-8 text-text-primary dark:text-dark-text-primary md:flex">
-            <a class="transition-colors hover:text-black dark:hover:text-white"
-               href="#videos"
-               data-i18n-key="nav.videos"
-               aria-label="Aller à la section vidéos">
-              Vidéos
-            </a>
-            <a class="transition-colors hover:text-black dark:hover:text-white"
-               href="#articles"
-               data-i18n-key="nav.articles"
-               aria-label="Aller à la section articles">
-              Articles
-            </a>
-            <a class="transition-colors hover:text-black dark:hover:text-white"
-               href="#ecosysteme"
-               data-i18n-key="nav.ecosystem"
-               aria-label="Aller à la section écosystème toulousain">
-              L'Écosystème Toulousain
-            </a>
-            <a class="transition-colors hover:text-black dark:hover:text-white"
-               href="black_hole.html"
-               data-i18n-key="nav.black_hole"
-               aria-label="Voir la simulation de trou noir">
-              Trou Noir
-            </a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="#videos">Vidéos</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="#articles">Articles</a>
+            <a class="transition-colors hover:text-black dark:hover:text-white" href="#ecosysteme">L'Écosystème Toulousain</a>
           </div>
           <div class="flex items-center">
-            <div class="language-switcher hidden items-center text-sm font-medium md:flex"
-                 role="group"
-                 aria-label="Sélection de la langue">
-              <button data-lang="fr"
-                      class="px-2 py-1 rounded-md"
-                      aria-pressed="true"
-                      aria-label="Français">
-                FR
-              </button>
-              <span class="text-gray-300 dark:text-white/30" aria-hidden="true">/</span>
-              <button data-lang="en"
-                      class="px-2 py-1 rounded-md"
-                      aria-pressed="false"
-                      aria-label="English">
-                EN
-              </button>
-            </div>
-            <button id="theme-toggle"
-              class="ml-4 hidden items-center justify-center rounded-full p-2 text-text-primary transition-colors hover:bg-gray-100 dark:text-dark-text-primary dark:hover:bg-gray-800 md:flex"
-              type="button"
-              aria-label="Basculer entre le mode clair et le mode sombre"
-              aria-pressed="false">
-              <span class="material-symbols-outlined" aria-hidden="true">light_mode</span>
-            </button>
-            <button id="search-toggle"
-                    class="ml-4 rounded-full p-2 hover:bg-gray-100"
-                    aria-label="Rechercher">
-              <span class="material-symbols-outlined">search</span>
-            </button>
-            <button @click="open = !open" class="ml-4 md:hidden" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-              <span class="material-symbols-outlined text-black dark:text-white" aria-hidden="true">menu</span>
-            </button>
-            <a class="border border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black dark:border-white dark:bg-white dark:text-black dark:hover:bg-black dark:hover:text-white ml-4"
-               href="https://www.youtube.com"
-               rel="noopener noreferrer"
-               target="_blank"
-               data-i18n-key="subscribe_button">
+            <a class="border border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black dark:border-white dark:bg-white dark:text-black dark:hover:bg-black dark:hover:text-white" href="https://www.youtube.com" rel="noopener noreferrer" target="_blank">
               S'abonner
             </a>
+            <button @click="open = !open" class="ml-4 md:hidden" type="button">
+              <span class="material-symbols-outlined text-black dark:text-white">menu</span>
+            </button>
           </div>
         </nav>
-
         <!-- Mobile menu -->
         <div x-show="open" class="md:hidden">
           <div class="fixed inset-0 z-20 bg-black/40 backdrop-blur-sm" @click="open = false"></div>
@@ -389,438 +110,226 @@
             <div class="flex h-full flex-col">
               <div class="flex items-center justify-between p-6">
                 <a class="text-2xl font-bold tracking-tight text-black dark:text-white" href="index.html">Event Horizon</a>
-                <div class="flex items-center">
-                  <button id="theme-toggle-mobile"
-                          class="mr-4 flex items-center justify-center rounded-full p-2 text-text-primary transition-colors hover:bg-gray-100 dark:text-dark-text-primary dark:hover:bg-gray-800"
-                          type="button"
-                          aria-label="Basculer le thème"
-                          aria-pressed="false">
-                    <span class="material-symbols-outlined" aria-hidden="true">light_mode</span>
-                  </button>
-                  <button @click="open = false" type="button" aria-label="Fermer le menu">
-                    <span class="material-symbols-outlined text-black dark:text-white" aria-hidden="true">close</span>
-                  </button>
-                </div>
+                <button @click="open = false" type="button">
+                  <span class="material-symbols-outlined text-black dark:text-white">close</span>
+                </button>
               </div>
-              <nav class="flex-grow p-6" aria-label="Navigation mobile">
+              <nav class="flex-grow p-6">
                 <div class="flex flex-col items-start gap-y-4 text-lg">
-                  <a class="transition-colors hover:text-black dark:text-dark-text-primary dark:hover:text-white" href="#videos" @click="open = false" data-i18n-key="nav.videos">Vidéos</a>
-                  <a class="transition-colors hover:text-black dark:text-dark-text-primary dark:hover:text-white" href="#articles" @click="open = false" data-i18n-key="nav.articles">Articles</a>
-                  <a class="transition-colors hover:text-black dark:text-dark-text-primary dark:hover:text-white" href="#ecosysteme" @click="open = false" data-i18n-key="nav.ecosystem">L'Écosystème Toulousain</a>
-                  <a class="transition-colors hover:text-black dark:text-dark-text-primary dark:hover:text-white" href="black_hole.html" @click="open = false" data-i18n-key="nav.black_hole">Trou Noir</a>
+                  <a class="transition-colors hover:text-black dark:text-dark-text-primary dark:hover:text-white" href="#videos" @click="open = false">Vidéos</a>
+                  <a class="transition-colors hover:text-black dark:text-dark-text-primary dark:hover:text-white" href="#articles" @click="open = false">Articles</a>
+                  <a class="transition-colors hover:text-black dark:text-dark-text-primary dark:hover:text-white" href="#ecosysteme" @click="open = false">L'Écosystème Toulousain</a>
                 </div>
               </nav>
             </div>
           </div>
         </div>
       </header>
-
-      <!-- Main content -->
-      <main id="main-content" class="w-full">
-
-        <!-- Hero -->
-        <section class="relative flex min-h-[calc(100vh-120px)] w-full flex-col items-center justify-center py-20 text-center overflow-hidden">
-          <h1 class="main-title text-[8vw] font-extrabold leading-none tracking-tighter text-black dark:text-white md:text-[7vw] lg:text-[6.5vw]" data-i18n-key="main_title">
+      <main class="w-full">
+        <section class="flex w-full flex-col items-center justify-center py-20 text-center">
+          <h1 class="main-title text-5xl font-extrabold leading-none tracking-tighter text-black dark:text-white md:text-6xl lg:text-7xl">
             Event Horizon : Dans les coulisses de l'industrie spatiale européenne
           </h1>
         </section>
-
-        <!-- Videos Section -->
-        <section id="videos"
-                 class="animate-section w-full py-16 md:py-24"
-                 aria-labelledby="videos-heading">
+        <section id="videos" class="w-full py-16 md:py-24">
           <header class="mb-12 md:mb-16">
-            <h2 id="videos-heading"
-                class="text-5xl font-bold text-black dark:text-white md:text-6xl"
-                data-i18n-key="videos.title">
+            <h2 class="text-5xl font-bold text-black dark:text-white md:text-6xl">
               Vidéos
             </h2>
           </header>
           <div class="space-y-16">
-            <div class="w-full lg:w-11/12 animate-card">
-              <a class="group block article-card" href="#">
+            <div class="w-full lg:w-11/12">
+              <a class="group block" href="#">
                 <div class="mb-4 aspect-video w-full overflow-hidden rounded-3xl bg-black">
-                  <picture>
-                    <source srcset="assets/images/ariane-6-400.webp 400w, assets/images/ariane-6-800.webp 800w, assets/images/ariane-6-1200.webp 1200w" type="image/webp">
-                    <source srcset="assets/images/ariane-6.jpg" type="image/jpeg">
-                    <img alt="ESA Rocket Launch" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/ariane-6.jpg" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="ESA Rocket Launch" class="h-full w-full object-cover" src="assets/images/ariane-6.webp" />
                 </div>
-                <h3 class="text-3xl font-bold dark:text-dark-text-primary" data-i18n-key="videos.main_card.title">Ariane 6 : Le nouveau titan européen</h3>
-                <p class="mt-1 text-base text-text-secondary dark:text-dark-text-secondary" data-i18n-key="videos.main_card.description">Développement, défis et ambitions</p>
+                <h3 class="text-3xl font-bold dark:text-dark-text-primary">Ariane 6 : Le nouveau titan européen</h3>
+                <p class="mt-1 text-base text-text-secondary dark:text-dark-text-secondary">Développement, défis et ambitions</p>
               </a>
             </div>
-
             <div class="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-              <div class="animate-card">
+              <div>
                 <a class="group block" href="#">
                   <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                    <picture>
-                      <source srcset="assets/images/satellite-future-400.webp 400w, assets/images/satellite-future-800.webp 800w, assets/images/satellite-future-1200.webp 1200w" type="image/webp">
-                      <source srcset="assets/images/satellite-future.jpg" type="image/jpeg">
-                      <img alt="Engineer working on satellite" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/satellite-future.jpg" loading="lazy" decoding="async" />
-                    </picture>
+                    <img alt="Engineer working on satellite" class="h-full w-full object-cover" src="assets/images/satellite-future.webp" />
                   </div>
-                  <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="videos.card_1.title">L'Avenir des Satellites</h3>
-                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="videos.card_1.description">Constellations et Connectivité</p>
+                  <h3 class="text-2xl font-bold dark:text-dark-text-primary">L'Avenir des Satellites</h3>
+                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Constellations et Connectivité</p>
                 </a>
               </div>
-
-              <div class="animate-card">
+              <div>
                 <a class="group block" href="#">
                   <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                    <picture>
-                      <source srcset="assets/images/mars-rover-400.webp 400w, assets/images/mars-rover-800.webp 800w, assets/images/mars-rover-1200.webp 1200w" type="image/webp">
-                      <source srcset="assets/images/mars-rover.jpg" type="image/jpeg">
-                      <img alt="Mars Rover" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/mars-rover.jpg" loading="lazy" decoding="async" />
-                    </picture>
+                    <img alt="Mars Rover" class="h-full w-full object-cover" src="assets/images/mars-rover.webp" />
                   </div>
-                  <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="videos.card_2.title">Exploration Martienne</h3>
-                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="videos.card_2.description">Les rovers européens en action</p>
+                  <h3 class="text-2xl font-bold dark:text-dark-text-primary">Exploration Martienne</h3>
+                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Les rovers européens en action</p>
                 </a>
               </div>
-
-              <div class="animate-card">
+              <div>
                 <a class="group block" href="#">
                   <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                    <picture>
-                      <source srcset="assets/images/galileo-satellite-400.webp 400w, assets/images/galileo-satellite-800.webp 800w, assets/images/galileo-satellite-1200.webp 1200w" type="image/webp">
-                      <source srcset="assets/images/galileo-satellite.jpg" type="image/jpeg">
-                      <img alt="Galileo satellite in orbit" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/galileo-satellite.jpg" loading="lazy" decoding="async" />
-                    </picture>
+                    <img alt="Galileo satellite in orbit" class="h-full w-full object-cover" src="assets/images/galileo-satellite.webp" />
                   </div>
-                  <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="videos.card_3.title">Galileo: La précision européenne</h3>
-                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="videos.card_3.description">L'alternative au GPS</p>
+                  <h3 class="text-2xl font-bold dark:text-dark-text-primary">Galileo: La précision européenne</h3>
+                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">L'alternative au GPS</p>
                 </a>
               </div>
-
-              <div class="animate-card">
+              <div>
                 <a class="group block" href="#">
                   <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                    <picture>
-                      <source srcset="assets/images/iss-spacewalk-400.webp 400w, assets/images/iss-spacewalk-800.webp 800w, assets/images/iss-spacewalk-1200.webp 1200w" type="image/webp">
-                      <source srcset="assets/images/iss-spacewalk.jpg" type="image/jpeg">
-                      <img alt="Astronaut on a spacewalk" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/iss-spacewalk.jpg" loading="lazy" decoding="async" />
-                    </picture>
+                    <img alt="Astronaut on a spacewalk" class="h-full w-full object-cover" src="assets/images/iss-spacewalk.webp" />
                   </div>
-                  <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="videos.card_4.title">La vie dans l'ISS</h3>
-                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="videos.card_4.description">Le quotidien des astronautes ESA</p>
+                  <h3 class="text-2xl font-bold dark:text-dark-text-primary">La vie dans l'ISS</h3>
+                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Le quotidien des astronautes ESA</p>
                 </a>
               </div>
-
-              <div class="animate-card">
+              <div>
                 <a class="group block" href="#">
                   <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                    <picture>
-                      <source srcset="assets/images/space-debris-400.webp 400w, assets/images/space-debris-800.webp 800w, assets/images/space-debris-1200.webp 1200w" type="image/webp">
-                      <source srcset="assets/images/space-debris.jpg" type="image/jpeg">
-                      <img alt="Space debris" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/space-debris.jpg" loading="lazy" decoding="async" />
-                    </picture>
+                    <img alt="Space debris" class="h-full w-full object-cover" src="assets/images/space-debris.webp" />
                   </div>
-                  <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="videos.card_5.title">Nettoyer l'orbite terrestre</h3>
-                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="videos.card_5.description">La mission contre les débris spatiaux</p>
+                  <h3 class="text-2xl font-bold dark:text-dark-text-primary">Nettoyer l'orbite terrestre</h3>
+                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">La mission contre les débris spatiaux</p>
                 </a>
               </div>
-
-              <div class="animate-card">
+              <div>
                 <a class="group block" href="#">
                   <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                    <picture>
-                      <source srcset="assets/images/vega-c-400.webp 400w, assets/images/vega-c-800.webp 800w, assets/images/vega-c-1200.webp 1200w" type="image/webp">
-                      <source srcset="assets/images/vega-c.jpg" type="image/jpeg">
-                      <img alt="Vega Rocket" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/vega-c.jpg" loading="lazy" decoding="async" />
-                    </picture>
+                    <img alt="Vega Rocket" class="h-full w-full object-cover" src="assets/images/vega-c.webp" />
                   </div>
-                  <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="videos.card_6.title">Vega-C: Lanceur polyvalent</h3>
-                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="videos.card_6.description">Flexibilité pour les petits satellites</p>
+                  <h3 class="text-2xl font-bold dark:text-dark-text-primary">Vega-C: Lanceur polyvalent</h3>
+                  <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Flexibilité pour les petits satellites</p>
                 </a>
               </div>
             </div>
           </div>
         </section>
-
-        <!-- Articles Section -->
-        <section id="articles"
-                 class="group animate-section w-full py-16 md:py-24"
-                 aria-labelledby="articles-heading">
-          <header class="mb-12 flex items-center justify-between md:mb-16">
-            <div>
-              <h2 id="articles-heading"
-                  class="text-5xl font-bold text-black dark:text-white md:text-6xl"
-                  data-i18n-key="articles.title">
-                Articles
-              </h2>
-            </div>
-            <div class="hidden items-center gap-x-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:flex">
-              <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-light bg-white text-text-secondary transition-colors hover:bg-gray-100 hover:text-black dark:border-gray-700 dark:bg-gray-800 dark:text-dark-text-secondary dark:hover:bg-gray-700 dark:hover:text-white"
-                      aria-label="Article précédent">
-                <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
-              </button>
-              <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-light bg-white text-text-secondary transition-colors hover:bg-gray-100 hover:text-black dark:border-gray-700 dark:bg-gray-800 dark:text-dark-text-secondary dark:hover:bg-gray-700 dark:hover:text-white"
-                      aria-label="Article suivant">
-                <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
-              </button>
-            </div>
+        <section id="articles" class="w-full py-16 md:py-24">
+          <header class="mb-12 md:mb-16">
+            <h2 class="text-5xl font-bold text-black dark:text-white md:text-6xl">Articles</h2>
           </header>
-
-          <div class="flex snap-x snap-mandatory cursor-grab space-x-8 overflow-x-auto pb-8 -mx-8 px-8 md:-mx-12 md:px-12">
-            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+          <div class="flex snap-x snap-mandatory space-x-8 overflow-x-auto pb-8 -mx-8 px-8 md:-mx-12 md:px-12">
+            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
               <a class="group block" href="#">
                 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                  <picture>
-                    <source srcset="assets/images/european-space-sovereignty-400.webp 400w, assets/images/european-space-sovereignty-800.webp 800w, assets/images/european-space-sovereignty-1200.webp 1200w" type="image/webp">
-                    <source srcset="assets/images/european-space-sovereignty.jpg" type="image/jpeg">
-                    <img alt="Vue de la Terre depuis l'espace, symbolisant la souveraineté spatiale" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/european-space-sovereignty.jpg" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="Vue de la Terre depuis l'espace, symbolisant la souveraineté spatiale" class="h-full w-full object-cover" src="assets/images/european-space-sovereignty.webp" />
                 </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="articles.card_1.title">Souveraineté spatiale européenne</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="articles.card_1.category">ANALYSE</p>
+                <h3 class="text-2xl font-bold dark:text-dark-text-primary">Souveraineté spatiale européenne</h3>
+                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">ANALYSE</p>
               </a>
             </div>
-
-            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
               <a class="group block" href="#">
                 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                  <picture>
-                    <source srcset="assets/images/esa-engineer-interview-400.webp 400w, assets/images/esa-engineer-interview-800.webp 800w, assets/images/esa-engineer-interview-1200.webp 1200w" type="image/webp">
-                    <source srcset="assets/images/esa-engineer-interview.jpg" type="image/jpeg">
-                    <img alt="Portrait d'un ingénieur dans un environnement de haute technologie" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/esa-engineer-interview.jpg" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="Portrait d'un ingénieur dans un environnement de haute technologie" class="h-full w-full object-cover" src="assets/images/esa-engineer-interview.webp" />
                 </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="articles.card_2.title">Rencontre avec un ingénieur ESA</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="articles.card_2.category">INTERVIEW</p>
+                <h3 class="text-2xl font-bold dark:text-dark-text-primary">Rencontre avec un ingénieur ESA</h3>
+                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">INTERVIEW</p>
               </a>
             </div>
-
-            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
+            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3">
               <a class="group block" href="#">
                 <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                  <picture>
-                    <source srcset="assets/images/european-space-sovereignty-400.webp 400w, assets/images/european-space-sovereignty-800.webp 800w, assets/images/european-space-sovereignty-1200.webp 1200w" type="image/webp">
-                    <source srcset="assets/images/european-space-sovereignty.jpg" type="image/jpeg">
-                    <img alt="Vue de la Terre depuis l'espace" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/european-space-sovereignty.jpg" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="Vue de la Terre depuis l'espace" class="h-full w-full object-cover" src="assets/images/european-space-sovereignty.webp" />
                 </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="articles.card_3.title">Un autre article</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="articles.card_3.category">CATÉGORIE</p>
-              </a>
-            </div>
-
-            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
-              <a class="group block" href="#">
-                <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                  <picture>
-                    <source srcset="assets/images/satellite-future-400.webp 400w, assets/images/satellite-future-800.webp 800w, assets/images/satellite-future-1200.webp 1200w" type="image/webp">
-                    <source srcset="assets/images/satellite-future.jpg" type="image/jpeg">
-                    <img alt="Illustration de constellations de satellites" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/satellite-future.jpg" loading="lazy" decoding="async" />
-                  </picture>
-                </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="articles.card_4.title">L'impact des méga-constellations</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="articles.card_4.category">DÉBAT</p>
-              </a>
-            </div>
-
-            <div class="w-10/12 flex-shrink-0 snap-center md:w-1/2 lg:w-1/3 animate-card">
-              <a class="group block" href="#">
-                <div class="mb-4 aspect-[4/3] w-full overflow-hidden rounded-3xl bg-black">
-                  <picture>
-                    <source srcset="assets/images/ariane-6-400.webp 400w, assets/images/ariane-6-800.webp 800w, assets/images/ariane-6-1200.webp 1200w" type="image/webp">
-                    <source srcset="assets/images/ariane-6.jpg" type="image/jpeg">
-                    <img alt="Fusée Ariane 6 sur son pas de tir" class="h-full w-full object-cover" style="opacity:0; transition: opacity 0.5s;" onload="this.style.opacity=1" src="assets/images/ariane-6.jpg" loading="lazy" decoding="async" />
-                  </picture>
-                </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="articles.card_5.title">Ariane 6 vs. concurrence</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="articles.card_5.category">TECHNIQUE</p>
+                <h3 class="text-2xl font-bold dark:text-dark-text-primary">Un autre article</h3>
+                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">CATÉGORIE</p>
               </a>
             </div>
           </div>
-
-          <div class="mt-8 flex justify-center gap-x-2" role="group" aria-label="Indicateurs de pagination">
-            <button class="h-2 w-2 rounded-full bg-black dark:bg-white" aria-label="Groupe 1" aria-pressed="true"></button>
-            <button class="h-2 w-2 rounded-full bg-gray-300 transition-colors hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600" aria-label="Groupe 2" aria-pressed="false"></button>
-            <button class="h-2 w-2 rounded-full bg-gray-300 transition-colors hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600" aria-label="Groupe 3" aria-pressed="false"></button>
+          <div class="mt-8 flex justify-center gap-x-2">
+            <button class="h-2 w-2 rounded-full bg-black dark:bg-white"></button>
+            <button class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></button>
+            <button class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></button>
           </div>
         </section>
-
-        <!-- Ecosystem Section -->
-        <section id="ecosysteme"
-                 class="group animate-section w-full py-16 md:py-24"
-                 aria-labelledby="ecosysteme-heading">
-          <header class="mb-12 flex items-center justify-between md:mb-16">
-            <div>
-              <h2 id="ecosysteme-heading"
-                  class="text-5xl font-bold text-black dark:text-white md:text-6xl"
-                  data-i18n-key="ecosystem.title">
-                L'Écosystème Toulousain
-              </h2>
-              <p class="mt-4 max-w-2xl text-text-secondary dark:text-dark-text-secondary" data-i18n-key="ecosystem.description">Capitale européenne de l'aéronautique et du spatial, Toulouse abrite un réseau dense d'entreprises, de laboratoires et d'institutions.</p>
-            </div>
-            <div class="hidden items-center gap-x-2 self-start opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:flex">
-              <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-light bg-white text-text-secondary transition-colors hover:bg-gray-100 hover:text-black dark:border-gray-700 dark:bg-gray-800 dark:text-dark-text-secondary dark:hover:bg-gray-700 dark:hover:text-white"
-                      aria-label="Organisation précédente">
-                <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
-              </button>
-              <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-light bg-white text-text-secondary transition-colors hover:bg-gray-100 hover:text-black dark:border-gray-700 dark:bg-gray-800 dark:text-dark-text-secondary dark:hover:bg-gray-700 dark:hover:text-white"
-                      aria-label="Organisation suivante">
-                <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
-              </button>
-            </div>
+        <section id="ecosysteme" class="w-full py-16 md:py-24">
+          <header class="mb-12 md:mb-16">
+            <h2 class="text-5xl font-bold text-black dark:text-white md:text-6xl">L'Écosystème Toulousain</h2>
+            <p class="mt-4 max-w-2xl text-text-secondary dark:text-dark-text-secondary">Capitale européenne de l'aéronautique et du spatial, Toulouse abrite un réseau dense d'entreprises, de laboratoires et d'institutions.</p>
           </header>
-
-          <div class="flex snap-x snap-mandatory cursor-grab space-x-8 overflow-x-auto pb-8 -mx-8 px-8 md:-mx-12 md:px-12">
-            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
+          <div class="flex snap-x snap-mandatory space-x-8 overflow-x-auto pb-8 -mx-8 px-8 md:-mx-12 md:px-12">
+            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
               <a class="group block" href="#">
                 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
-                  <picture>
-                    <source srcset="assets/images/logo-airbus.webp" type="image/webp">
-                    <source srcset="assets/images/logo-airbus.png" type="image/png">
-                    <img alt="Logo Airbus Defence and Space" class="h-auto w-4/5 object-contain" src="assets/images/logo-airbus.png" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="Logo Airbus Defence and Space" class="h-auto w-4/5 object-contain" src="assets/images/logo-airbus.webp" />
                 </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="ecosystem.card_1.title">Airbus Defence and Space</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="ecosystem.card_1.description">Leader mondial</p>
+                <h3 class="text-2xl font-bold dark:text-dark-text-primary">Airbus Defence and Space</h3>
+                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Leader mondial</p>
               </a>
             </div>
-
-            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
+            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
               <a class="group block" href="#">
                 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
-                  <picture>
-                    <source srcset="assets/images/logo-thales.webp" type="image/webp">
-                    <source srcset="assets/images/logo-thales.png" type="image/png">
-                    <img alt="Logo Thales Alenia Space" class="h-auto w-4/5 object-contain" src="assets/images/logo-thales.png" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="Logo Thales Alenia Space" class="h-auto w-4/5 object-contain" src="assets/images/logo-thales.webp" />
                 </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="ecosystem.card_2.title">Thales Alenia Space</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="ecosystem.card_2.description">Solutions satellitaires</p>
+                <h3 class="text-2xl font-bold dark:text-dark-text-primary">Thales Alenia Space</h3>
+                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Solutions satellitaires</p>
               </a>
             </div>
-
-            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
+            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
               <a class="group block" href="#">
                 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
-                  <picture>
-                    <source srcset="assets/images/logo-cnes.webp" type="image/webp">
-                    <source srcset="assets/images/logo-cnes.png" type="image/png">
-                    <img alt="Logo CNES" class="h-auto w-4/5 object-contain" src="assets/images/logo-cnes.png" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="Logo CNES" class="h-auto w-4/5 object-contain" src="assets/images/logo-cnes.webp" />
                 </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="ecosystem.card_3.title">CNES</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="ecosystem.card_3.description">Agence spatiale française</p>
+                <h3 class="text-2xl font-bold dark:text-dark-text-primary">CNES</h3>
+                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Agence spatiale française</p>
               </a>
             </div>
-
-            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
+            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4">
               <a class="group block" href="#">
                 <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
-                  <picture>
-                    <source srcset="assets/images/logo-kineis.webp" type="image/webp">
-                    <source srcset="assets/images/logo-kineis.png" type="image/png">
-                    <img alt="Logo Kinéis" class="h-auto w-4/5 object-contain" src="assets/images/logo-kineis.png" loading="lazy" decoding="async" />
-                  </picture>
+                  <img alt="Logo Kinéis" class="h-auto w-4/5 object-contain" src="assets/images/logo-kineis.webp" />
                 </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="ecosystem.card_4.title">Kinéis</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="ecosystem.card_4.description">Connectivité IoT</p>
-              </a>
-            </div>
-
-            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
-              <a class="group block" href="#">
-                <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
-                  <picture>
-                    <source srcset="assets/images/logo-isae-supaero.webp" type="image/webp">
-                    <source srcset="assets/images/logo-isae-supaero.png" type="image/png">
-                    <img alt="Logo ISAE-SUPAERO" class="h-auto w-4/5 object-contain" src="assets/images/logo-isae-supaero.png" loading="lazy" decoding="async" />
-                  </picture>
-                </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="ecosystem.card_5.title">ISAE-SUPAERO</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="ecosystem.card_5.description">Formation</p>
-              </a>
-            </div>
-
-            <div class="w-9/12 flex-shrink-0 snap-center md:w-1/3 lg:w-1/4 animate-card">
-              <a class="group block" href="#">
-                <div class="mb-4 flex aspect-square w-full items-center justify-center overflow-hidden rounded-3xl bg-black p-6">
-                  <picture>
-                    <source srcset="assets/images/logo-cite-espace.webp" type="image/webp">
-                    <source srcset="assets/images/logo-cite-espace.png" type="image/png">
-                    <img alt="Logo Cité de l'Espace" class="h-auto w-4/5 object-contain brightness-0 invert" src="assets/images/logo-cite-espace.png" loading="lazy" decoding="async" />
-                  </picture>
-                </div>
-                <h3 class="text-2xl font-bold dark:text-dark-text-primary" data-i18n-key="ecosystem.card_6.title">Cité de l'Espace</h3>
-                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary" data-i18n-key="ecosystem.card_6.description">Culture scientifique</p>
+                <h3 class="text-2xl font-bold dark:text-dark-text-primary">Kinéis</h3>
+                <p class="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary">Connectivité IoT</p>
               </a>
             </div>
           </div>
-
-          <div class="mt-8 flex justify-center gap-x-2" role="group" aria-label="Indicateurs de pagination">
-            <button class="h-2 w-2 rounded-full bg-black dark:bg-white" aria-label="Groupe 1" aria-pressed="true"></button>
-            <button class="h-2 w-2 rounded-full bg-gray-300 transition-colors hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600" aria-label="Groupe 2" aria-pressed="false"></button>
-            <button class="h-2 w-2 rounded-full bg-gray-300 transition-colors hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600" aria-label="Groupe 3" aria-pressed="false"></button>
-            <button class="h-2 w-2 rounded-full bg-gray-300 transition-colors hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600" aria-label="Groupe 4" aria-pressed="false"></button>
+          <div class="mt-8 flex justify-center gap-x-2">
+            <button class="h-2 w-2 rounded-full bg-black dark:bg-white"></button>
+            <button class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></button>
+            <button class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></button>
+            <button class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-700"></button>
           </div>
         </section>
-
       </main>
     </div>
-
-    <!-- Footer -->
     <footer class="w-full bg-black text-white">
       <div class="mx-auto max-w-7xl px-8 py-12 md:px-12 md:py-16">
-        <div class="flex flex-col items-center justify-between gap-y-8 pb-8 md:flex-row md:items-center">
+        <div class="flex flex-col items-center justify-between gap-y-8 pb-8 md:flex-row md:items-start">
           <div class="flex flex-col items-center gap-y-4 text-center md:items-start md:text-left">
-            <a class="text-2xl font-bold tracking-tight text-white" href="index.html" aria-label="Event Horizon">Event Horizon</a>
-            <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-400 md:justify-start" aria-label="Liens du footer">
-              <a class="transition-colors hover:text-white quick-link" href="mailto:contact@eventhorizon.fr" data-i18n-key="footer.contact">contact@eventhorizon.fr</a>
+            <a class="text-2xl font-bold tracking-tight text-white" href="index.html">Event Horizon</a>
+            <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-400 md:justify-start">
+              <a class="transition-colors hover:text-white" href="#">À Propos</a>
+              <a class="transition-colors hover:text-white" href="mailto:contact@eventhorizon.fr">contact@eventhorizon.fr</a>
             </nav>
           </div>
-
-          <div class="flex items-center gap-x-4" role="group" aria-label="Réseaux sociaux">
-            <a class="text-gray-400 transition-colors hover:text-white" data-share href="#" title="YouTube" aria-label="Notre chaîne YouTube">
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <div class="flex items-center gap-x-4">
+            <a class="text-gray-400 transition-colors hover:text-white" href="#" title="YouTube">
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path>
               </svg>
             </a>
-            <a class="text-gray-400 transition-colors hover:text-white" data-share href="#" title="LinkedIn" aria-label="Notre page LinkedIn">
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <a class="text-gray-400 transition-colors hover:text-white" href="#" title="LinkedIn">
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
               </svg>
             </a>
-            <a class="text-gray-400 transition-colors hover:text-white" data-share href="#" title="Twitter" aria-label="Notre compte Twitter">
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <a class="text-gray-400 transition-colors hover:text-white" href="#" title="Twitter">
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.22-1.95-.55v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"></path>
               </svg>
             </a>
           </div>
-
-        </div>
-
-        <div class="rounded-lg bg-gray-800/50 p-8">
-          <h3 class="text-lg font-bold text-white">S'inscrire à la newsletter</h3>
-          <p class="mt-2 text-sm text-gray-400">Recevez les dernières nouvelles de l'industrie spatiale européenne directement dans votre boîte de réception.</p>
-          <form action="https://app.mailjet.com/widget/iframe/5zqA/L3h" method="post" target="_blank" class="mt-4 flex flex-col items-center gap-y-2 sm:flex-row">
-            <input type="email" name="EMAIL" placeholder="Votre email" required class="w-full rounded-md border-gray-700 bg-gray-900/50 text-white focus:border-indigo-500 focus:ring-indigo-500 sm:w-auto sm:flex-grow">
-            <button type="submit" class="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 sm:w-auto">S'inscrire</button>
-          </form>
         </div>
         <div class="flex flex-col items-center justify-between gap-y-4 border-t border-gray-800 pt-8 text-center text-sm text-gray-400 md:flex-row md:text-left">
-          <p data-i18n-key="footer.rights">© 2023 Event Horizon. Tous droits réservés.</p>
-          <a class="transition-colors hover:text-white quick-link" href="#" data-i18n-key="footer.privacy">Politique de Confidentialité</a>
+          <p>© 2023 Event Horizon. Tous droits réservés.</p>
+          <a class="transition-colors hover:text-white" href="#">Politique de Confidentialité</a>
         </div>
       </div>
     </footer>
-
-  </div>
-
-  <!-- Search Modal -->
-  <div id="search-modal" class="hidden fixed inset-0 z-50 bg-black/50">
-    <div class="max-w-2xl mx-auto mt-20 bg-white rounded-lg p-6">
-      <input type="search"
-             placeholder="Rechercher des articles, vidéos..."
-             class="w-full px-4 py-3 border rounded-lg">
-      <div id="search-results" class="mt-4"></div>
-    </div>
   </div>
 </body>
-
 </html>
