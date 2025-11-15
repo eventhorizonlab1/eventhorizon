@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.eventhorizon.eu/sitemap.xml
+
+# Bloquer les fichiers sensibles
+Disallow: /test_*.py
+Disallow: /screenshot.py
+Disallow: /*.md$
