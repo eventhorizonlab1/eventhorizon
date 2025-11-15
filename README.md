@@ -14,6 +14,7 @@ This repository serves as a showcase of a modern, static website that is fully d
 
 ## Table of Contents
 
+- [User Guide](#user-guide)
 - [Getting Started](#getting-started)
 - [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
@@ -23,22 +24,22 @@ This repository serves as a showcase of a modern, static website that is fully d
 - [License](#license)
 - [Project Analysis](#project-analysis)
 
-# Guide d'Utilisation - Event Horizon
+## User Guide
 
-## Navigation
-- **Défilement fluide** : Les liens du menu scrollent automatiquement
-- **Mode sombre** : Cliquez sur l'icône soleil/lune
-- **Langues** : FR/EN disponibles en haut à droite
+### Navigation
+- **Smooth Scrolling**: Clicking on a navigation link will smoothly scroll to the corresponding section.
+- **Dark Mode**: Click the sun/moon icon in the header to toggle between light and dark mode.
+- **Language Switching**: Switch between French and English by clicking the "FR" or "EN" links in the header.
 
-## Carrousels
-- **Souris** : Glissez horizontalement
-- **Clavier** : Flèches gauche/droite, Home/End
-- **Tactile** : Swipe gauche/droite
+### Carousels
+- **Mouse**: Click and drag to scroll through the carousels.
+- **Keyboard**: Use the left and right arrow keys to navigate, and the "Home" and "End" keys to jump to the beginning or end.
+- **Touch**: Swipe left and right to scroll.
 
-## Simulation de Trou Noir
-- **Rotation** : Clic + glisser
-- **Zoom** : Molette de la souris
-- **Contrôles** : Panneau en haut à gauche
+### Black Hole Simulation
+- **Rotation**: Click and drag to rotate the black hole.
+- **Zoom**: Use the mouse wheel to zoom in and out.
+- **Controls**: A control panel is available in the top-left corner to adjust the simulation parameters.
 
 ## Technology Stack
 
@@ -130,14 +131,9 @@ python3 -m unittest discover -p "test_*.py"
 
 You can also run each test file individually:
 
--   `test.py`: Verifies the consistency of shared elements across all HTML pages.
--   `test_animations.py`: Tests the animation logic in `documentation.js`.
--   `test_browser_animations.py`: Uses Playwright to test animations and interactions in a real browser.
--   `test_browser_documentation.py`: Uses Playwright to verify that the JavaScript functions in `documentation.js` are behaving as expected.
+-   `test_all.py`: Verifies the consistency of shared elements across all HTML pages.
 -   `test_footer_links.py`: Verifies that the footer links are correct.
--   `test_hardcoded_quick_link_color.py`: Verifies that the quick link hover animation does not use a hardcoded color.
--   `test_i18n.py`: Verifies that the internationalization (i18n) and language switching functionality works as expected.
--   `test_newsletter_form.py`: Verifies that the newsletter form is correctly structured.
+-   `test_social_media_links.py`: Verifies that the social media links are correct.
 -   `test_undefined_functions.py`: Verifies that there are no calls to undefined functions in the JavaScript code.
 
 Each test script is self-contained and can be run with `python3 <filename>`. All tests are fully documented with Google Style Python Docstrings.
@@ -215,13 +211,9 @@ These tests check the code for correctness without running it in a browser.
 They are used to verify things like the presence of required HTML elements, the
 correctness of links, and the absence of calls to undefined functions.
 
--   `test.py`: Verifies the consistency of shared elements.
--   `test_animations.py`: Tests the animation logic in `documentation.js`.
+-   `test_all.py`: Verifies the consistency of shared elements.
 -   `test_footer_links.py`: Verifies that the footer links are correct.
--   `test_hardcoded_quick_link_color.py`: Verifies that the quick link hover
-    animation does not use a hardcoded color.
--   `test_newsletter_form.py`: Verifies that the newsletter form is correctly
-    structured.
+-   `test_social_media_links.py`: Verifies that the social media links are correct.
 -   `test_undefined_functions.py`: Verifies that there are no calls to
     undefined functions in the JavaScript code.
 
@@ -231,12 +223,8 @@ These tests use a real browser to simulate user interactions and verify that
 the website behaves as expected. They are used to test things like animations,
 language switching, and other interactive features.
 
--   `test_browser_animations.py`: Verifies that browser animations and
+-   `test_all.py`: Verifies that browser animations and
     interactions work as expected.
--   `test_browser_documentation.py`: Verifies that the website's JavaScript
-    functions are working correctly.
--   `test_i18n.py`: Verifies that the internationalization (i18n) and language
-    switching functionality works as expected.
 
 This combination of static analysis and browser-based tests provides a high
 level of confidence in the quality and correctness of the code.

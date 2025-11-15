@@ -8,6 +8,14 @@ import unittest
 from playwright.async_api import async_playwright
 
 def is_port_in_use(port):
+    """Checks if a port is in use.
+
+    Args:
+        port: The port number to check.
+
+    Returns:
+        True if the port is in use, False otherwise.
+    """
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('localhost', port)) == 0
 
@@ -16,7 +24,11 @@ class TestWebsite(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """Sets up the browser, event loop, and HTTP server for the test class."""
+        """Sets up the browser, event loop, and HTTP server for the test class.
+
+        Raises:
+            ConnectionError: If port 8000 is already in use.
+        """
         if is_port_in_use(8000):
             raise ConnectionError("Port 8000 is already in use. Please close the process using it and try again.")
 
@@ -53,18 +65,27 @@ class TestWebsite(unittest.TestCase):
         self.loop.run_until_complete(self.page.close())
 
     async def get_scroll_left(self, selector):
-        """Gets the scrollLeft property of an element."""
+        """Gets the scrollLeft property of an element.
+
+        Args:
+            selector: The CSS selector of the element.
+
+        Returns:
+            The scrollLeft property of the element.
+        """
         element = await self.page.query_selector(selector)
         return await element.evaluate('(node) => node.scrollLeft')
 
     async def get_theme_state(self):
-        """Gets the current theme state."""
+        """Gets the current theme state.
+
+        Returns:
+            A tuple containing the theme state: (is_dark, icon_text, aria_pressed).
+        """
         html = await self.page.query_selector('html')
         is_dark = 'dark' in (await html.get_attribute('class') or '')
 
-        # In the mobile menu, which is the only place the theme toggle is,
-        # there is no #theme-toggle, so we use a different selector.
-        button = await self.page.query_selector('button[aria-label*="Activer le mode"]')
+        button = await self.page.query_selector('#theme-toggle')
         icon = await button.query_selector('span')
         icon_text = await icon.inner_text()
 
@@ -76,11 +97,11 @@ class TestWebsite(unittest.TestCase):
         """Verifies that the carousel's next and previous buttons work correctly."""
         async def run_test(self):
             await self.page.goto('http://localhost:8000/index.html')
-            await self.page.wait_for_selector('#articles .snap-x')
+            await self.page.wait_for_selector('#articles .flex.snap-x')
 
-            articles_carousel_selector = '#articles .snap-x'
-            next_button_selector = '#articles header button:last-of-type'
-            prev_button_selector = '#articles header button:first-of-type'
+            articles_carousel_selector = '#articles .flex.snap-x'
+            next_button_selector = '#articles header button:nth-of-type(2)'
+            prev_button_selector = '#articles header button:nth-of-type(1)'
 
             initial_scroll_left = await self.get_scroll_left(articles_carousel_selector)
 
@@ -101,9 +122,9 @@ class TestWebsite(unittest.TestCase):
         """Verifies that the carousel's keyboard navigation works correctly."""
         async def run_test(self):
             await self.page.goto('http://localhost:8000/index.html')
-            await self.page.wait_for_selector('#articles .snap-x')
+            await self.page.wait_for_selector('#articles .flex.snap-x')
 
-            articles_carousel_selector = '#articles .snap-x'
+            articles_carousel_selector = '#articles .flex.snap-x'
 
             initial_scroll_left = await self.get_scroll_left(articles_carousel_selector)
 
@@ -135,9 +156,7 @@ class TestWebsite(unittest.TestCase):
         async def run_test(self):
             await self.page.goto('http://localhost:8000/index.html')
 
-            # Open the mobile menu by clicking the button with the "menu" icon
-            await self.page.click('button:has-text("menu")')
-            await self.page.wait_for_selector('button[aria-label*="Activer le mode"]')
+            await self.page.wait_for_selector('#theme-toggle')
 
             # Initial state should be light mode
             is_dark, icon_text, aria_pressed = await self.get_theme_state()
@@ -146,7 +165,7 @@ class TestWebsite(unittest.TestCase):
             self.assertEqual(aria_pressed, 'false')
 
             # Click the theme toggle button to switch to dark mode
-            await self.page.click('button[aria-label*="Activer le mode"]')
+            await self.page.click('#theme-toggle')
             await self.page.wait_for_timeout(500)
 
             is_dark, icon_text, aria_pressed = await self.get_theme_state()
@@ -155,7 +174,7 @@ class TestWebsite(unittest.TestCase):
             self.assertEqual(aria_pressed, 'true')
 
             # Click the theme toggle button again to switch back to light mode
-            await self.page.click('button[aria-label*="Activer le mode"]')
+            await self.page.click('#theme-toggle')
             await self.page.wait_for_timeout(500)
 
             is_dark, icon_text, aria_pressed = await self.get_theme_state()
