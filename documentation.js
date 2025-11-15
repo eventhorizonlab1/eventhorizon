@@ -127,82 +127,97 @@ function setupLanguageSwitcher() {
 
 /**
  * Detects if the user prefers reduced motion.
- * @returns {boolean}
+ *
+ * @returns {boolean} True if the user has requested reduced motion, false otherwise.
  */
 function prefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 /**
- * Returns animation config adjusted for accessibility preferences.
- * @param {Object} config - Original anime.js configuration
- * @returns {Object} Adjusted configuration
+ * Returns an animation configuration adjusted for accessibility preferences.
+ * If the user prefers reduced motion, the animation duration and delay are
+ * set to minimal values.
+ *
+ * @param {object} config - The original anime.js configuration object.
+ * @returns {object} The adjusted animation configuration.
  */
 function getAccessibleAnimationConfig(config) {
   if (prefersReducedMotion()) {
     return {
       ...config,
       duration: 1,
-      delay: 0
+      delay: 0,
     };
   }
   return config;
 }
 
 /**
- * Announces a message to screen readers.
- * @param {string} message - Message to announce
+ * Announces a message to screen readers using a visually hidden element.
+ *
+ * @param {string} message - The message to be announced.
+ * @returns {void}
  */
 function announceToScreenReader(message) {
-  const announcement = document.createElement('div');
-  announcement.setAttribute('role', 'status');
-  announcement.setAttribute('aria-live', 'polite');
-  announcement.classList.add('sr-only');
+  const announcement = document.createElement("div");
+  announcement.setAttribute("role", "status");
+  announcement.setAttribute("aria-live", "polite");
+  announcement.classList.add("sr-only");
   announcement.textContent = message;
-  
+
   document.body.appendChild(announcement);
   setTimeout(() => announcement.remove(), 1000);
 }
 
 /**
- * Sets up listener for motion preference changes.
+ * Sets up a listener to detect changes in the user's motion preference.
+ * If the user enables "reduce motion", all running animations are stopped
+ * and transformations are reset.
+ *
+ * @returns {void}
  */
 function setupMotionPreferenceListener() {
-  const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  
-  motionMediaQuery.addEventListener('change', (e) => {
+  const motionMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  motionMediaQuery.addEventListener("change", (e) => {
     if (e.matches) {
       // User just enabled "reduce motion"
-      anime.remove('*');
-      document.querySelectorAll('*').forEach(el => {
-        el.style.transform = 'none';
-        el.style.opacity = '1';
+      anime.remove("*");
+      document.querySelectorAll("*").forEach((el) => {
+        el.style.transform = "none";
+        el.style.opacity = "1";
       });
     }
   });
 }
 
 /**
-* Trap focus within modal/mobile menu for keyboard users
-*/
+ * Traps focus within a given element for keyboard users.
+ * This is useful for modals and mobile menus to prevent the focus from
+ * escaping to the background content.
+ *
+ * @param {HTMLElement} element - The element to trap focus within.
+ * @returns {void}
+ */
 function trapFocus(element) {
-const focusableElements = element.querySelectorAll(
-'a[href], button:not([disabled]), textarea, input, select'
-);
-const firstElement = focusableElements[0];
-const lastElement = focusableElements[focusableElements.length - 1];
+  const focusableElements = element.querySelectorAll(
+    "a[href], button:not([disabled]), textarea, input, select"
+  );
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
 
-element.addEventListener('keydown', (e) => {
-if (e.key !== 'Tab') return;
+  element.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab") return;
 
-if (e.shiftKey && document.activeElement === firstElement) {
-e.preventDefault();
-lastElement.focus();
-} else if (!e.shiftKey && document.activeElement === lastElement) {
-e.preventDefault();
-firstElement.focus();
-}
-});
+    if (e.shiftKey && document.activeElement === firstElement) {
+      e.preventDefault();
+      lastElement.focus();
+    } else if (!e.shiftKey && document.activeElement === lastElement) {
+      e.preventDefault();
+      firstElement.focus();
+    }
+  });
 }
 
 /**
@@ -232,106 +247,122 @@ observer.observe(mobileMenu, { childList: true, subtree: true });
 // ================================================================
 
 /**
- * Creates an enhanced page load animation sequence.
- * Uses spring physics and advanced staggering.
- * 
- * @returns {anime.AnimeTimelineInstance}
+ * Creates an enhanced page load animation sequence using spring physics and
+ * advanced staggering. This provides a modern and engaging entry animation.
+ *
+ * @returns {anime.AnimeTimelineInstance} An anime.js timeline instance.
  */
 function createEnhancedPageLoadAnimation() {
   const tl = anime.timeline({
-    easing: 'spring(1, 80, 10, 0)',
-    duration: 1000
+    easing: "spring(1, 80, 10, 0)",
+    duration: 1000,
   });
 
   // 1. Header fade in with drop effect
-  tl.add(getAccessibleAnimationConfig({
-    targets: 'header',
-    translateY: [-60, 0],
-    opacity: [0, 1],
-    duration: 1200,
-    easing: 'easeOutElastic(1, .8)'
-  }));
+  tl.add(
+    getAccessibleAnimationConfig({
+      targets: "header",
+      translateY: [-60, 0],
+      opacity: [0, 1],
+      duration: 1200,
+      easing: "easeOutElastic(1, .8)",
+    })
+  );
 
   // 2. Main title with 3D effect
-  tl.add(getAccessibleAnimationConfig({
-    targets: '.main-title',
-    opacity: [0, 1],
-    scale: [0.8, 1],
-    rotateX: [-20, 0],
-    duration: 1500,
-    easing: 'easeOutExpo'
-  }), '-=800');
+  tl.add(
+    getAccessibleAnimationConfig({
+      targets: ".main-title",
+      opacity: [0, 1],
+      scale: [0.8, 1],
+      rotateX: [-20, 0],
+      duration: 1500,
+      easing: "easeOutExpo",
+    }),
+    "-=800"
+  );
 
   // 3. Individual word animation with stagger
-  tl.add(getAccessibleAnimationConfig({
-    targets: '.main-title span',
-    opacity: [0, 1],
-    translateY: [30, 0],
-    rotateZ: [-5, 0],
-    delay: anime.stagger(80, {
-      grid: [14, 1],
-      from: 'center'
+  tl.add(
+    getAccessibleAnimationConfig({
+      targets: ".main-title span",
+      opacity: [0, 1],
+      translateY: [30, 0],
+      rotateZ: [-5, 0],
+      delay: anime.stagger(80, {
+        grid: [14, 1],
+        from: "center",
+      }),
+      easing: "easeOutExpo",
     }),
-    easing: 'easeOutExpo'
-  }), '-=1200');
+    "-=1200"
+  );
 
   return tl;
 }
 
 /**
- * Sets up enhanced scroll animations with wave effect.
+ * Sets up enhanced scroll animations with a wave effect for elements with
+ * the 'animate-section' class. Animations are triggered on intersection.
+ *
+ * @returns {void}
  */
 function setupEnhancedScrollAnimations() {
-  const sections = document.querySelectorAll('.animate-section');
-  
+  const sections = document.querySelectorAll(".animate-section");
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const cards = entry.target.querySelectorAll('.animate-card');
-          
-          anime(getAccessibleAnimationConfig({
-            targets: cards,
-            opacity: [0, 1],
-            translateY: [60, 0],
-            rotateX: [-15, 0],
-            scale: [0.9, 1],
-            duration: 1200,
-            delay: anime.stagger(120, {
-              start: 200,
-              easing: 'easeOutQuad'
-            }),
-            easing: 'spring(1, 80, 10, 0)'
-          }));
-          
+          const cards = entry.target.querySelectorAll(".animate-card");
+
+          anime(
+            getAccessibleAnimationConfig({
+              targets: cards,
+              opacity: [0, 1],
+              translateY: [60, 0],
+              rotateX: [-15, 0],
+              scale: [0.9, 1],
+              duration: 1200,
+              delay: anime.stagger(120, {
+                start: 200,
+                easing: "easeOutQuad",
+              }),
+              easing: "spring(1, 80, 10, 0)",
+            })
+          );
+
           observer.unobserve(entry.target);
         }
       });
     },
-    { 
+    {
       threshold: 0.15,
-      rootMargin: '0px 0px -80px 0px'
+      rootMargin: "0px 0px -80px 0px",
     }
   );
-  
+
   sections.forEach((s) => observer.observe(s));
 }
 
 /**
- * Adds subtle breathing animation to logo.
+ * Adds a subtle, continuous "breathing" animation to the site logo.
+ * This animation is disabled if the user prefers reduced motion.
+ *
+ * @returns {void}
  */
 function addLogoBreathingAnimation() {
   if (prefersReducedMotion()) return;
-  
-  const logos = document.querySelectorAll('.logo-container a');
-  
-  logos.forEach(logo => {
+
+  const logos = document.querySelectorAll(".logo-container a");
+
+  logos.forEach((logo) => {
     anime({
       targets: logo,
       scale: [1, 1.02, 1],
       duration: 3000,
-      easing: 'easeInOutSine',
-      loop: true
+      easing: "easeInOutSine",
+      loop: true,
     });
   });
 }
@@ -397,37 +428,41 @@ function animateSectionTitles() {
 // ================================================================
 
 /**
- * Sets up advanced hover effects for cards with parallax.
+ * Sets up advanced hover effects for cards with a parallax effect.
+ * The card and its image tilt based on the mouse position, creating a 3D
+ * effect. This is disabled if the user prefers reduced motion.
+ *
+ * @returns {void}
  */
 function setupAdvancedCardHovers() {
   if (prefersReducedMotion()) return;
-  
-  const cards = document.querySelectorAll('.animate-card a, .article-card');
-  
-  cards.forEach(card => {
-    const image = card.querySelector('img');
-    const title = card.querySelector('h3');
-    
+
+  const cards = document.querySelectorAll(".animate-card a, .article-card");
+
+  cards.forEach((card) => {
+    const image = card.querySelector("img");
+    const title = card.querySelector("h3");
+
     // Parallax on mouse move
-    card.addEventListener('mousemove', (e) => {
+    card.addEventListener("mousemove", (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      
+
       const rotateX = (y - centerY) / 20;
       const rotateY = (centerX - x) / 20;
-      
+
       anime({
         targets: card,
         rotateX: rotateX,
         rotateY: rotateY,
         duration: 300,
-        easing: 'easeOutQuad'
+        easing: "easeOutQuad",
       });
-      
+
       if (image) {
         anime({
           targets: image,
@@ -435,29 +470,29 @@ function setupAdvancedCardHovers() {
           translateY: (y - centerY) / 30,
           scale: 1.1,
           duration: 300,
-          easing: 'easeOutQuad'
+          easing: "easeOutQuad",
         });
       }
-      
+
       if (title) {
         anime({
           targets: title,
           translateY: -5,
           duration: 300,
-          easing: 'easeOutQuad'
+          easing: "easeOutQuad",
         });
       }
     });
-    
-    card.addEventListener('mouseleave', () => {
+
+    card.addEventListener("mouseleave", () => {
       anime({
         targets: card,
         rotateX: 0,
         rotateY: 0,
         duration: 600,
-        easing: 'spring(1, 80, 10, 0)'
+        easing: "spring(1, 80, 10, 0)",
       });
-      
+
       if (image) {
         anime({
           targets: image,
@@ -465,55 +500,59 @@ function setupAdvancedCardHovers() {
           translateY: 0,
           scale: 1,
           duration: 600,
-          easing: 'spring(1, 80, 10, 0)'
+          easing: "spring(1, 80, 10, 0)",
         });
       }
-      
+
       if (title) {
         anime({
           targets: title,
           translateY: 0,
           duration: 600,
-          easing: 'spring(1, 80, 10, 0)'
+          easing: "spring(1, 80, 10, 0)",
         });
       }
     });
-    
-    card.style.transformStyle = 'preserve-3d';
-    card.style.perspective = '1000px';
+
+    card.style.transformStyle = "preserve-3d";
+    card.style.perspective = "1000px";
   });
 }
 
 /**
- * Sets up magnetic effect for buttons.
+ * Sets up a magnetic effect for buttons. The button moves towards the mouse
+ * pointer, creating a "magnetic" feel. This is disabled if the user prefers
+ * reduced motion.
+ *
+ * @returns {void}
  */
 function setupMagneticButtons() {
   if (prefersReducedMotion()) return;
-  
-  const buttons = document.querySelectorAll('button:not([disabled]), a.border');
-  
-  buttons.forEach(button => {
-    button.addEventListener('mousemove', (e) => {
+
+  const buttons = document.querySelectorAll("button:not([disabled]), a.border");
+
+  buttons.forEach((button) => {
+    button.addEventListener("mousemove", (e) => {
       const rect = button.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
-      
+
       anime({
         targets: button,
         translateX: x * 0.3,
         translateY: y * 0.3,
         duration: 300,
-        easing: 'easeOutQuad'
+        easing: "easeOutQuad",
       });
     });
-    
-    button.addEventListener('mouseleave', () => {
+
+    button.addEventListener("mouseleave", () => {
       anime({
         targets: button,
         translateX: 0,
         translateY: 0,
         duration: 600,
-        easing: 'spring(1, 80, 10, 0)'
+        easing: "spring(1, 80, 10, 0)",
       });
     });
   });
@@ -609,108 +648,121 @@ function setupLogoHoverAnimation() {
 // ================================================================
 
 /**
- * Sets up an accessible carousel with keyboard navigation.
- * @param {string} selector - Section selector containing the carousel
+ * Sets up an accessible carousel with keyboard and button navigation.
+ * This function is designed to be reusable for any carousel in the DOM.
+ *
+ * @param {string} selector - The CSS selector for the section containing the carousel.
+ * @returns {void}
  */
 function setupAccessibleCarousel(selector) {
   const section = document.querySelector(selector);
   if (!section) return;
-  
-  const container = section.querySelector('.flex.snap-x');
-  const prevBtn = section.querySelector('button .material-symbols-outlined')?.parentElement;
-  const nextBtn = section.querySelectorAll('button .material-symbols-outlined')[1]?.parentElement;
-  const indicators = section.querySelectorAll('.mt-8 button');
-  const cards = container.querySelectorAll('.animate-card, .flex-shrink-0');
-  
+
+  const container = section.querySelector(".flex.snap-x");
+  const prevBtn = section.querySelector(
+    "button .material-symbols-outlined"
+  )?.parentElement;
+  const nextBtn = section.querySelectorAll(
+    "button .material-symbols-outlined"
+  )[1]?.parentElement;
+  const indicators = section.querySelectorAll(".mt-8 button");
+  const cards = container.querySelectorAll(".animate-card, .flex-shrink-0");
+
   let currentIndex = 0;
-  
+
   function scrollToCard(index) {
     if (index < 0 || index >= cards.length) return;
-    
+
     currentIndex = index;
     const card = cards[index];
-    
+
     card.scrollIntoView({
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-      block: 'nearest',
-      inline: 'start'
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      block: "nearest",
+      inline: "start",
     });
-    
+
     updateIndicators();
     updateNavigationButtons();
-    announceToScreenReader(`Affichage de l'élément ${index + 1} sur ${cards.length}`);
+    announceToScreenReader(
+      `Affichage de l'élément ${index + 1} sur ${cards.length}`
+    );
   }
-  
+
   function updateIndicators() {
     const cardsPerView = Math.floor(container.offsetWidth / cards[0].offsetWidth);
     indicators.forEach((indicator, i) => {
       const isActive = i === Math.floor(currentIndex / cardsPerView);
-      indicator.classList.toggle('bg-black', isActive);
-      indicator.classList.toggle('dark:bg-white', isActive);
-      indicator.classList.toggle('bg-gray-300', !isActive);
-      indicator.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      indicator.classList.toggle("bg-black", isActive);
+      indicator.classList.toggle("dark:bg-white", isActive);
+      indicator.classList.toggle("bg-gray-300", !isActive);
+      indicator.setAttribute("aria-pressed", isActive ? "true" : "false");
     });
   }
-  
+
   function updateNavigationButtons() {
     if (prevBtn) {
       prevBtn.disabled = currentIndex === 0;
-      prevBtn.setAttribute('aria-label', 
-        currentIndex === 0 ? 'Début du carrousel' : 'Élément précédent'
+      prevBtn.setAttribute(
+        "aria-label",
+        currentIndex === 0 ? "Début du carrousel" : "Élément précédent"
       );
     }
-    
+
     if (nextBtn) {
       nextBtn.disabled = currentIndex >= cards.length - 1;
-      nextBtn.setAttribute('aria-label',
-        currentIndex >= cards.length - 1 ? 'Fin du carrousel' : 'Élément suivant'
+      nextBtn.setAttribute(
+        "aria-label",
+        currentIndex >= cards.length - 1 ? "Fin du carrousel" : "Élément suivant"
       );
     }
   }
-  
+
   if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
+    prevBtn.addEventListener("click", () => {
       scrollToCard(Math.max(0, currentIndex - 1));
     });
   }
-  
+
   if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener("click", () => {
       scrollToCard(Math.min(cards.length - 1, currentIndex + 1));
     });
   }
-  
+
   indicators.forEach((indicator, i) => {
-    indicator.addEventListener('click', () => {
-      const cardsPerView = Math.floor(container.offsetWidth / cards[0].offsetWidth);
+    indicator.addEventListener("click", () => {
+      const cardsPerView = Math.floor(
+        container.offsetWidth / cards[0].offsetWidth
+      );
       scrollToCard(i * cardsPerView);
     });
-    indicator.setAttribute('aria-label', `Aller au groupe ${i + 1}`);
+    indicator.setAttribute("aria-label", `Aller au groupe ${i + 1}`);
   });
-  
-  container.addEventListener('keydown', (e) => {
-    switch(e.key) {
-      case 'ArrowLeft':
+
+  container.addEventListener("keydown", (e) => {
+    switch (e.key) {
+      case "ArrowLeft":
         e.preventDefault();
         scrollToCard(currentIndex - 1);
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         e.preventDefault();
         scrollToCard(currentIndex + 1);
         break;
-      case 'Home':
+      case "Home":
         e.preventDefault();
         scrollToCard(0);
         break;
-      case 'End':
+      case "End":
         e.preventDefault();
         scrollToCard(cards.length - 1);
         break;
     }
   });
-  
+
   let scrollTimeout;
-  container.addEventListener('scroll', () => {
+  container.addEventListener("scroll", () => {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       const scrollLeft = container.scrollLeft;
@@ -720,11 +772,11 @@ function setupAccessibleCarousel(selector) {
       updateNavigationButtons();
     }, 100);
   });
-  
-  container.setAttribute('tabindex', '0');
-  container.setAttribute('role', 'region');
-  container.setAttribute('aria-label', 'Carrousel d\'articles');
-  
+
+  container.setAttribute("tabindex", "0");
+  container.setAttribute("role", "region");
+  container.setAttribute("aria-label", "Carrousel d'articles");
+
   updateIndicators();
   updateNavigationButtons();
 }
@@ -734,35 +786,42 @@ function setupAccessibleCarousel(selector) {
 // ================================================================
 
 /**
- * Sets up the reading progress bar.
+ * Sets up a reading progress bar at the top of the page.
+ * The bar's width and color change as the user scrolls.
+ *
+ * @returns {void}
  */
 function setupReadingProgress() {
-  const progressBar = document.getElementById('reading-progress');
+  const progressBar = document.getElementById("reading-progress");
   if (!progressBar) return;
-  
+
   let ticking = false;
-  
+
   function updateProgress() {
     const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const documentHeight =
+      document.documentElement.scrollHeight - windowHeight;
     const scrolled = window.scrollY;
     const progress = (scrolled / documentHeight) * 100;
-    
+
     progressBar.style.width = `${Math.min(progress, 100)}%`;
-    progressBar.setAttribute('aria-valuenow', Math.round(progress));
-    
+    progressBar.setAttribute("aria-valuenow", Math.round(progress));
+
     if (progress < 33) {
-      progressBar.style.background = 'linear-gradient(to right, #6366F1, #8B5CF6)';
+      progressBar.style.background =
+        "linear-gradient(to right, #6366F1, #8B5CF6)";
     } else if (progress < 66) {
-      progressBar.style.background = 'linear-gradient(to right, #8B5CF6, #EC4899)';
+      progressBar.style.background =
+        "linear-gradient(to right, #8B5CF6, #EC4899)";
     } else {
-      progressBar.style.background = 'linear-gradient(to right, #EC4899, #F59E0B)';
+      progressBar.style.background =
+        "linear-gradient(to right, #EC4899, #F59E0B)";
     }
-    
+
     ticking = false;
   }
-  
-  window.addEventListener('scroll', () => {
+
+  window.addEventListener("scroll", () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
         updateProgress();
@@ -770,7 +829,7 @@ function setupReadingProgress() {
       ticking = true;
     }
   });
-  
+
   updateProgress();
 }
 
@@ -840,57 +899,67 @@ function setupThemeSwitcher() {
 // ================================================================
 
 /**
- * Animated numbers counter for statistics
+ * Animates numbers for statistics, counting up from zero to the target value.
+ * This is triggered for elements with the 'data-stat-value' attribute.
+ *
+ * @returns {void}
  */
 function animateNumbers() {
-  const statElements = document.querySelectorAll('[data-stat-value]');
+  const statElements = document.querySelectorAll("[data-stat-value]");
 
-  statElements.forEach(el => {
-    const targetValue = parseInt(el.getAttribute('data-stat-value'));
+  statElements.forEach((el) => {
+    const targetValue = parseInt(el.getAttribute("data-stat-value"));
     const obj = { value: 0 };
 
     anime({
       targets: obj,
       value: targetValue,
       duration: 2000,
-      easing: 'easeOutExpo',
+      easing: "easeOutExpo",
       round: 1,
       update: () => {
         el.textContent = obj.value.toLocaleString();
-      }
+      },
     });
   });
 }
 
 /**
- * Morphing SVG logo animation on hover
+ * Sets up a morphing SVG logo animation on hover.
+ * The SVG path morphs to a different shape, creating a playful effect.
+ *
+ * @returns {void}
  */
 function setupLogoMorph() {
-  const logo = document.querySelector('.logo-container svg');
+  const logo = document.querySelector(".logo-container svg");
   if (!logo) return;
 
-  logo.addEventListener('mouseenter', () => {
+  logo.addEventListener("mouseenter", () => {
     anime({
-      targets: '.logo-container svg path',
+      targets: ".logo-container svg path",
       d: [
-        { value: logo.querySelector('path').getAttribute('d') },
-        { value: 'M10,10 L90,10 L90,90 L10,90 Z' } // Forme cible
+        { value: logo.querySelector("path").getAttribute("d") },
+        { value: "M10,10 L90,10 L90,90 L10,90 Z" }, // Forme cible
       ],
       duration: 800,
-      easing: 'easeInOutQuad',
-      direction: 'alternate'
+      easing: "easeInOutQuad",
+      direction: "alternate",
     });
   });
 }
 
 /**
- * Sets up social sharing functionality.
+ * Sets up social sharing functionality for buttons with the 'data-share' attribute.
+ * Uses the Web Share API if available, otherwise falls back to copying the URL
+ * to the clipboard.
+ *
+ * @returns {void}
  */
 function setupSocialShare() {
-  const shareButtons = document.querySelectorAll('[data-share]');
+  const shareButtons = document.querySelectorAll("[data-share]");
 
-  shareButtons.forEach(btn => {
-    btn.addEventListener('click', async () => {
+  shareButtons.forEach((btn) => {
+    btn.addEventListener("click", async () => {
       const url = window.location.href;
       const title = document.title;
 
@@ -899,33 +968,36 @@ function setupSocialShare() {
       } else {
         // Fallback : copier le lien
         await navigator.clipboard.writeText(url);
-        announceToScreenReader('Lien copié dans le presse-papier');
+        announceToScreenReader("Lien copié dans le presse-papier");
       }
     });
   });
 }
 
 /**
- * Sets up the search modal functionality.
+ * Sets up the search modal functionality, including opening and closing the modal.
+ * The search logic itself is a placeholder (TODO).
+ *
+ * @returns {void}
  */
 function setupSearchModal() {
   // TODO: Implement search logic (e.g., fetching from an API).
   // This is a placeholder for demonstration purposes. The UI is in place,
   // but the search functionality is not yet implemented.
-  const searchToggle = document.getElementById('search-toggle');
-  const searchModal = document.getElementById('search-modal');
-  const searchInput = searchModal.querySelector('input');
+  const searchToggle = document.getElementById("search-toggle");
+  const searchModal = document.getElementById("search-modal");
+  const searchInput = searchModal.querySelector("input");
 
   if (!searchToggle || !searchModal) return;
 
-  searchToggle.addEventListener('click', () => {
-    searchModal.classList.remove('hidden');
+  searchToggle.addEventListener("click", () => {
+    searchModal.classList.remove("hidden");
     searchInput.focus();
   });
 
-  searchModal.addEventListener('click', (e) => {
+  searchModal.addEventListener("click", (e) => {
     if (e.target === searchModal) {
-      searchModal.classList.add('hidden');
+      searchModal.classList.add("hidden");
     }
   });
 }

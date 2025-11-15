@@ -1,8 +1,23 @@
+"""Tests for the social media links of the Event Horizon website.
+
+This module contains tests to ensure that the social media links in the footer
+are correctly implemented and behave as expected. This is a static analysis
+test that checks for the presence of the correct social media links in all
+HTML files.
+"""
+
 import unittest
 import re
 
 def read_file_content(filepath):
-    """Reads and returns the content of a given file."""
+    """Reads and returns the content of a given file.
+
+    Args:
+        filepath: The path to the file to be read.
+
+    Returns:
+        The content of the file as a string.
+    """
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 

@@ -1,7 +1,8 @@
 """Tests for the footer links of the Event Horizon website.
 
 This module contains tests to ensure that the footer links are correctly
-implemented and behave as expected.
+implemented and behave as expected. This is a static analysis test that
+checks for the presence of the contact email link in all HTML files.
 """
 
 import os
