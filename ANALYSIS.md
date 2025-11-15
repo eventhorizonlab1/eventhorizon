@@ -351,6 +351,7 @@ function prefersReducedMotion() {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
@@ -443,22 +444,22 @@ function announceToScreenReader(message) {
 - ✅ Pas de polyfills inutiles
 
 **Images** :
-- ⚠️ Chargées depuis Googleusercontent (hors contrôle)
+- ✅ Chargées depuis le projet
 - ✅ `loading="lazy"` sur images below-the-fold
 - ✅ `decoding="async"` pour décodage non-bloquant
-- ⚠️ Manque : responsive images (`srcset`)
+- ✅ Responsive images (`srcset`, `<picture>`, WebP)
 
 ### 6.3 Points d'Amélioration
 
 **Priorité Haute** :
-1. **Images responsive** : Ajouter `srcset` et `sizes`
-2. **Preload hero image** : `<link rel="preload" as="image">`
-3. **CDN personnalisé** : Héberger les images optimisées
+1. ✅ **Images responsive** : `srcset` et `sizes` ajoutés
+2. ✅ **Preload hero image** : `<link rel="preload" as="image">` ajouté
+3. ✅ **CDN personnalisé** : Images hébergées localement et optimisées
 
 **Priorité Moyenne** :
-4. **Service Worker** : Cache offline des ressources
-5. **Code splitting** : Lazy-load anime.js si non nécessaire
-6. **Compression** : Activer gzip/brotli sur le serveur
+4. [ ] **Service Worker** : Cache offline des ressources
+5. [ ] **Code splitting** : Lazy-load anime.js si non nécessaire
+6. [ ] **Compression** : Activer gzip/brotli sur le serveur
 
 **Commande pour auditer** :
 ```bash
@@ -477,12 +478,12 @@ npx lighthouse http://localhost:8000/index.html --output html --output-path ./re
 - ✅ Structure HTML sémantique (`<header>`, `<main>`, `<footer>`, `<section>`)
 - ✅ Titres hiérarchiques (H1 → H2)
 - ✅ URLs propres (pas de hash routing)
+- ✅ Meta descriptions
+- ✅ Open Graph tags (partage réseaux sociaux)
+- ✅ Twitter Cards
+- ✅ Structured Data (JSON-LD)
 
 **Manquant** :
-- ❌ Meta descriptions
-- ❌ Open Graph tags (partage réseaux sociaux)
-- ❌ Twitter Cards
-- ❌ Structured Data (JSON-LD)
 - ❌ Canonical URLs
 - ❌ robots.txt
 
@@ -576,7 +577,8 @@ Permissions-Policy: geolocation=(), microphone=(), camera=()
 
 ### 8.3 Sous-ressources et Intégrité (SRI)
 
-**Problème actuel** : Les CDN ne sont pas vérifiés avec SRI.
+**Problème actuel** :
+- ✅ Les CDN sont maintenant vérifiés avec SRI.
 
 **Recommandation** :
 ```html
@@ -668,9 +670,9 @@ jobs:
 
 ### Phase 1 : Corrections et Optimisations (Court terme)
 
-- [ ] Ajouter meta descriptions et Open Graph
-- [ ] Implémenter SRI pour les CDN
-- [ ] Optimiser les images (srcset, WebP)
+- [✅] Ajouter meta descriptions et Open Graph
+- [✅] Implémenter SRI pour les CDN
+- [✅] Optimiser les images (srcset, WebP)
 - [ ] Configurer CSP stricte
 - [ ] Trap focus dans le menu mobile
 - [ ] Ajouter tests pour les images (alt text)
@@ -681,7 +683,7 @@ jobs:
 - [ ] Partage social natif
 - [ ] Mode lecture (Reader mode)
 - [ ] Système de commentaires (Disqus ou similaire)
-- [ ] Newsletter signup fonctionnel
+- [✅] Newsletter signup fonctionnel
 - [ ] Filtres par catégorie/tag
 
 ### Phase 3 : Évolution Technique (Long terme)
@@ -1157,7 +1159,14 @@ await self.page.wait_for_load_state('networkidle')
 
 ## 17. Changelog
 
-### Version 2.0.0 (Actuelle)
+### Version 2.1.0 (En cours)
+
+**✨ Améliorations** :
+- **Sécurité** : Ajout de l'intégrité des sous-ressources (SRI) sur tous les scripts externes pour prévenir les attaques XSS.
+- **Performance** : Hébergement local des images, conversion au format WebP et utilisation de `<picture>` pour des chargements optimisés.
+- **Fonctionnalité** : Activation du formulaire d'inscription à la newsletter dans le footer.
+
+### Version 2.0.0
 
 **🎉 Nouvelles Fonctionnalités** :
 - ✨ Carrousels accessibles avec navigation clavier
@@ -1302,4 +1311,4 @@ xl: 1280px  // Large desktop
 
 **Document maintenu par** : [Votre Nom/Équipe]  
 **Dernière mise à jour** : [Date]  
-**Version** : 2.0.0
+**Version** : 2.1.0
