@@ -30,5 +30,5 @@ class TestFooterLinks(unittest.TestCase):
                     if "-en" in filepath:
                         self.assertNotIn('>About</a>', content)
                     else:
-                        self.assertNotIn('>À Propos</a>', content)
+                        self.assertIn('>À Propos</a>', content)
                     self.assertIn('href="mailto:contact@eventhorizon.fr"', content)
